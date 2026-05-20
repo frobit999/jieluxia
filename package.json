@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "cf:build": "opennextjs-cloudflare build",
-    "cf:deploy": "opennextjs-cloudflare build && wrangler pages deploy .open-next/worker",
+    "cf:build": "opennextjs-cloudflare build && node -e \"require('fs').copyFileSync('.open-next/worker.js','.open-next/_worker.js')\"",
+    "cf:deploy": "opennextjs-cloudflare build && node -e \"require('fs').copyFileSync('.open-next/worker.js','.open-next/_worker.js')\" && wrangler pages deploy .open-next",
     "worker:deploy": "wrangler deploy --config wrangler.worker.toml"
   },
   "dependencies": {

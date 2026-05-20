@@ -20,7 +20,13 @@
       "Bash(git filter-repo *)",
       "Bash(pip install *)",
       "Bash(git remote *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://jieluxia.pages.dev)",
+      "Bash(curl -s -I https://jieluxia.pages.dev)",
+      "Bash(curl -s https://jieluxia.pages.dev/)",
+      "Bash(curl *)",
+      "Bash(timeout 60)",
+      "Bash(powershell *)"
     ]
   }
 }
