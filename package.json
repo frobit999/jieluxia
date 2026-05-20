@@ -5,24 +5,27 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:deploy": "opennextjs-cloudflare build && wrangler pages deploy .open-next/worker"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.19.11",
     "better-sqlite3": "^12.10.0",
     "drizzle-orm": "^0.45.2",
     "jose": "^6.2.3",
     "nanoid": "^5.1.11",
-    "next": "16.2.6",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "next": "^15.5.18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "swr": "^2.4.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^18.3.29",
+    "@types/react-dom": "^18.3.7",
     "drizzle-kit": "^0.31.10",
     "tailwindcss": "^4",
     "typescript": "^5",
