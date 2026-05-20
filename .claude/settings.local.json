@@ -26,7 +26,9 @@
       "Bash(curl -s https://jieluxia.pages.dev/)",
       "Bash(curl *)",
       "Bash(timeout 60)",
-      "Bash(powershell *)"
+      "Bash(powershell *)",
+      "Bash(nslookup *)",
+      "Bash(node *)"
     ]
   }
 }
