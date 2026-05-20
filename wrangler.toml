@@ -1,0 +1,11 @@
+name = "jieluxia-api"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jieluxia"
+database_id = "YOUR_D1_DATABASE_ID"
+
+[vars]
+JWT_SECRET = "change-this-in-production"

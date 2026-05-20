@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #4ab8ff;
+  --color-primary-dark: #1a6cb4;
+  --color-bg-1: #0d2d4a;
+  --color-bg-2: #081828;
+  --color-bg-3: #050f1a;
+  --color-text-primary: #e0f0ff;
+  --color-text-secondary: rgba(180, 210, 255, 0.7);
+  --color-text-muted: rgba(180, 210, 255, 0.45);
+  --color-glass: rgba(255, 255, 255, 0.06);
+  --color-glass-strong: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.12);
+  --color-glass-border-strong: rgba(255, 255, 255, 0.18);
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-bg-1: var(--color-bg-1);
+  --color-bg-2: var(--color-bg-2);
+  --color-bg-3: var(--color-bg-3);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-glass: var(--color-glass);
+  --color-glass-strong: var(--color-glass-strong);
+  --color-glass-border: var(--color-glass-border);
+  --color-glass-border-strong: var(--color-glass-border-strong);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-bg-3);
+  color: var(--color-text-primary);
+  font-family: "SF Pro Display", "PingFang SC", system-ui, -apple-system, sans-serif;
+  margin: 0;
+}
+
+/* Glass utility classes */
+.glass-card {
+  background: var(--color-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 20px;
+}
+
+.glass-strong {
+  background: var(--color-glass-strong);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid var(--color-glass-border-strong);
+  border-radius: 24px;
+}
+
+.glass-pill {
+  background: rgba(100, 180, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(100, 180, 255, 0.3);
+  border-radius: 100px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
