@@ -1,6 +1,7 @@
 name = "jieluxia-api"
 main = "worker.js"
 compatibility_date = "2024-09-23"
+pages_build_output_dir = ".open-next"
 
 [[d1_databases]]
 binding = "DB"
