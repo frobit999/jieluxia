@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "cf:build": "opennextjs-cloudflare build && node -e \"require('fs').copyFileSync('.open-next/worker.js','.open-next/assets/_worker.js')\" && node scripts/gen-routes.mjs && node -e \"try { require('fs').copyFileSync('.open-next/_routes.json','.open-next/assets/_routes.json') } catch(e) {}\"",
+    "cf:build": "opennextjs-cloudflare build && node scripts/copy-assets.mjs && node scripts/gen-routes.mjs && node -e \"try { require('fs').copyFileSync('.open-next/_routes.json','.open-next/assets/_routes.json') } catch(e) {}\"",
     "cf:deploy": "npm run cf:build && wrangler pages deploy .open-next/assets"
   },
   "dependencies": {
