@@ -28,7 +28,14 @@
       "Bash(timeout 60)",
       "Bash(powershell *)",
       "Bash(nslookup *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(cp -r .open-next/cloudflare .open-next/assets/)",
+      "Bash(cp -r .open-next/middleware .open-next/assets/)",
+      "Bash(cp -r .open-next/server-functions .open-next/assets/)",
+      "Bash(gh auth *)",
+      "PowerShell(gh auth *)",
+      "Bash(git ls-remote *)",
+      "Bash(winget install *)"
     ]
   }
 }
