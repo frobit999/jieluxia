@@ -6,9 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "cf:build": "opennextjs-cloudflare build && node -e \"require('fs').copyFileSync('.open-next/worker.js','.open-next/_worker.js')\" && node scripts/gen-routes.mjs",
-    "cf:deploy": "opennextjs-cloudflare build && node -e \"require('fs').copyFileSync('.open-next/worker.js','.open-next/_worker.js')\" && node scripts/gen-routes.mjs && wrangler pages deploy .open-next",
-    "worker:deploy": "wrangler deploy --config wrangler.worker.toml"
+    "cf:build": "opennextjs-cloudflare build && node -e \"require('fs').copyFileSync('.open-next/worker.js','.open-next/assets/_worker.js')\" && node scripts/gen-routes.mjs && node -e \"try { require('fs').copyFileSync('.open-next/_routes.json','.open-next/assets/_routes.json') } catch(e) {}\"",
+    "cf:deploy": "npm run cf:build && wrangler pages deploy .open-next/assets"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.19.11",
@@ -22,6 +21,7 @@
     "swr": "^2.4.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260520.1",
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
