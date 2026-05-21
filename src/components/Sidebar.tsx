@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/hooks/useUser";
 
 const navItems = [
   { icon: "📊", label: "仪表盘", href: "/dashboard" },
@@ -12,6 +13,7 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
     <div className="hidden lg:flex w-[220px] py-8 px-4 flex-col gap-2 flex-shrink-0">
@@ -59,13 +61,13 @@ export function Sidebar() {
             background: "linear-gradient(135deg, #4ab8ff, #1a6cb4)",
           }}
         >
-          👤
+          {user?.avatarEmoji ?? "👤"}
         </div>
         <div className="text-[13px] font-semibold text-[#c0deff]">
-          加载中...
+          {user?.nickname ?? "加载中..."}
         </div>
         <div className="text-[11px] text-[rgba(180,210,255,0.5)] mt-0.5">
-          Lv.1 · 新人
+          {user ? `Lv.${user.level} · ${user.title}` : "Lv.1 · 新人"}
         </div>
       </div>
     </div>

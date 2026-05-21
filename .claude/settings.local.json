@@ -35,7 +35,10 @@
       "Bash(gh auth *)",
       "PowerShell(gh auth *)",
       "Bash(git ls-remote *)",
-      "Bash(winget install *)"
+      "Bash(winget install *)",
+      "Read(//c/Users/frobit/.wrangler/config/**)",
+      "Bash(python -m json.tool)",
+      "Bash(git commit --allow-empty -m ' *)"
     ]
   }
 }
