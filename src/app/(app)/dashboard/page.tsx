@@ -34,10 +34,10 @@ export default function DashboardPage() {
       try {
         const [userData, streakData, checkinData, weekStats, monthStats] =
           await Promise.all([
-            apiGet<{ user: any }>("/api/auth/me").catch(() => null),
+            apiGet<{ user: { nickname: string } }>("/api/auth/me").catch(() => null),
             apiGet<{ current: number; longest: number }>("/api/streak").catch(() => null),
             apiGet<{ checkedIn: boolean }>("/api/checkin/today").catch(() => ({ checkedIn: false })),
-            apiGet<{ weekly: any[] }>("/api/stats?range=week").catch(() => null),
+            apiGet<{ weekly: { day: string; value: number }[] }>("/api/stats?range=week").catch(() => null),
             apiGet<{ activeCount: number }>("/api/stats?range=month").catch(() => null),
           ]);
 
@@ -73,7 +73,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(180,210,255,0.5)]">加载中...</div>
+        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
       </div>
     );
   }
@@ -81,11 +81,11 @@ export default function DashboardPage() {
   return (
     <>
       <div className="mb-7">
-        <h1 className="text-[26px] font-bold text-[#e0f0ff] m-0 tracking-tight">
+        <h1 className="text-[26px] font-bold text-[#e8f4ff] m-0 tracking-tight">
           欢迎回来，{user?.nickname} 👋
         </h1>
-        <p className="text-sm text-[rgba(180,210,255,0.55)] mt-1.5">
-          今天是你坚守的第 {streak} 天，继续保持！
+        <p className="text-sm text-[rgba(200,220,255,0.55)] mt-1.5">
+          今天是你坚守的第 <span className="text-[#4dc9f6] neon-blue">{streak}</span> 天，继续保持！
         </p>
       </div>
 
@@ -94,26 +94,25 @@ export default function DashboardPage() {
           <div
             className="absolute -top-5 -right-5 w-[100px] h-[100px] rounded-full"
             style={{
-              background:
-                "radial-gradient(circle, rgba(74,184,255,0.15), transparent 70%)",
+              background: "radial-gradient(circle, rgba(77,201,246,0.12), transparent 70%)",
             }}
           />
-          <div className="text-xs text-[rgba(180,210,255,0.6)] mb-4 font-medium tracking-wider uppercase">
+          <div className="text-xs text-[rgba(200,220,255,0.6)] mb-4 font-medium tracking-wider uppercase">
             当前坚守
           </div>
           <div className="flex items-center gap-5">
             <StreakRing days={streak} />
             <div>
-              <div className="text-[13px] text-[rgba(180,210,255,0.7)] mb-1">
+              <div className="text-[13px] text-[rgba(200,220,255,0.7)] mb-1">
                 连续打卡
               </div>
-              <div className="text-xl font-bold text-[#4ab8ff]">
+              <div className="text-xl font-bold text-[#4dc9f6] neon-blue">
                 第 {streak} 天
               </div>
-              <div className="text-xs text-[rgba(180,210,255,0.45)] mt-1.5">
+              <div className="text-xs text-[rgba(200,220,255,0.45)] mt-1.5">
                 最长记录
               </div>
-              <div className="text-[15px] font-semibold text-[#7dd4ff] mt-0.5">
+              <div className="text-[15px] font-semibold text-[#ff6eb4] neon-pink mt-0.5">
                 {longest} 天
               </div>
             </div>
@@ -126,7 +125,7 @@ export default function DashboardPage() {
         <BenefitGrid streak={streak} />
 
         <GlassCard className="p-5 flex flex-col">
-          <div className="text-xs text-[rgba(180,210,255,0.6)] mb-3.5 font-medium tracking-wider uppercase">
+          <div className="text-xs text-[rgba(200,220,255,0.6)] mb-3.5 font-medium tracking-wider uppercase">
             今日签到
           </div>
           <CheckInButton checkedIn={checkedIn} onCheckIn={handleCheckIn} />
@@ -135,7 +134,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
         <GlassCard className="p-5">
-          <div className="text-xs text-[rgba(180,210,255,0.6)] mb-4 font-medium tracking-wider uppercase">
+          <div className="text-xs text-[rgba(200,220,255,0.6)] mb-4 font-medium tracking-wider uppercase">
             本周自律指数
           </div>
           <WeeklyChart data={weekData} />

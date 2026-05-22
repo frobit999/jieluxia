@@ -19,8 +19,8 @@ export function GlowOrb({
         height: size,
         background: color,
         borderRadius: "50%",
-        filter: "blur(80px)",
-        opacity: 0.35,
+        filter: "blur(100px)",
+        opacity: 0.3,
         pointerEvents: "none",
       }}
     />

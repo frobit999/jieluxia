@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>戒撸侠 — 从 0 到 1 构建全记录</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #4ab8ff;
+  --primary-dark: #1a6cb4;
+  --bg-1: #0d2d4a;
+  --bg-2: #081828;
+  --bg-3: #050f1a;
+  --text: #e0f0ff;
+  --text-2: rgba(180,210,255,.7);
+  --text-3: rgba(180,210,255,.45);
+  --glass: rgba(255,255,255,.06);
+  --glass-border: rgba(255,255,255,.12);
+  --radius: 16px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-3);
+  color: var(--text);
+  font-family: "SF Pro Display","PingFang SC",system-ui,-apple-system,sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(5,15,26,.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 24px; height: 52px;
+  overflow-x: auto; white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+nav a {
+  color: var(--text-2); text-decoration: none; font-size: 13px;
+  padding: 6px 14px; border-radius: 20px; transition: .2s;
+  flex-shrink: 0;
+}
+nav a:hover, nav a.active { color: var(--primary); background: rgba(74,184,255,.1); }
+nav .logo { color: var(--primary); font-weight: 700; font-size: 15px; margin-right: 12px; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 80px 24px 60px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(74,184,255,.08) 0%, transparent 60%);
+  position: relative;
+}
+.hero::before {
+  content: ''; position: absolute; width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(74,184,255,.12), transparent 70%);
+  top: 10%; left: 50%; transform: translateX(-50%);
+  border-radius: 50%; filter: blur(80px); pointer-events: none;
+}
+.hero h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; letter-spacing: -2px; position: relative; }
+.hero h1 span { background: linear-gradient(135deg, #4ab8ff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .tagline { font-size: 1.3rem; color: var(--text-2); margin-top: 12px; position: relative; }
+.hero .desc { color: var(--text-3); margin-top: 8px; font-size: .95rem; position: relative; }
+.hero .scroll-hint {
+  margin-top: 48px; color: var(--text-3); font-size: .85rem;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+/* ── Sections ── */
+section {
+  max-width: 900px; margin: 0 auto;
+  padding: 80px 24px;
+}
+section h2 {
+  font-size: 1.8rem; font-weight: 700; margin-bottom: 32px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(74,184,255,.2);
+}
+section h2 .num {
+  color: var(--primary); font-size: .9rem; font-weight: 400;
+  display: block; margin-bottom: 4px; letter-spacing: 2px;
+}
+section h3 { font-size: 1.15rem; color: var(--primary); margin: 28px 0 12px; }
+section p { color: var(--text-2); margin-bottom: 16px; }
+section ul, section ol { color: var(--text-2); margin: 0 0 16px 20px; }
+section li { margin-bottom: 6px; }
+
+/* ── Tables ── */
+table {
+  width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+  font-size: .9rem;
+}
+th, td {
+  text-align: left; padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+th {
+  color: var(--primary); font-weight: 600; font-size: .8rem;
+  text-transform: uppercase; letter-spacing: 1px;
+  background: rgba(74,184,255,.06);
+}
+td { color: var(--text-2); }
+tr:hover td { background: rgba(74,184,255,.03); }
+
+/* ── Code blocks ── */
+pre {
+  background: rgba(0,0,0,.4);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 16px 0 24px;
+  font-size: .82rem;
+  line-height: 1.6;
+}
+code {
+  font-family: "SF Mono","Fira Code","Cascadia Code",monospace;
+  color: #a0d4ff;
+}
+pre code { color: #c8e6ff; }
+.keyword { color: #c792ea; }
+.string { color: #c3e88d; }
+.comment { color: #546e7a; }
+.fn { color: #82aaff; }
+.type { color: #ffcb6b; }
+.inline-code {
+  background: rgba(74,184,255,.12); color: var(--primary);
+  padding: 2px 8px; border-radius: 6px; font-size: .85em;
+  font-family: "SF Mono","Fira Code",monospace;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 16px 0;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.card-grid .card h4 {
+  color: var(--primary); font-size: 1rem; margin-bottom: 8px;
+}
+.card-grid .card p { font-size: .9rem; margin: 0; }
+
+/* ── Architecture diagram ── */
+.arch-diagram {
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 24px;
+  font-family: "SF Mono","Fira Code",monospace;
+  font-size: .78rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+  color: #8ec8f0;
+  margin: 16px 0 24px;
+}
+.arch-diagram .highlight { color: var(--primary); font-weight: 700; }
+.arch-diagram .dim { color: #456; }
+
+/* ── Tree ── */
+.tree {
+  font-family: "SF Mono","Fira Code",monospace;
+  font-size: .82rem;
+  line-height: 1.7;
+  color: var(--text-2);
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin: 16px 0 24px;
+}
+.tree .dir { color: var(--primary); font-weight: 600; }
+.tree .file { color: #c8e6ff; }
+.tree .desc { color: var(--text-3); font-style: italic; }
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 32px; margin: 24px 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 2px; background: rgba(74,184,255,.2);
+}
+.timeline .step {
+  position: relative; margin-bottom: 28px;
+}
+.timeline .step::before {
+  content: ''; position: absolute; left: -28px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--primary); border: 2px solid var(--bg-3);
+}
+.timeline .step .time {
+  font-size: .8rem; color: var(--primary); font-weight: 600;
+}
+.timeline .step .title { font-weight: 600; margin: 2px 0; }
+.timeline .step .detail { font-size: .9rem; color: var(--text-2); }
+
+/* ── Level badge ── */
+.level-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.level-row:last-child { border-bottom: none; }
+.level-badge {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .85rem; flex-shrink: 0;
+  background: rgba(74,184,255,.15); color: var(--primary);
+  border: 1px solid rgba(74,184,255,.3);
+}
+.level-row .range { color: var(--text-3); font-size: .85rem; min-width: 90px; }
+.level-row .name { font-weight: 600; }
+
+/* ── Footer ── */
+footer {
+  text-align: center; padding: 40px 24px;
+  color: var(--text-3); font-size: .85rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+  max-width: 900px; margin: 0 auto;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  section { padding: 48px 16px; }
+  section h2 { font-size: 1.4rem; }
+  table { font-size: .8rem; }
+  th, td { padding: 8px 10px; }
+  pre { padding: 14px; font-size: .75rem; }
+  nav { padding: 0 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ NAV ════════════════════════════════ -->
+<nav>
+  <span class="logo">戒撸侠</span>
+  <a href="#origin">诞生</a>
+  <a href="#stack">技术栈</a>
+  <a href="#arch">架构</a>
+  <a href="#db">数据库</a>
+  <a href="#auth">认证</a>
+  <a href="#frontend">前端</a>
+  <a href="#api">API</a>
+  <a href="#deploy">部署</a>
+  <a href="#scripts">脚本</a>
+  <a href="#timeline">时间线</a>
+</nav>
+
+<!-- ════════════════════════════════ HERO ════════════════════════════════ -->
+<div class="hero">
+  <h1><span>戒撸侠</span></h1>
+  <p class="tagline">自律成就未来</p>
+  <p class="desc">一个基于 Next.js + Cloudflare 全栈的自律打卡社区应用 — 从零到一的完整构建记录</p>
+  <div class="scroll-hint">↓ 向下滚动探索</div>
+</div>
+
+<!-- ════════════════════════════════ 第一章：项目诞生 ════════════════════════════════ -->
+<section id="origin">
+  <h2><span class="num">CHAPTER 01</span>项目诞生</h2>
+  <p>2026 年 5 月 21 日清晨，一个想法从脑海中浮现：做一个帮助用户自律打卡、追踪坚持天数、分享心得的 Web 应用。没有团队，没有设计稿，只有一个目标——<strong>尽可能快地从零做出一个可运行的全栈产品</strong>。</p>
+
+  <h3>从原型开始</h3>
+  <p>第一步不是写代码，而是用一个独立的 JSX 文件 <span class="inline-code">jieluxia-ui.jsx</span>（567 行）快速搭建 UI 原型。这个文件包含两个组件：<span class="inline-code">WebDashboard</span>（桌面端）和 <span class="inline-code">MobileApp</span>（手机框架），全部使用硬编码数据。目的是验证视觉风格——深海蓝玻璃拟态（Glassmorphism）。</p>
+
+  <h3>技术选型决策</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>为什么选 Next.js 15？</h4>
+      <p>App Router 的文件系统路由 + API Routes 可以前后端一体，不需要单独部署后端。一个人开发，全栈框架是最高效的选择。</p>
+    </div>
+    <div class="card">
+      <h4>为什么选 Cloudflare？</h4>
+      <p>D1 数据库（SQLite at edge）免费额度大，Pages 部署简单，全球边缘网络让中国用户也能快速访问。配合 OpenNext 适配器可以把 Next.js 部署到 Cloudflare Workers。</p>
+    </div>
+    <div class="card">
+      <h4>为什么不用 Vercel？</h4>
+      <p>Vercel 的免费额度相对紧张，且国内访问速度不稳定。Cloudflare 在中国大陆有节点，延迟更低。</p>
+    </div>
+    <div class="card">
+      <h4>为什么自研 JWT？</h4>
+      <p>Cloudflare Workers 环境对 Node.js 原生模块有限制。Web Crypto API 是 Workers 原生支持的，用它实现 PBKDF2 + HMAC-SHA256 可以零依赖完成认证，避免了 <span class="inline-code">jose</span> 库的兼容性问题。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ 第二章：技术栈全景 ════════════════════════════════ -->
+<section id="stack">
+  <h2><span class="num">CHAPTER 02</span>技术栈全景</h2>
+
+  <h3>核心框架</h3>
+  <table>
+    <tr><th>层级</th><th>技术</th><th>版本</th><th>职责</th></tr>
+    <tr><td>框架</td><td>Next.js (App Router)</td><td>^15.5.18</td><td>全栈框架，文件系统路由 + API Routes</td></tr>
+    <tr><td>UI 库</td><td>React</td><td>^18.3.1</td><td>组件化 UI 渲染</td></tr>
+    <tr><td>语言</td><td>TypeScript</td><td>^5</td><td>类型安全</td></tr>
+    <tr><td>样式</td><td>Tailwind CSS v4</td><td>^4</td><td>原子化 CSS，配合 CSS 自定义属性</td></tr>
+    <tr><td>数据获取</td><td>SWR</td><td>^2.4.1</td><td>声明式数据获取（已安装，预留使用）</td></tr>
+  </table>
+
+  <h3>后端 & 数据库</h3>
+  <table>
+    <tr><th>层级</th><th>技术</th><th>版本</th><th>职责</th></tr>
+    <tr><td>运行时</td><td>Cloudflare Workers</td><td>—</td><td>边缘计算，V8 隔离环境</td></tr>
+    <tr><td>数据库</td><td>Cloudflare D1</td><td>—</td><td>边缘 SQLite，全球复制</td></tr>
+    <tr><td>ORM</td><td>Drizzle ORM</td><td>^0.45.2</td><td>类型安全的 SQL 查询构建器</td></tr>
+    <tr><td>适配器</td><td>@opennextjs/cloudflare</td><td>^1.19.11</td><td>将 Next.js 构建产物转换为 Workers 兼容格式</td></tr>
+  </table>
+
+  <h3>认证 & 安全</h3>
+  <table>
+    <tr><th>技术</th><th>实现方式</th><th>细节</th></tr>
+    <tr><td>密码哈希</td><td>PBKDF2 (Web Crypto API)</td><td>SHA-256, 100,000 次迭代, 16 字节随机盐</td></tr>
+    <tr><td>JWT 签名</td><td>HMAC-SHA256 (Web Crypto API)</td><td>自研实现，30 天过期</td></tr>
+    <tr><td>Token 传输</td><td>httpOnly Cookie</td><td>Secure, SameSite=Lax</td></tr>
+    <tr><td>路由守卫</td><td>Next.js Middleware</td><td>基于 JWT Cookie 的认证检查</td></tr>
+  </table>
+
+  <h3>开发工具</h3>
+  <table>
+    <tr><th>工具</th><th>版本</th><th>用途</th></tr>
+    <tr><td>Wrangler CLI</td><td>^4.93.0</td><td>Cloudflare 本地开发 & 部署</td></tr>
+    <tr><td>Drizzle Kit</td><td>^0.31.10</td><td>数据库迁移生成</td></tr>
+    <tr><td>GitHub CLI</td><td>2.92.0</td><td>仓库管理 & CI/CD 连接</td></tr>
+    <tr><td>Claude Code</td><td>—</td><td>AI 辅助开发（全程使用）</td></tr>
+  </table>
+
+  <h3>已安装但未使用的依赖</h3>
+  <table>
+    <tr><th>包名</th><th>版本</th><th>说明</th></tr>
+    <tr><td>jose</td><td>^6.2.3</td><td>JWT 库，项目用 Web Crypto API 自研替代</td></tr>
+    <tr><td>nanoid</td><td>^5.1.11</td><td>ID 生成器，项目用 <span class="inline-code">crypto.randomUUID()</span> 替代</td></tr>
+    <tr><td>better-sqlite3</td><td>^12.10.0</td><td>本地 SQLite 驱动，仅用于 Drizzle Kit 本地开发</td></tr>
+  </table>
+</section>
+
+<!-- ════════════════════════════════ 第三章：项目架构 ════════════════════════════════ -->
+<section id="arch">
+  <h2><span class="num">CHAPTER 03</span>项目架构</h2>
+
+  <h3>系统架构图</h3>
+  <div class="arch-diagram"><span class="highlight">[浏览器]</span> ──HTTPS──▶ <span class="highlight">[Cloudflare Pages Edge]</span>
+     │                              │
+     │                     <span class="highlight">[Middleware]</span> ── JWT Cookie 检查
+     │                              │
+     │                    ┌─────────┴─────────┐
+     │                    │                   │
+     │            <span class="highlight">[静态资源]</span>         <span class="highlight">[Worker: Next.js Server]</span>
+     │             _next/static              │
+     │                 │             ┌───────┴───────┐
+     │            CDN 缓存           │               │
+     │                     <span class="highlight">[App Router]</span>    <span class="highlight">[API Routes]</span>
+     │                      (React SSR)         │
+     │                                     <span class="highlight">[D1 Database]</span>
+     │                                   (SQLite at Edge)
+     │
+     └──────── <span class="dim">全球 300+ 边缘节点</span></div>
+
+  <h3>路由组设计</h3>
+  <p>Next.js App Router 的路由组（Route Groups）将页面分为两个逻辑区域：</p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>(auth) — 未认证页面</h4>
+      <p><span class="inline-code">/login</span> — 登录页<br><span class="inline-code">/register</span> — 注册页<br><br>已登录用户访问时自动重定向到 <span class="inline-code">/dashboard</span></p>
+    </div>
+    <div class="card">
+      <h4>(app) — 已认证页面</h4>
+      <p><span class="inline-code">/dashboard</span> — 主面板<br><span class="inline-code">/records</span> — 记录/日历<br><span class="inline-code">/community</span> — 社区<br><span class="inline-code">/settings</span> — 设置<br><br>包含 Sidebar + BottomNav 布局壳</p>
+    </div>
+  </div>
+
+  <h3>完整目录结构</h3>
+  <div class="tree"><span class="dir">jieluxia/</span>
+├── <span class="dir">src/</span>
+│   ├── <span class="dir">app/</span>
+│   │   ├── <span class="dir">(app)/</span>                     <span class="desc"># 已认证路由组</span>
+│   │   │   ├── <span class="dir">community/</span>             <span class="desc"># 社区动态页</span>
+│   │   │   ├── <span class="dir">dashboard/</span>             <span class="desc"># 主面板（连续打卡天数、里程碑、周报）</span>
+│   │   │   ├── <span class="dir">records/</span>               <span class="desc"># 月历 + 身心指标</span>
+│   │   │   ├── <span class="dir">settings/</span>              <span class="desc"># 个人资料编辑、登出</span>
+│   │   │   └── <span class="file">layout.tsx</span>             <span class="desc"># App Shell（侧边栏 + 底部导航 + 光晕背景）</span>
+│   │   ├── <span class="dir">(auth)/</span>                    <span class="desc"># 未认证路由组</span>
+│   │   │   ├── <span class="dir">login/</span>                 <span class="desc"># 登录页</span>
+│   │   │   └── <span class="dir">register/</span>              <span class="desc"># 注册页</span>
+│   │   ├── <span class="dir">api/</span>                       <span class="desc"># API 路由</span>
+│   │   │   ├── <span class="dir">auth/</span>                  <span class="desc"># 认证（login, logout, me, register）</span>
+│   │   │   ├── <span class="dir">checkin/</span>               <span class="desc"># 打卡（签到, 今日状态）</span>
+│   │   │   ├── <span class="dir">community/</span>             <span class="desc"># 社区（帖子列表/发布, 点赞）</span>
+│   │   │   ├── <span class="file">profile/route.ts</span>       <span class="desc"># 个人资料（查询/更新）</span>
+│   │   │   ├── <span class="file">stats/route.ts</span>         <span class="desc"># 统计数据（周报/月报）</span>
+│   │   │   └── <span class="file">streak/route.ts</span>        <span class="desc"># 连续打卡天数</span>
+│   │   ├── <span class="file">globals.css</span>                <span class="desc"># Tailwind v4 + CSS 变量 + 玻璃拟态类</span>
+│   │   ├── <span class="file">layout.tsx</span>                 <span class="desc"># 根布局（Geist 字体, metadata）</span>
+│   │   └── <span class="file">page.tsx</span>                   <span class="desc"># 根路由 → 重定向到 /dashboard</span>
+│   ├── <span class="dir">components/</span>                    <span class="desc"># React 组件</span>
+│   │   ├── <span class="file">StreakRing.tsx</span>             <span class="desc"># SVG 环形进度条（目标 90 天）</span>
+│   │   ├── <span class="file">MilestoneBar.tsx</span>           <span class="desc"># 里程碑进度条（7/14/30/60/90 天）</span>
+│   │   ├── <span class="file">BenefitGrid.tsx</span>            <span class="desc"># 身心改善指标（精力/专注/自信/睡眠）</span>
+│   │   ├── <span class="file">WeeklyChart.tsx</span>            <span class="desc"># 7 天柱状图</span>
+│   │   ├── <span class="file">QuoteCard.tsx</span>              <span class="desc"># 每日励志语录 + 活跃用户数</span>
+│   │   ├── <span class="file">CheckInButton.tsx</span>          <span class="desc"># 打卡按钮 + 确认弹窗</span>
+│   │   ├── <span class="file">CommunityPost.tsx</span>          <span class="desc"># 社区帖子卡片</span>
+│   │   ├── <span class="file">MonthlyCalendar.tsx</span>        <span class="desc"># 月历网格</span>
+│   │   ├── <span class="file">Sidebar.tsx</span>                <span class="desc"># 桌面侧边栏导航</span>
+│   │   ├── <span class="file">BottomNav.tsx</span>              <span class="desc"># 移动端底部标签栏</span>
+│   │   └── <span class="dir">ui/</span>                        <span class="desc"># UI 基础组件</span>
+│   │       ├── <span class="file">GlassCard.tsx</span>          <span class="desc"># 玻璃拟态卡片</span>
+│   │       ├── <span class="file">BottomSheet.tsx</span>        <span class="desc"># 移动端底部弹出面板</span>
+│   │       ├── <span class="file">Button.tsx</span>             <span class="desc"># PrimaryButton / SecondaryButton</span>
+│   │       ├── <span class="file">GlowOrb.tsx</span>            <span class="desc"># 背景光晕装饰</span>
+│   │       ├── <span class="file">ProgressBar.tsx</span>        <span class="desc"># 带标签的进度条</span>
+│   │       └── <span class="file">BackgroundLayout.tsx</span>   <span class="desc"># 可复用背景布局</span>
+│   ├── <span class="dir">hooks/</span>                         <span class="desc"># SWR Hooks（预留）</span>
+│   │   ├── <span class="file">useUser.ts</span>
+│   │   ├── <span class="file">useStreak.ts</span>
+│   │   └── <span class="file">useCheckIn.ts</span>
+│   ├── <span class="dir">lib/</span>                           <span class="desc"># 核心库</span>
+│   │   ├── <span class="file">auth.ts</span>                    <span class="desc"># PBKDF2 密码哈希 + JWT 签名/验证</span>
+│   │   ├── <span class="file">db.ts</span>                      <span class="desc"># Cloudflare D1 + JWT Secret 访问器</span>
+│   │   ├── <span class="file">schema.ts</span>                  <span class="desc"># Drizzle ORM 表定义</span>
+│   │   ├── <span class="file">streak.ts</span>                  <span class="desc"># 连续天数计算 + 等级系统</span>
+│   │   ├── <span class="file">api.ts</span>                     <span class="desc"># 客户端 fetch 工具（apiGet, apiPost, apiPut）</span>
+│   │   └── <span class="file">quotes.ts</span>                  <span class="desc"># 15 条励志语录 + 每日选择器</span>
+│   ├── <span class="file">middleware.ts</span>                  <span class="desc"># 路由守卫（基于 JWT Cookie）</span>
+│   └── <span class="dir">types/</span>
+│       └── <span class="file">cloudflare-env.d.ts</span>        <span class="desc"># Cloudflare 环境变量类型声明</span>
+├── <span class="dir">scripts/</span>
+│   ├── <span class="file">copy-assets.mjs</span>                <span class="desc"># 复制 worker 依赖目录到 assets</span>
+│   └── <span class="file">gen-routes.mjs</span>                 <span class="desc"># 生成 _routes.json</span>
+├── <span class="file">wrangler.toml</span>                      <span class="desc"># Cloudflare Pages 配置</span>
+├── <span class="file">open-next.config.ts</span>                <span class="desc"># OpenNext 适配器配置</span>
+├── <span class="file">next.config.ts</span>                     <span class="desc"># Next.js 配置</span>
+├── <span class="file">drizzle.config.ts</span>                  <span class="desc"># Drizzle Kit 配置</span>
+├── <span class="file">schema.sql</span>                         <span class="desc"># 原始 SQL Schema</span>
+└── <span class="file">jieluxia-ui.jsx</span>                    <span class="desc"># 初始 UI 原型（567 行）</span></div>
+</section>
+
+<!-- ════════════════════════════════ 第四章：数据库设计 ════════════════════════════════ -->
+<section id="db">
+  <h2><span class="num">CHAPTER 04</span>数据库设计</h2>
+  <p>使用 Cloudflare D1（边缘 SQLite）+ Drizzle ORM。4 张表，设计简洁但功能完整。</p>
+
+  <h3>users — 用户表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>text</td><td>PRIMARY KEY</td><td>21 位 hex ID（来自 crypto.randomUUID）</td></tr>
+    <tr><td>email</td><td>text</td><td>UNIQUE, NOT NULL</td><td>登录邮箱</td></tr>
+    <tr><td>password_hash</td><td>text</td><td>NOT NULL</td><td>格式: salt_hex:hash_hex</td></tr>
+    <tr><td>nickname</td><td>text</td><td>NOT NULL, DEFAULT '新人战士'</td><td>显示名称</td></tr>
+    <tr><td>avatar_emoji</td><td>text</td><td>DEFAULT '🛡️'</td><td>头像表情</td></tr>
+    <tr><td>level</td><td>integer</td><td>DEFAULT 1</td><td>等级（1-7）</td></tr>
+    <tr><td>title</td><td>text</td><td>DEFAULT '新人'</td><td>称号</td></tr>
+    <tr><td>created_at</td><td>text</td><td>DEFAULT datetime('now')</td><td>注册时间</td></tr>
+    <tr><td>updated_at</td><td>text</td><td>DEFAULT datetime('now')</td><td>最后更新</td></tr>
+  </table>
+
+  <h3>checkins — 打卡记录表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>text</td><td>PRIMARY KEY</td><td>记录 ID</td></tr>
+    <tr><td>user_id</td><td>text</td><td>NOT NULL, FK → users.id</td><td>关联用户</td></tr>
+    <tr><td>checked_at</td><td>text</td><td>NOT NULL</td><td>打卡日期（YYYY-MM-DD）</td></tr>
+    <tr><td>note</td><td>text</td><td>nullable</td><td>打卡备注</td></tr>
+  </table>
+  <p>唯一约束: <span class="inline-code">UNIQUE(user_id, checked_at)</span> — 每天只能打卡一次</p>
+  <p>索引: <span class="inline-code">idx_checkins_user_date</span> on (user_id, checked_at)</p>
+
+  <h3>posts — 社区帖子表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>id</td><td>text</td><td>PRIMARY KEY</td><td>帖子 ID</td></tr>
+    <tr><td>user_id</td><td>text</td><td>NOT NULL, FK → users.id</td><td>作者</td></tr>
+    <tr><td>content</td><td>text</td><td>NOT NULL</td><td>帖子内容</td></tr>
+    <tr><td>created_at</td><td>text</td><td>DEFAULT datetime('now')</td><td>发布时间</td></tr>
+  </table>
+  <p>索引: <span class="inline-code">idx_posts_created</span> on (created_at DESC)</p>
+
+  <h3>post_likes — 点赞表</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>约束</th><th>说明</th></tr>
+    <tr><td>post_id</td><td>text</td><td>NOT NULL, FK → posts.id</td><td>帖子</td></tr>
+    <tr><td>user_id</td><td>text</td><td>NOT NULL, FK → users.id</td><td>点赞用户</td></tr>
+  </table>
+  <p>复合主键: <span class="inline-code">(post_id, user_id)</span> — 每人每帖只能点赞一次</p>
+
+  <h3>ER 关系</h3>
+  <div class="arch-diagram"><span class="highlight">users</span> (1) ──────▶ (N) <span class="highlight">checkins</span>      用户有多个打卡记录
+<span class="highlight">users</span> (1) ──────▶ (N) <span class="highlight">posts</span>         用户发布多个帖子
+<span class="highlight">posts</span> (1) ──────▶ (N) <span class="highlight">post_likes</span>    帖子收到多个点赞
+<span class="highlight">users</span> (1) ──────▶ (N) <span class="highlight">post_likes</span>    用户点赞多个帖子</div>
+</section>
+
+<!-- ════════════════════════════════ 第五章：认证系统 ════════════════════════════════ -->
+<section id="auth">
+  <h2><span class="num">CHAPTER 05</span>认证系统</h2>
+  <p>完全基于 Web Crypto API 自研，零第三方依赖。适配 Cloudflare Workers 的 V8 隔离环境。</p>
+
+  <h3>密码哈希 — PBKDF2</h3>
+  <pre><code><span class="keyword">export async function</span> <span class="fn">hashPassword</span>(password: <span class="type">string</span>): <span class="type">Promise</span>&lt;<span class="type">string</span>&gt; {
+  <span class="keyword">const</span> salt = crypto.getRandomValues(<span class="keyword">new</span> <span class="type">Uint8Array</span>(<span class="string">16</span>));
+  <span class="keyword">const</span> key = <span class="keyword">await</span> crypto.subtle.importKey(<span class="string">"raw"</span>, enc.encode(password), <span class="string">"PBKDF2"</span>, <span class="keyword">false</span>, [<span class="string">"deriveBits"</span>]);
+  <span class="keyword">const</span> bits = <span class="keyword">await</span> crypto.subtle.deriveBits(
+    { name: <span class="string">"PBKDF2"</span>, salt, iterations: <span class="string">100000</span>, hash: <span class="string">"SHA-256"</span> },
+    key, <span class="string">256</span>
+  );
+  <span class="keyword">return</span> <span class="string">`${toHex(salt)}:${toHex(new Uint8Array(bits))}`</span>;
+}</code></pre>
+  <ul>
+    <li>算法: PBKDF2 with SHA-256</li>
+    <li>迭代次数: 100,000</li>
+    <li>盐: 16 字节随机值，存储为 hex</li>
+    <li>输出: 256 位（32 字节），存储为 <span class="inline-code">salt_hex:hash_hex</span></li>
+  </ul>
+
+  <h3>JWT 签名 — HMAC-SHA256</h3>
+  <pre><code><span class="keyword">export async function</span> <span class="fn">signToken</span>(userId: <span class="type">string</span>, secret: <span class="type">string</span>): <span class="type">Promise</span>&lt;<span class="type">string</span>&gt; {
+  <span class="keyword">const</span> h = <span class="fn">b64url</span>(JSON.stringify({ alg: <span class="string">"HS256"</span>, typ: <span class="string">"JWT"</span> }));
+  <span class="keyword">const</span> p = <span class="fn">b64url</span>(JSON.stringify({
+    sub: userId,
+    iat: (Date.now() / <span class="string">1000</span>) | <span class="string">0</span>,
+    exp: Date.now() / <span class="string">1000</span> + <span class="string">2592000</span>,  <span class="comment">// 30 天</span>
+  }));
+  <span class="keyword">const</span> key = <span class="keyword">await</span> crypto.subtle.importKey(<span class="string">"raw"</span>, enc.encode(secret), { name: <span class="string">"HMAC"</span>, hash: <span class="string">"SHA-256"</span> }, <span class="keyword">false</span>, [<span class="string">"sign"</span>]);
+  <span class="keyword">const</span> sig = <span class="keyword">await</span> crypto.subtle.sign(<span class="string">"HMAC"</span>, key, enc.encode(<span class="string">`${h}.${p}`</span>));
+  <span class="keyword">return</span> <span class="string">`${h}.${p}.${b64url(new Uint8Array(sig))}`</span>;
+}</code></pre>
+
+  <h3>认证流程</h3>
+  <div class="arch-diagram"><span class="highlight">注册</span>  POST /api/auth/register
+  ├─ 接收 email + password + nickname
+  ├─ hashPassword(password)  →  salt:hash
+  ├─ INSERT INTO users (id, email, password_hash, nickname)
+  └─ signToken(userId)  →  Set-Cookie: token=xxx; HttpOnly; Secure; SameSite=Lax
+
+<span class="highlight">登录</span>  POST /api/auth/login
+  ├─ SELECT * FROM users WHERE email = ?
+  ├─ verifyPassword(password, stored_hash)
+  └─ signToken(userId)  →  Set-Cookie
+
+<span class="highlight">鉴权</span>  GET /api/auth/me
+  ├─ 从 Cookie 提取 token
+  ├─ verifyToken(token, secret)  →  userId
+  └─ SELECT * FROM users WHERE id = ?
+
+<span class="highlight">路由守卫</span>  middleware.ts
+  ├─ 跳过 /api/* 路由
+  ├─ /login, /register → 已登录则重定向 /dashboard
+  └─ 其他路由 → 未登录则重定向 /login</div>
+
+  <h3>等级系统</h3>
+  <p>每次打卡后根据连续天数自动计算等级和称号：</p>
+  <div class="card">
+    <div class="level-row"><div class="level-badge">1</div><div class="range">0 - 6 天</div><div class="name">新人</div></div>
+    <div class="level-row"><div class="level-badge">2</div><div class="range">7 - 13 天</div><div class="name">初心者</div></div>
+    <div class="level-row"><div class="level-badge">3</div><div class="range">14 - 29 天</div><div class="name">坚持者</div></div>
+    <div class="level-row"><div class="level-badge">4</div><div class="range">30 - 59 天</div><div class="name">战士</div></div>
+    <div class="level-row"><div class="level-badge">5</div><div class="range">60 - 89 天</div><div class="name">精英</div></div>
+    <div class="level-row"><div class="level-badge">6</div><div class="range">90 - 179 天</div><div class="name">大师</div></div>
+    <div class="level-row"><div class="level-badge">7</div><div class="range">180+ 天</div><div class="name">传奇</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ 第六章：前端页面与组件 ════════════════════════════════ -->
+<section id="frontend">
+  <h2><span class="num">CHAPTER 06</span>前端页面与组件</h2>
+
+  <h3>设计系统</h3>
+  <p>深色玻璃拟态（Dark Glassmorphism）主题，以深海蓝为基调。</p>
+  <pre><code><span class="comment">/* 设计令牌 — globals.css */</span>
+<span class="keyword">:root</span> {
+  --color-primary:      <span class="string">#4ab8ff</span>;       <span class="comment">/* 主色调：明亮蓝 */</span>
+  --color-primary-dark: <span class="string">#1a6cb4</span>;       <span class="comment">/* 深色主调 */</span>
+  --color-bg-1:         <span class="string">#0d2d4a</span>;       <span class="comment">/* 背景层 1 */</span>
+  --color-bg-2:         <span class="string">#081828</span>;       <span class="comment">/* 背景层 2 */</span>
+  --color-bg-3:         <span class="string">#050f1a</span>;       <span class="comment">/* 最深背景 */</span>
+  --color-glass:        <span class="string">rgba(255,255,255,0.06)</span>;
+  --color-glass-border: <span class="string">rgba(255,255,255,0.12)</span>;
+}</code></pre>
+
+  <h3>页面一览</h3>
+  <table>
+    <tr><th>路由</th><th>页面</th><th>核心功能</th></tr>
+    <tr><td><span class="inline-code">/</span></td><td>根路由</td><td>重定向到 /dashboard</td></tr>
+    <tr><td><span class="inline-code">/login</span></td><td>登录</td><td>邮箱 + 密码表单</td></tr>
+    <tr><td><span class="inline-code">/register</span></td><td>注册</td><td>昵称 + 邮箱 + 密码</td></tr>
+    <tr><td><span class="inline-code">/dashboard</span></td><td>主面板</td><td>连续天数环形图、里程碑、身心指标、周报柱状图、每日语录、打卡按钮</td></tr>
+    <tr><td><span class="inline-code">/records</span></td><td>记录</td><td>月历视图、身心指标进度条</td></tr>
+    <tr><td><span class="inline-code">/community</span></td><td>社区</td><td>帖子流、发布新帖、点赞</td></tr>
+    <tr><td><span class="inline-code">/settings</span></td><td>设置</td><td>头像表情编辑、昵称修改、统计数据、登出</td></tr>
+  </table>
+
+  <h3>功能组件</h3>
+  <div class="card-grid">
+    <div class="card"><h4>StreakRing</h4><p>SVG 环形进度条，目标 90 天。根据当前连续天数计算弧度，带动画过渡。</p></div>
+    <div class="card"><h4>MilestoneBar</h4><p>水平里程碑标记：7 → 14 → 30 → 60 → 90 天。已达成的里程碑高亮显示。</p></div>
+    <div class="card"><h4>BenefitGrid</h4><p>4 项身心指标（精力、专注力、自信心、睡眠质量），数值随连续天数增长。</p></div>
+    <div class="card"><h4>WeeklyChart</h4><p>7 天柱状图，展示每日自律指数。纯 CSS 实现，无图表库依赖。</p></div>
+    <div class="card"><h4>QuoteCard</h4><p>每日励志语录轮播（15 条），显示当前活跃用户总数。</p></div>
+    <div class="card"><h4>CheckInButton</h4><p>打卡按钮，点击后弹出 BottomSheet 确认面板。打卡成功后刷新数据。</p></div>
+    <div class="card"><h4>CommunityPost</h4><p>帖子卡片：头像表情 + 昵称 + 等级徽章 + 内容 + 点赞按钮。</p></div>
+    <div class="card"><h4>MonthlyCalendar</h4><p>7 列日历网格，已打卡日期高亮。支持月份切换。</p></div>
+  </div>
+
+  <h3>UI 基础组件</h3>
+  <div class="card-grid">
+    <div class="card"><h4>GlassCard</h4><p>玻璃拟态容器，支持 normal / strong 两种透明度。backdrop-filter: blur(20px)。</p></div>
+    <div class="card"><h4>BottomSheet</h4><p>移动端底部弹出面板，带毛玻璃背景遮罩。用于打卡确认等交互。</p></div>
+    <div class="card"><h4>Button</h4><p>PrimaryButton（渐变蓝）和 SecondaryButton（透明边框）两种风格。</p></div>
+    <div class="card"><h4>GlowOrb</h4><p>装饰性模糊渐变圆形，营造深海氛围。多层叠加使用。</p></div>
+  </div>
+
+  <h3>响应式策略</h3>
+  <p>桌面端（<span class="inline-code">lg:</span> 断点以上）显示 Sidebar 侧边栏，隐藏 BottomNav。移动端反之。使用 Tailwind CSS 的 <span class="inline-code">lg:hidden</span> 和 <span class="inline-code">hidden lg:flex</span> 实现。</p>
+</section>
+
+<!-- ════════════════════════════════ 第七章：API 设计 ════════════════════════════════ -->
+<section id="api">
+  <h2><span class="num">CHAPTER 07</span>API 设计</h2>
+  <p>12 个 RESTful API 端点，全部使用 Next.js App Router 的 Route Handlers。</p>
+
+  <h3>认证 API</h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>功能</th><th>认证</th></tr>
+    <tr><td>POST</td><td><span class="inline-code">/api/auth/register</span></td><td>注册新用户（email, password, nickname）</td><td>无</td></tr>
+    <tr><td>POST</td><td><span class="inline-code">/api/auth/login</span></td><td>登录，设置 JWT Cookie</td><td>无</td></tr>
+    <tr><td>POST</td><td><span class="inline-code">/api/auth/logout</span></td><td>登出，清除 Cookie</td><td>无</td></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/auth/me</span></td><td>获取当前用户信息</td><td>需要</td></tr>
+  </table>
+
+  <h3>打卡 API</h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>功能</th><th>认证</th></tr>
+    <tr><td>POST</td><td><span class="inline-code">/api/checkin</span></td><td>创建今日打卡（自动更新等级/称号）</td><td>需要</td></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/checkin</span></td><td>获取打卡列表（?month=YYYY-MM）</td><td>需要</td></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/checkin/today</span></td><td>检查今日是否已打卡</td><td>需要</td></tr>
+  </table>
+
+  <h3>统计 API</h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>功能</th></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/streak</span></td><td>获取当前连续天数和最长连续天数</td></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/stats?range=week</span></td><td>周报数据（7 天打卡情况）</td></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/stats?range=month</span></td><td>月报数据（打卡日期列表 + 活跃用户数）</td></tr>
+  </table>
+
+  <h3>用户 & 社区 API</h3>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>功能</th></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/profile</span></td><td>获取个人资料 + 连续天数统计</td></tr>
+    <tr><td>PUT</td><td><span class="inline-code">/api/profile</span></td><td>更新昵称和/或头像表情</td></tr>
+    <tr><td>GET</td><td><span class="inline-code">/api/community</span></td><td>分页获取社区帖子（?page=&limit=）</td></tr>
+    <tr><td>POST</td><td><span class="inline-code">/api/community</span></td><td>发布新帖子</td></tr>
+    <tr><td>POST</td><td><span class="inline-code">/api/community/[id]/like</span></td><td>切换点赞状态</td></tr>
+  </table>
+</section>
+
+<!-- ════════════════════════════════ 第八章：Cloudflare 部署 ════════════════════════════════ -->
+<section id="deploy">
+  <h2><span class="num">CHAPTER 08</span>Cloudflare 部署</h2>
+
+  <h3>部署架构</h3>
+  <div class="arch-diagram"><span class="highlight">GitHub (frobit999/jieluxia)</span>
+     │  git push origin main
+     ▼
+<span class="highlight">Cloudflare Pages CI</span>
+     │  1. git clone
+     │  2. npm run cf:build
+     │     ├─ opennextjs-cloudflare build
+     │     ├─ node scripts/copy-assets.mjs
+     │     └─ node scripts/gen-routes.mjs
+     │  3. 部署 .open-next/assets/
+     ▼
+<span class="highlight">Cloudflare Edge Network</span> (300+ 全球节点)
+     │
+     ├── <span class="highlight">jieluxia.pages.dev</span>       (默认域名)
+     └── <span class="highlight">jieluxia.com</span>              (自定义域名)</div>
+
+  <h3>wrangler.toml 配置</h3>
+  <pre><code>name = <span class="string">"jieluxia"</span>
+pages_build_output_dir = <span class="string">".open-next/assets"</span>
+compatibility_date = <span class="string">"2024-09-23"</span>
+compatibility_flags = [<span class="string">"nodejs_compat"</span>]
+
+<span class="comment"># D1 数据库绑定</span>
+[[d1_databases]]
+binding = <span class="string">"DB"</span>
+database_name = <span class="string">"jieluxiad1"</span>
+database_id = <span class="string">"66c4faae-475b-4013-8668-9eeade629abb"</span>
+
+<span class="comment"># 环境变量</span>
+[vars]
+JWT_SECRET = <span class="string">"change-this-in-production"</span></code></pre>
+
+  <h3>OpenNext 适配器配置</h3>
+  <pre><code><span class="comment">// open-next.config.ts</span>
+<span class="keyword">const</span> config: <span class="type">OpenNextConfig</span> = {
+  default: {
+    override: {
+      wrapper: <span class="string">"cloudflare-node"</span>,      <span class="comment">// 服务端函数用 Node.js 兼容包装</span>
+      converter: <span class="string">"edge"</span>,                <span class="comment">// 请求/响应格式转换为 Edge 格式</span>
+      proxyExternalRequest: <span class="string">"fetch"</span>,   <span class="comment">// 外部请求用 fetch 代理</span>
+      incrementalCache: <span class="string">"dummy"</span>,       <span class="comment">// 无 ISR 缓存</span>
+      tagCache: <span class="string">"dummy"</span>,               <span class="comment">// 无标签缓存</span>
+      queue: <span class="string">"dummy"</span>,                  <span class="comment">// 无队列</span>
+    },
+  },
+  edgeExternals: [<span class="string">"node:crypto"</span>],       <span class="comment">// 外部化 node:crypto</span>
+  middleware: {
+    external: <span class="keyword">true</span>,
+    override: { wrapper: <span class="string">"cloudflare-edge"</span> },  <span class="comment">// 中间件用 Edge 包装</span>
+  },
+};</code></pre>
+
+  <h3>GitHub 自动部署流程</h3>
+  <ol>
+    <li>在 Cloudflare Dashboard 将 Pages 项目连接到 GitHub 仓库 <span class="inline-code">frobit999/jieluxia</span></li>
+    <li>配置构建命令: <span class="inline-code">npm run cf:build</span></li>
+    <li>配置输出目录: <span class="inline-code">.open-next/assets</span></li>
+    <li>每次 <span class="inline-code">git push origin main</span>，Cloudflare CI 自动触发构建和部署</li>
+    <li>预览部署：每个非 main 分支的 push 生成独立预览 URL</li>
+  </ol>
+
+  <h3>环境变量</h3>
+  <table>
+    <tr><th>变量</th><th>类型</th><th>用途</th></tr>
+    <tr><td><span class="inline-code">DB</span></td><td>D1Database 绑定</td><td>Cloudflare D1 数据库</td></tr>
+    <tr><td><span class="inline-code">JWT_SECRET</span></td><td>string</td><td>JWT HMAC 签名密钥</td></tr>
+    <tr><td><span class="inline-code">NODE_VERSION</span></td><td>string</td><td>CI 构建使用的 Node.js 版本（20）</td></tr>
+  </table>
+</section>
+
+<!-- ════════════════════════════════ 第九章：构建脚本 ════════════════════════════════ -->
+<section id="scripts">
+  <h2><span class="num">CHAPTER 09</span>构建脚本</h2>
+
+  <h3>package.json 脚本</h3>
+  <table>
+    <tr><th>脚本</th><th>命令</th><th>用途</th></tr>
+    <tr><td><span class="inline-code">dev</span></td><td>next dev</td><td>本地开发服务器</td></tr>
+    <tr><td><span class="inline-code">build</span></td><td>next build</td><td>标准 Next.js 构建</td></tr>
+    <tr><td><span class="inline-code">cf:build</span></td><td>opennextjs-cloudflare build && copy-assets && gen-routes</td><td>Cloudflare 完整构建流水线</td></tr>
+    <tr><td><span class="inline-code">cf:deploy</span></td><td>npm run cf:build && wrangler pages deploy</td><td>本地构建并手动部署</td></tr>
+  </table>
+
+  <h3>copy-assets.mjs</h3>
+  <p>将 OpenNext 构建产物中的依赖目录复制到 assets 目录，解决 Cloudflare CI 找不到 <span class="inline-code">_worker.js</span> 依赖的问题。</p>
+  <pre><code><span class="comment">// scripts/copy-assets.mjs</span>
+<span class="keyword">import</span> { cpSync, copyFileSync, mkdirSync, existsSync } <span class="keyword">from</span> <span class="string">"fs"</span>;
+
+<span class="keyword">const</span> src = <span class="string">".open-next"</span>;
+<span class="keyword">const</span> dest = <span class="string">".open-next/assets"</span>;
+
+mkdirSync(dest, { recursive: <span class="keyword">true</span> });
+copyFileSync(<span class="string">`${src}/worker.js`</span>, <span class="string">`${dest}/_worker.js`</span>);
+
+<span class="keyword">for</span> (<span class="keyword">const</span> dir <span class="keyword">of</span> [<span class="string">"cloudflare"</span>, <span class="string">"middleware"</span>, <span class="string">".build"</span>, <span class="string">"server-functions"</span>]) {
+  <span class="keyword">const</span> from = <span class="string">`${src}/${dir}`</span>;
+  <span class="keyword">if</span> (existsSync(from)) {
+    cpSync(from, <span class="string">`${dest}/${dir}`</span>, { recursive: <span class="keyword">true</span> });
+  }
+}</code></pre>
+
+  <h3>gen-routes.mjs</h3>
+  <p>生成 <span class="inline-code">_routes.json</span>，告诉 Cloudflare Pages 哪些路径应该走 Worker（服务端渲染），哪些直接走 CDN（静态资源）。</p>
+  <pre><code><span class="comment">// scripts/gen-routes.mjs</span>
+<span class="keyword">const</span> routes = {
+  version: <span class="string">1</span>,
+  include: [<span class="string">"/*"</span>],                              <span class="comment">// 默认所有路由走 Worker</span>
+  exclude: [
+    <span class="string">"/_next/static/*"</span>,                          <span class="comment">// 静态资源走 CDN</span>
+    <span class="string">"/BUILD_ID"</span>,
+    ...topLevelFiles.map(f => <span class="string">`/${f}`</span>),          <span class="comment">// favicon, SVGs 等</span>
+  ],
+};</code></pre>
+</section>
+
+<!-- ════════════════════════════════ 时间线 ════════════════════════════════ -->
+<section id="timeline">
+  <h2><span class="num">CHAPTER 10</span>构建时间线</h2>
+  <p>2026 年 5 月 21 日，从零到上线的完整一天。</p>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="time">清晨</div>
+      <div class="title">项目启动</div>
+      <div class="detail">确定技术选型：Next.js 15 + Cloudflare 全栈。创建 jieluxia-ui.jsx 原型文件，验证深海蓝玻璃拟态视觉风格。</div>
+    </div>
+    <div class="step">
+      <div class="time">上午</div>
+      <div class="title">核心功能开发</div>
+      <div class="detail">搭建 Next.js 项目结构，实现认证系统（PBKDF2 + JWT）、D1 数据库 Schema、打卡 API、连续天数计算、等级系统。</div>
+    </div>
+    <div class="step">
+      <div class="time">下午</div>
+      <div class="title">前端页面开发</div>
+      <div class="detail">实现 Dashboard 主面板、打卡日历、社区动态、个人设置页面。开发 StreakRing、MilestoneBar、WeeklyChart 等核心组件。</div>
+    </div>
+    <div class="step">
+      <div class="time">傍晚</div>
+      <div class="title">首次部署</div>
+      <div class="detail">使用 npx wrangler 完成首次 Cloudflare Pages 部署。创建 D1 数据库，配置自定义域名 jieluxia.com。</div>
+    </div>
+    <div class="step">
+      <div class="time">晚间</div>
+      <div class="title">GitHub 自动部署</div>
+      <div class="detail">安装 GitHub CLI，创建仓库 frobit999/jieluxia，连接 Cloudflare Pages 实现 git push 自动部署。修复 CI 构建脚本（copy-assets.mjs）。</div>
+    </div>
+    <div class="step">
+      <div class="time">深夜</div>
+      <div class="title">文档完成</div>
+      <div class="detail">编写本文档，记录从零到一的完整构建过程。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FOOTER ════════════════════════════════ -->
+<footer>
+  <p>戒撸侠 — 自律成就未来</p>
+  <p style="margin-top:8px">Built with Next.js 15 + Cloudflare Pages + D1 &nbsp;|&nbsp; 2026.05.21</p>
+</footer>
+
+<!-- ════════════════════════════════ NAV ACTIVE STATE ════════════════════════════════ -->
+<script>
+const links = document.querySelectorAll('nav a');
+const sections = [];
+links.forEach(a => {
+  const id = a.getAttribute('href')?.slice(1);
+  if (id) sections.push({ el: document.getElementById(id), link: a });
+});
+window.addEventListener('scroll', () => {
+  let current = sections[0];
+  for (const s of sections) {
+    if (s.el && s.el.getBoundingClientRect().top <= 120) current = s;
+  }
+  links.forEach(a => a.classList.remove('active'));
+  if (current) current.link.classList.add('active');
+}, { passive: true });
+</script>
+
+</body>
+</html>

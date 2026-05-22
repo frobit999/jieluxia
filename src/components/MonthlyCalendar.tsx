@@ -10,10 +10,9 @@ export function MonthlyCalendar({
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDay = new Date(year, month - 1, 1).getDay();
   const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
+  const todayStr = `${today.getUTCFullYear()}-${String(today.getUTCMonth() + 1).padStart(2, "0")}-${String(today.getUTCDate()).padStart(2, "0")}`;
   const dayLabels = ["日", "一", "二", "三", "四", "五", "六"];
 
-  // Offset for first day (0=Sunday in JS, but we show Monday first)
   const offset = firstDay === 0 ? 6 : firstDay - 1;
 
   return (
@@ -21,7 +20,7 @@ export function MonthlyCalendar({
       {dayLabels.map((d) => (
         <div
           key={d}
-          className="text-center text-[10px] text-[rgba(180,210,255,0.4)] pb-1.5"
+          className="text-center text-[10px] text-[rgba(200,220,255,0.4)] pb-1.5"
         >
           {d}
         </div>
@@ -40,21 +39,22 @@ export function MonthlyCalendar({
             className="w-full aspect-square rounded-lg flex items-center justify-center text-[11px] transition-colors"
             style={{
               background: isToday
-                ? "linear-gradient(135deg, #4ab8ff, #1a6cb4)"
+                ? "linear-gradient(135deg, #4dc9f6, #ff6eb4)"
                 : checked
-                  ? "rgba(74, 184, 255, 0.2)"
-                  : "rgba(255, 255, 255, 0.04)",
+                  ? "rgba(77, 201, 246, 0.15)"
+                  : "rgba(255, 255, 255, 0.03)",
               color: isToday
                 ? "#fff"
                 : checked
-                  ? "#4ab8ff"
-                  : "rgba(180, 210, 255, 0.4)",
+                  ? "#4dc9f6"
+                  : "rgba(200, 220, 255, 0.4)",
               fontWeight: isToday ? 700 : 400,
               border: isToday
                 ? "none"
                 : checked
-                  ? "1px solid rgba(74, 184, 255, 0.3)"
-                  : "1px solid rgba(255, 255, 255, 0.05)",
+                  ? "1px solid rgba(77, 201, 246, 0.25)"
+                  : "1px solid rgba(255, 255, 255, 0.04)",
+              boxShadow: isToday ? "0 0 12px rgba(77, 201, 246, 0.3)" : "none",
             }}
           >
             {d}

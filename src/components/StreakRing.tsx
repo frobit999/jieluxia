@@ -32,7 +32,7 @@ export function StreakRing({
           cy={cy}
           r={r}
           fill="none"
-          stroke="rgba(255, 255, 255, 0.08)"
+          stroke="rgba(255, 255, 255, 0.06)"
           strokeWidth="8"
         />
         <circle
@@ -47,16 +47,16 @@ export function StreakRing({
         />
         <defs>
           <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4ab8ff" />
-            <stop offset="100%" stopColor="#0066cc" />
+            <stop offset="0%" stopColor="#4dc9f6" />
+            <stop offset="100%" stopColor="#ff6eb4" />
           </linearGradient>
         </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[28px] font-bold text-[#e0f0ff] tracking-tight leading-none">
+        <span className="text-[28px] font-bold text-[#e8f4ff] tracking-tight leading-none neon-blue">
           {days}
         </span>
-        <span className="text-[11px] text-[rgba(180,210,255,0.7)] mt-0.5">
+        <span className="text-[11px] text-[rgba(200,220,255,0.7)] mt-0.5">
           {label}
         </span>
       </div>

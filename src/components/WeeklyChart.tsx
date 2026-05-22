@@ -16,16 +16,20 @@ export function WeeklyChart({
               height: `${w.value}%`,
               minHeight: 12,
               background:
-                i === new Date().getDay()
-                  ? "linear-gradient(180deg, #4ab8ff, #1a6cb4)"
-                  : "rgba(74, 184, 255, 0.2)",
+                i === new Date().getUTCDay()
+                  ? "linear-gradient(180deg, #4dc9f6, #ff6eb4)"
+                  : "rgba(77, 201, 246, 0.15)",
               border:
-                i === new Date().getDay()
+                i === new Date().getUTCDay()
                   ? "none"
-                  : "1px solid rgba(74, 184, 255, 0.2)",
+                  : "1px solid rgba(77, 201, 246, 0.15)",
+              boxShadow:
+                i === new Date().getUTCDay()
+                  ? "0 0 12px rgba(77, 201, 246, 0.3)"
+                  : "none",
             }}
           />
-          <span className="text-[11px] text-[rgba(180, 210, 255, 0.5)]">
+          <span className="text-[11px] text-[rgba(200, 220, 255, 0.45)]">
             {w.day}
           </span>
         </div>

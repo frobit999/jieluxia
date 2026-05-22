@@ -8,12 +8,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       className="min-h-screen relative overflow-hidden"
       style={{
         background:
-          "radial-gradient(ellipse 80% 60% at 10% 20%, #0d2d4a 0%, #081828 50%, #050f1a 100%)",
+          "radial-gradient(ellipse 80% 60% at 10% 20%, #0d1225 0%, #090e1c 50%, #060a14 100%)",
       }}
     >
-      <GlowOrb x="-100px" y="-80px" color="#1a5fa0" size="500px" />
-      <GlowOrb x="60%" y="40%" color="#0d3f6e" size="400px" />
-      <GlowOrb x="80%" y="-50px" color="#1a3c6b" size="350px" />
+      <GlowOrb x="-120px" y="-100px" color="#4dc9f6" size="500px" />
+      <GlowOrb x="55%" y="35%" color="#ff6eb4" size="450px" />
+      <GlowOrb x="75%" y="-60px" color="#a78bfa" size="350px" />
+      <GlowOrb x="20%" y="70%" color="#4dc9f6" size="300px" />
 
       <div className="relative z-10 flex min-h-screen">
         <Sidebar />

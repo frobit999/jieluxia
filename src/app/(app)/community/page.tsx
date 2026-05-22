@@ -42,7 +42,7 @@ export default function CommunityPage() {
   useEffect(() => {
     async function init() {
       try {
-        const userData = await apiGet<{ user: any }>("/api/auth/me");
+        const userData = await apiGet<{ user: { nickname: string } }>("/api/auth/me");
         if (!userData.user) {
           router.push("/login");
           return;
@@ -92,14 +92,14 @@ export default function CommunityPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(180,210,255,0.5)]">加载中...</div>
+        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <h1 className="text-[22px] font-bold text-[#e0f0ff] mb-6">
+      <h1 className="text-[22px] font-bold text-[#e8f4ff] mb-6">
         战友社区 👥
       </h1>
 
@@ -108,7 +108,7 @@ export default function CommunityPage() {
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
           placeholder="分享你的感悟..."
-          className="w-full bg-transparent border-none outline-none text-sm text-[#c0deff] resize-none h-20 placeholder:text-[rgba(180,210,255,0.3)]"
+          className="w-full bg-transparent border-none outline-none text-sm text-[rgba(200,220,255,0.8)] resize-none h-20 placeholder:text-[rgba(200,220,255,0.3)]"
         />
         <div className="flex justify-end mt-2">
           <PrimaryButton
@@ -124,7 +124,7 @@ export default function CommunityPage() {
       {posts.length === 0 ? (
         <GlassCard className="p-8 text-center">
           <div className="text-4xl mb-3">💬</div>
-          <div className="text-sm text-[rgba(180,210,255,0.5)]">
+          <div className="text-sm text-[rgba(200,220,255,0.5)]">
             还没有帖子，成为第一个分享的人吧！
           </div>
         </GlassCard>

@@ -24,14 +24,14 @@ export function BottomNav() {
               href={t.href}
               className="flex flex-col items-center gap-1 no-underline px-3 py-1 rounded-[14px] transition-all"
               style={{
-                background: active ? "rgba(74, 184, 255, 0.15)" : "transparent",
+                background: active ? "rgba(77, 201, 246, 0.12)" : "transparent",
               }}
             >
               <span className="text-xl">{t.icon}</span>
               <span
                 className="text-[10px]"
                 style={{
-                  color: active ? "#4ab8ff" : "rgba(180, 210, 255, 0.4)",
+                  color: active ? "#4dc9f6" : "rgba(200, 220, 255, 0.4)",
                   fontWeight: active ? 600 : 400,
                 }}
               >

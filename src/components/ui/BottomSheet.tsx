@@ -17,8 +17,8 @@ export function BottomSheet({
     <div
       className="absolute inset-0 flex items-end z-[100]"
       style={{
-        background: "rgba(5, 15, 26, 0.7)",
-        backdropFilter: "blur(12px)",
+        background: "rgba(6, 10, 20, 0.75)",
+        backdropFilter: "blur(16px)",
       }}
       onClick={onClose}
     >
@@ -28,7 +28,7 @@ export function BottomSheet({
       >
         <div
           className="w-9 h-1 mx-auto mb-6 rounded"
-          style={{ background: "rgba(255, 255, 255, 0.2)" }}
+          style={{ background: "rgba(255, 255, 255, 0.15)" }}
         />
         {children}
       </div>

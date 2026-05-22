@@ -14,14 +14,14 @@ export default function RecordsPage() {
   const [loading, setLoading] = useState(true);
 
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth() + 1;
 
   useEffect(() => {
     async function load() {
       try {
         const [userData, monthData, streakData] = await Promise.all([
-          apiGet<{ user: any }>("/api/auth/me").catch(() => null),
+          apiGet<{ user: { nickname: string } }>("/api/auth/me").catch(() => null),
           apiGet<{ checkins: string[] }>(
             `/api/stats?range=month&month=${year}-${String(month).padStart(2, "0")}`
           ).catch(() => null),
@@ -46,27 +46,27 @@ export default function RecordsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(180,210,255,0.5)]">加载中...</div>
+        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
       </div>
     );
   }
 
   const metrics = [
-    { label: "精力", value: Math.min(85 + streak, 99), color: "#4ab8ff" },
-    { label: "专注力", value: Math.min(72 + streak, 99), color: "#7dd4ff" },
-    { label: "情绪稳定", value: Math.min(90 + Math.floor(streak / 2), 99), color: "#4ab8ff" },
-    { label: "睡眠质量", value: Math.min(68 + streak, 99), color: "#b0d8ff" },
+    { label: "精力", value: Math.min(85 + streak, 99), color: "#4dc9f6" },
+    { label: "专注力", value: Math.min(72 + streak, 99), color: "#a78bfa" },
+    { label: "情绪稳定", value: Math.min(90 + Math.floor(streak / 2), 99), color: "#ff6eb4" },
+    { label: "睡眠质量", value: Math.min(68 + streak, 99), color: "#4dc9f6" },
   ];
 
   return (
     <>
-      <h1 className="text-[22px] font-bold text-[#e0f0ff] mb-6">
+      <h1 className="text-[22px] font-bold text-[#e8f4ff] mb-6">
         数据统计 📊
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <GlassCard className="p-5">
-          <div className="text-xs text-[rgba(180,210,255,0.55)] font-medium tracking-wider uppercase mb-3">
+          <div className="text-xs text-[rgba(200,220,255,0.55)] font-medium tracking-wider uppercase mb-3">
             {year}年{month}月打卡日历
           </div>
           <MonthlyCalendar
@@ -77,7 +77,7 @@ export default function RecordsPage() {
         </GlassCard>
 
         <GlassCard className="p-5">
-          <div className="text-xs text-[rgba(180,210,255,0.55)] font-medium tracking-wider uppercase mb-3">
+          <div className="text-xs text-[rgba(200,220,255,0.55)] font-medium tracking-wider uppercase mb-3">
             身心数据
           </div>
           {metrics.map((m) => (
