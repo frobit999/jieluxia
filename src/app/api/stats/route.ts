@@ -13,24 +13,29 @@ export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const range = searchParams.get("range") || "week";
   const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
+  const todayStr = `${today.getUTCFullYear()}-${String(today.getUTCMonth() + 1).padStart(2, "0")}-${String(today.getUTCDate()).padStart(2, "0")}`;
 
   if (range === "week") {
     const labels = ["一", "二", "三", "四", "五", "六", "日"];
-    const dow = today.getDay();
+    const dow = today.getUTCDay();
     const mon = new Date(today);
-    mon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
-    const week = [];
+    mon.setUTCDate(today.getUTCDate() - (dow === 0 ? 6 : dow - 1));
+    const weekDates: string[] = [];
     for (let i = 0; i < 7; i++) {
       const d = new Date(mon);
-      d.setDate(mon.getDate() + i);
-      const ds = d.toISOString().slice(0, 10);
-      const c = await db
-        .prepare("SELECT id FROM checkins WHERE user_id=? AND checked_at=?")
-        .bind(user.id, ds)
-        .first();
-      week.push({ day: labels[i], value: c ? 85 : 15 });
+      d.setUTCDate(mon.getUTCDate() + i);
+      weekDates.push(d.toISOString().slice(0, 10));
     }
+    const placeholders = weekDates.map(() => "?").join(",");
+    const rows = await db
+      .prepare(`SELECT checked_at FROM checkins WHERE user_id=? AND checked_at IN (${placeholders})`)
+      .bind(user.id, ...weekDates)
+      .all();
+    const checked = new Set(rows.results.map((r: Record<string, unknown>) => r.checked_at));
+    const week = weekDates.map((ds, i) => ({
+      day: labels[i],
+      value: checked.has(ds) ? 85 : 15,
+    }));
     return NextResponse.json({ weekly: week });
   }
 

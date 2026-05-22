@@ -70,8 +70,23 @@ export default function CommunityPage() {
   };
 
   const handleLike = async (postId: string) => {
-    await apiFetch(`/api/community/${postId}/like`, { method: "POST" });
-    await loadPosts();
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === postId
+          ? { ...p, likeCount: p.likeCount + 1 }
+          : p
+      )
+    );
+    try {
+      const data = (await apiFetch(`/api/community/${postId}/like`, { method: "POST" }).then((r) => r.json())) as { likeCount: number };
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === postId ? { ...p, likeCount: data.likeCount } : p
+        )
+      );
+    } catch {
+      await loadPosts();
+    }
   };
 
   if (loading) {

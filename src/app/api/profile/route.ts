@@ -41,10 +41,14 @@ export async function PUT(request: NextRequest) {
   }
 
   const { nickname, avatarEmoji } = (await request.json()) as { nickname?: string; avatarEmoji?: string };
-  if (nickname) {
+  if (nickname !== undefined) {
+    const n = nickname.trim();
+    if (!n || n.length > 20) {
+      return NextResponse.json({ error: "昵称需1-20个字符" }, { status: 400 });
+    }
     await db
       .prepare("UPDATE users SET nickname=?,updated_at=datetime('now') WHERE id=?")
-      .bind(nickname, user.id)
+      .bind(n, user.id)
       .run();
   }
   if (avatarEmoji) {

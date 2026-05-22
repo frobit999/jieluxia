@@ -87,10 +87,10 @@ export default function RegisterPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="至少6位"
+              placeholder="至少8位，含字母和数字"
               className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-[#e0f0ff] text-sm outline-none focus:border-[#4ab8ff] transition-colors placeholder:text-[rgba(180,210,255,0.3)]"
               required
-              minLength={6}
+              minLength={8}
             />
           </div>
 

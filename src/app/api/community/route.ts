@@ -17,29 +17,19 @@ export async function GET(request: NextRequest) {
 
   const r = await db
     .prepare(
-      "SELECT p.id,p.content,p.created_at,u.nickname,u.avatar_emoji FROM posts p LEFT JOIN users u ON p.user_id=u.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?"
+      "SELECT p.id, p.content, p.created_at, u.nickname, u.avatar_emoji, (SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = p.id) as like_count FROM posts p LEFT JOIN users u ON p.user_id=u.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?"
     )
     .bind(limit, offset)
     .all();
 
-  const posts = await Promise.all(
-    r.results.map(
-      async (p: Record<string, unknown>) => {
-        const lc = await db
-          .prepare("SELECT COUNT(*) as c FROM post_likes WHERE post_id=?")
-          .bind(p.id)
-          .first();
-        return {
-          id: p.id,
-          content: p.content,
-          createdAt: p.created_at,
-          nickname: p.nickname || "匿名",
-          avatarEmoji: p.avatar_emoji || "🛡️",
-          likeCount: (lc?.c as number) || 0,
-        };
-      }
-    )
-  );
+  const posts = r.results.map((p: Record<string, unknown>) => ({
+    id: p.id,
+    content: p.content,
+    createdAt: p.created_at,
+    nickname: p.nickname || "匿名",
+    avatarEmoji: p.avatar_emoji || "🛡️",
+    likeCount: (p.like_count as number) || 0,
+  }));
 
   const total = await db
     .prepare("SELECT COUNT(*) as c FROM posts")
@@ -58,6 +48,9 @@ export async function POST(request: NextRequest) {
   const { content } = (await request.json()) as { content: string };
   if (!content?.trim()) {
     return NextResponse.json({ error: "内容不能为空" }, { status: 400 });
+  }
+  if (content.trim().length > 500) {
+    return NextResponse.json({ error: "内容不能超过500字" }, { status: 400 });
   }
 
   const id = genId();
