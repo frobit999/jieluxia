@@ -8,5 +8,4 @@ binding = "DB"
 database_name = "jieluxiad1"
 database_id = "66c4faae-475b-4013-8668-9eeade629abb"
 
-[vars]
-JWT_SECRET = "change-this-in-production"
+# JWT_SECRET must be set via: npx wrangler secret put JWT_SECRET
