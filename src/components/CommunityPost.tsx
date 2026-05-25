@@ -16,42 +16,54 @@ export function CommunityPost({
   onLike?: () => void;
 }) {
   return (
-    <div className="card p-4 mb-2.5">
-      <div className="flex gap-3 items-start">
+    <div className="card" style={{ padding: "20px 24px" }}>
+      <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
         <div
-          className="w-9 h-9 rounded-full flex items-center justify-center text-base flex-shrink-0"
           style={{
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             background: "var(--color-obsidian)",
+            flexShrink: 0,
+            fontSize: "14px",
           }}
         >
           <span style={{ color: "var(--color-eggshell)" }}>{avatar}</span>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex justify-between mb-1">
-            <div className="flex items-center gap-2">
-              <span className="text-[14px] font-medium" style={{ color: "var(--color-obsidian)" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "14px", fontWeight: 500, color: "var(--color-obsidian)" }}>
                 {name}
               </span>
-              <span className="pill">
-                {days}天
-              </span>
+              {days > 0 && <span className="pill">{days}天</span>}
             </div>
-            <span className="text-[11px] flex-shrink-0 ml-2" style={{ color: "var(--color-slate)" }}>
+            <span style={{ fontSize: "12px", color: "var(--color-slate)", flexShrink: 0 }}>
               {time}
             </span>
           </div>
-          <p className="m-0 text-[13px] leading-relaxed" style={{ color: "var(--color-gravel)" }}>
+          <p style={{ margin: "0 0 12px", fontSize: "14px", lineHeight: 1.5, color: "var(--color-gravel)" }}>
             {content}
           </p>
-          <div className="flex gap-4 mt-2">
+          <div style={{ display: "flex", gap: "20px" }}>
             <button
               onClick={onLike}
-              className="text-[12px] cursor-pointer bg-transparent border-none transition-colors"
-              style={{ color: "var(--color-slate)" }}
+              style={{
+                fontSize: "12px",
+                cursor: "pointer",
+                background: "transparent",
+                border: "none",
+                color: "var(--color-slate)",
+                padding: 0,
+                letterSpacing: "0.01em",
+              }}
             >
               {likeCount > 0 ? `${likeCount} 赞` : "赞"}
             </button>
-            <span className="text-[12px]" style={{ color: "var(--color-slate)" }}>
+            <span style={{ fontSize: "12px", color: "var(--color-slate)" }}>
               回复
             </span>
           </div>

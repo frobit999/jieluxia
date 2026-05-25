@@ -7,33 +7,36 @@ const benefits = [
 
 export function BenefitGrid({ streak }: { streak: number }) {
   return (
-    <div className="card p-5">
-      <div className="text-[11px] font-medium mb-3.5 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-        身心改善
-      </div>
-      <div className="grid grid-cols-2 gap-2.5">
-        {benefits.map((b) => {
-          const val = Math.min(
-            Math.round(b.base + streak * b.perDay),
-            99
-          );
-          return (
-            <div
-              key={b.label}
-              className="px-3 py-2.5 flex flex-col gap-1 rounded-xl"
-              style={{ background: "var(--color-powder)" }}
-            >
-              <span className="text-base">{b.icon}</span>
-              <span className="text-[11px]" style={{ color: "var(--color-gravel)" }}>
-                {b.label}
-              </span>
-              <span className="text-base font-medium" style={{ color: "var(--color-obsidian)" }}>
-                +{val}%
-              </span>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
+      {benefits.map((b) => {
+        const val = Math.min(Math.round(b.base + streak * b.perDay), 99);
+        return (
+          <div
+            key={b.label}
+            className="card"
+            style={{ padding: "24px" }}
+          >
+            <div style={{ fontSize: "20px", marginBottom: "12px" }}>{b.icon}</div>
+            <div style={{ fontSize: "14px", fontWeight: 500, color: "var(--color-obsidian)", marginBottom: "4px" }}>
+              {b.label}
             </div>
-          );
-        })}
-      </div>
+            <div style={{ fontSize: "13px", color: "var(--color-gravel)", marginBottom: "12px" }}>
+              持续改善中
+            </div>
+            <div
+              style={{
+                fontSize: "28px",
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontWeight: 300,
+                letterSpacing: "-0.56px",
+                color: "var(--color-obsidian)",
+              }}
+            >
+              +{val}%
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

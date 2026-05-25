@@ -4,21 +4,28 @@ export function QuoteCard({ activeCount }: { activeCount: number }) {
   const quote = getDailyQuote();
 
   return (
-    <div className="card p-5 flex flex-col justify-between">
-      <div className="text-[11px] font-medium mb-3 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-        今日格言
-      </div>
+    <div className="card" style={{ padding: "24px", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
       <div>
-        <blockquote className="m-0 text-[14px] leading-relaxed italic" style={{ color: "var(--color-gravel)" }}>
+        <blockquote
+          style={{
+            margin: "0 0 16px",
+            fontSize: "16px",
+            lineHeight: 1.6,
+            fontStyle: "italic",
+            color: "var(--color-gravel)",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontWeight: 400,
+          }}
+        >
           &ldquo;{quote.text}&rdquo;
         </blockquote>
-        <div className="mt-3 text-[11px]" style={{ color: "var(--color-slate)" }}>
+        <p style={{ margin: 0, fontSize: "13px", color: "var(--color-slate)" }}>
           — {quote.author}
-        </div>
+        </p>
       </div>
-      <div className="mt-4 text-[12px]" style={{ color: "var(--color-gravel)" }}>
+      <p style={{ margin: "24px 0 0", fontSize: "13px", color: "var(--color-gravel)", borderTop: "1px solid var(--color-chalk)", paddingTop: "16px" }}>
         社区今日 {activeCount.toLocaleString()} 人在坚守
-      </div>
+      </p>
     </div>
   );
 }

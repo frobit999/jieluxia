@@ -6,31 +6,35 @@ export function MilestoneBar({
   current: number;
 }) {
   return (
-    <div className="flex gap-2 items-center mt-1">
+    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
       {milestones.map((m, i) => {
         const done = current >= m.days;
         const active = !done && (i === 0 || current >= milestones[i - 1].days);
         return (
-          <div key={i} className="flex-1 text-center">
+          <div key={i} style={{ flex: 1, textAlign: "center" }}>
             <div
-              className="h-1 rounded-full mb-1.5 transition-colors duration-500"
               style={{
+                height: "3px",
+                borderRadius: "2px",
+                marginBottom: "8px",
                 background: done
                   ? "var(--color-obsidian)"
                   : active
                     ? "var(--color-fog)"
                     : "var(--color-chalk)",
+                transition: "background 0.5s",
               }}
             />
-            <div
-              className="text-[10px]"
+            <span
               style={{
+                fontSize: "11px",
                 color: done ? "var(--color-obsidian)" : "var(--color-slate)",
                 fontWeight: done ? 500 : 400,
+                letterSpacing: "0.01em",
               }}
             >
               {m.label}
-            </div>
+            </span>
           </div>
         );
       })}

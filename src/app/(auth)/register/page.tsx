@@ -31,31 +31,38 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4"
+      className="min-h-screen flex flex-col items-center justify-center px-6"
       style={{ background: "var(--color-eggshell)" }}
     >
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-10">
+      <div style={{ width: "100%", maxWidth: "380px" }}>
+        {/* Logo */}
+        <div style={{ textAlign: "center", marginBottom: "48px" }}>
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center text-lg mx-auto mb-4"
-            style={{ background: "var(--color-obsidian)" }}
+            className="w-10 h-10 rounded-full flex items-center justify-center mx-auto"
+            style={{ background: "var(--color-obsidian)", marginBottom: "20px" }}
           >
-            <span style={{ color: "var(--color-eggshell)" }}>戒</span>
+            <span style={{ color: "var(--color-eggshell)", fontSize: "14px", fontWeight: 500 }}>戒</span>
           </div>
           <h1
-            className="text-[36px] m-0 leading-tight"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.72px" }}
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 300,
+              fontSize: "36px",
+              letterSpacing: "-0.72px",
+              color: "var(--color-obsidian)",
+              margin: "0 0 8px",
+              lineHeight: 1.1,
+            }}
           >
             加入戒撸侠
           </h1>
-          <p className="text-[14px] mt-2" style={{ color: "var(--color-gravel)" }}>
-            开始你的自律之旅
-          </p>
+          <p className="text-body">开始你的自律之旅</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label className="block text-[12px] mb-1.5 font-medium" style={{ color: "var(--color-gravel)" }}>
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: "20px" }}>
+            <label style={{ display: "block", fontSize: "13px", color: "var(--color-gravel)", marginBottom: "6px", fontWeight: 500 }}>
               昵称
             </label>
             <input
@@ -63,18 +70,12 @@ export default function RegisterPage() {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="给自己取个名字"
-              className="w-full px-4 py-3 text-[14px] outline-none"
-              style={{
-                background: "#ffffff",
-                border: "1px solid var(--color-chalk)",
-                borderRadius: "4px",
-                color: "var(--color-obsidian)",
-              }}
+              className="input-field"
             />
           </div>
 
-          <div>
-            <label className="block text-[12px] mb-1.5 font-medium" style={{ color: "var(--color-gravel)" }}>
+          <div style={{ marginBottom: "20px" }}>
+            <label style={{ display: "block", fontSize: "13px", color: "var(--color-gravel)", marginBottom: "6px", fontWeight: 500 }}>
               邮箱
             </label>
             <input
@@ -82,19 +83,13 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="w-full px-4 py-3 text-[14px] outline-none"
-              style={{
-                background: "#ffffff",
-                border: "1px solid var(--color-chalk)",
-                borderRadius: "4px",
-                color: "var(--color-obsidian)",
-              }}
+              className="input-field"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-[12px] mb-1.5 font-medium" style={{ color: "var(--color-gravel)" }}>
+          <div style={{ marginBottom: "24px" }}>
+            <label style={{ display: "block", fontSize: "13px", color: "var(--color-gravel)", marginBottom: "6px", fontWeight: 500 }}>
               密码
             </label>
             <input
@@ -102,39 +97,40 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="至少8位，含字母和数字"
-              className="w-full px-4 py-3 text-[14px] outline-none"
-              style={{
-                background: "#ffffff",
-                border: "1px solid var(--color-chalk)",
-                borderRadius: "4px",
-                color: "var(--color-obsidian)",
-              }}
+              className="input-field"
               required
               minLength={8}
             />
           </div>
 
           {error && (
-            <div className="text-[13px] text-center py-2 rounded-lg" style={{ color: "var(--color-ember)", background: "rgba(255, 71, 4, 0.06)", border: "1px solid rgba(255, 71, 4, 0.15)" }}>
+            <div
+              style={{
+                fontSize: "13px",
+                textAlign: "center",
+                padding: "10px 16px",
+                marginBottom: "20px",
+                borderRadius: "8px",
+                color: "var(--color-ember)",
+                background: "rgba(255, 71, 4, 0.05)",
+                border: "1px solid rgba(255, 71, 4, 0.12)",
+              }}
+            >
               {error}
             </div>
           )}
 
-          <PrimaryButton className="w-full mt-2" disabled={loading}>
+          <PrimaryButton className="w-full" disabled={loading}>
             {loading ? "注册中..." : "注册"}
           </PrimaryButton>
         </form>
 
-        <div className="text-center mt-8 text-[14px]" style={{ color: "var(--color-gravel)" }}>
+        <p style={{ textAlign: "center", marginTop: "32px", fontSize: "14px", color: "var(--color-gravel)" }}>
           已有账号？{" "}
-          <Link
-            href="/login"
-            className="no-underline font-medium"
-            style={{ color: "var(--color-obsidian)" }}
-          >
+          <Link href="/login" className="no-underline font-medium" style={{ color: "var(--color-obsidian)" }}>
             登录
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

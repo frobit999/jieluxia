@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { CommunityPost } from "@/components/CommunityPost";
 import { PrimaryButton } from "@/components/ui/Button";
 import { apiGet, apiPost, apiFetch } from "@/lib/api";
@@ -91,61 +90,71 @@ export default function CommunityPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
+      <div className="flex items-center justify-center" style={{ height: "400px" }}>
+        <div style={{ color: "var(--color-slate)", fontSize: "14px" }}>加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <div className="mb-8">
-        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-          社区
-        </div>
-        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+      {/* Page header */}
+      <section style={{ marginBottom: "64px" }}>
+        <p className="section-label">社区</p>
+        <h1 className="heading-display" style={{ marginBottom: "12px" }}>
           战友社区
         </h1>
-      </div>
+        <p className="text-body" style={{ maxWidth: "480px" }}>
+          分享你的感悟，和同行者互相鼓励。
+        </p>
+      </section>
 
-      <GlassCard className="p-4 mb-4">
-        <textarea
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
-          placeholder="分享你的感悟..."
-          className="w-full bg-transparent border-none outline-none text-[14px] resize-none h-20"
-          style={{ color: "var(--color-obsidian)" }}
-        />
-        <div className="flex justify-end mt-2">
-          <PrimaryButton
-            onClick={handlePost}
-            disabled={posting || !newPost.trim()}
-          >
-            {posting ? "发送中..." : "发布"}
-          </PrimaryButton>
-        </div>
-      </GlassCard>
-
-      {posts.length === 0 ? (
-        <GlassCard className="p-8 text-center">
-          <div className="text-[14px]" style={{ color: "var(--color-gravel)" }}>
-            还没有帖子，成为第一个分享的人吧！
-          </div>
-        </GlassCard>
-      ) : (
-        posts.map((post) => (
-          <CommunityPost
-            key={post.id}
-            avatar={post.avatarEmoji || "🛡️"}
-            name={post.nickname}
-            days={0}
-            content={post.content}
-            time={timeAgo(post.createdAt)}
-            likeCount={post.likeCount}
-            onLike={() => handleLike(post.id)}
+      {/* Post composer */}
+      <section style={{ marginBottom: "48px" }}>
+        <div className="card" style={{ padding: "24px" }}>
+          <p className="section-label">发表动态</p>
+          <textarea
+            value={newPost}
+            onChange={(e) => setNewPost(e.target.value)}
+            placeholder="分享你的感悟..."
+            className="input-bare"
+            style={{ height: "80px", marginBottom: "16px" }}
           />
-        ))
-      )}
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <PrimaryButton
+              onClick={handlePost}
+              disabled={posting || !newPost.trim()}
+            >
+              {posting ? "发送中..." : "发布"}
+            </PrimaryButton>
+          </div>
+        </div>
+      </section>
+
+      {/* Posts list */}
+      <section>
+        <p className="section-label">最新动态</p>
+        {posts.length === 0 ? (
+          <div className="card" style={{ padding: "48px", textAlign: "center" }}>
+            <p className="text-body">还没有帖子，成为第一个分享的人吧！</p>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {posts.map((post) => (
+              <CommunityPost
+                key={post.id}
+                avatar={post.avatarEmoji || "🛡️"}
+                name={post.nickname}
+                days={0}
+                content={post.content}
+                time={timeAgo(post.createdAt)}
+                likeCount={post.likeCount}
+                onLike={() => handleLike(post.id)}
+              />
+            ))}
+          </div>
+        )}
+      </section>
     </>
   );
 }

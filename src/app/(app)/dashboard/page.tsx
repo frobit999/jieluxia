@@ -72,73 +72,84 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
+      <div className="flex items-center justify-center" style={{ height: "400px" }}>
+        <div style={{ color: "var(--color-slate)", fontSize: "14px" }}>加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <div className="mb-8">
-        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-          仪表盘
-        </div>
-        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+      {/* Hero section */}
+      <section style={{ marginBottom: "80px" }}>
+        <p className="section-label">仪表盘</p>
+        <h1 className="heading-display" style={{ marginBottom: "16px", maxWidth: "640px" }}>
           欢迎回来，{user?.nickname}
         </h1>
-        <p className="text-[14px] mt-2" style={{ color: "var(--color-gravel)" }}>
-          今天是你坚守的第 <span className="font-medium" style={{ color: "var(--color-obsidian)" }}>{streak}</span> 天，继续保持。
+        <p className="text-body" style={{ maxWidth: "480px", fontSize: "16px", lineHeight: "1.5" }}>
+          今天是你坚守的第 <strong style={{ color: "var(--color-obsidian)", fontWeight: 500 }}>{streak}</strong> 天，继续保持。
+          {longest > 0 && <> 最长记录 <strong style={{ color: "var(--color-obsidian)", fontWeight: 500 }}>{longest}</strong> 天。</>}
         </p>
-      </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-        <GlassCard strong className="p-6">
-          <div className="text-[11px] font-medium mb-4 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-            当前坚守
-          </div>
-          <div className="flex items-center gap-5">
-            <StreakRing days={streak} />
-            <div>
-              <div className="text-[13px] mb-1" style={{ color: "var(--color-gravel)" }}>
-                连续打卡
-              </div>
-              <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>
-                第 {streak} 天
-              </div>
-              <div className="text-[11px] mt-1.5" style={{ color: "var(--color-slate)" }}>
-                最长记录
-              </div>
-              <div className="text-[15px] font-medium mt-0.5" style={{ color: "var(--color-obsidian)" }}>
-                {longest} 天
+      {/* Streak + Checkin row */}
+      <section style={{ marginBottom: "64px" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Streak card — spans 2 cols */}
+          <div className="lg:col-span-2 card" style={{ padding: "32px" }}>
+            <p className="section-label">当前坚守</p>
+            <div className="flex items-start gap-8 flex-wrap">
+              <StreakRing days={streak} />
+              <div style={{ flex: 1, minWidth: "200px" }}>
+                <div style={{ marginBottom: "24px" }}>
+                  <div className="text-body" style={{ marginBottom: "4px" }}>连续打卡</div>
+                  <div style={{ fontSize: "36px", fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, letterSpacing: "-0.72px", color: "var(--color-obsidian)" }}>
+                    第 {streak} 天
+                  </div>
+                </div>
+                <MilestoneBar milestones={milestones} current={streak} />
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <MilestoneBar milestones={milestones} current={streak} />
-          </div>
-        </GlassCard>
 
+          {/* Checkin card */}
+          <div className="card" style={{ padding: "32px", display: "flex", flexDirection: "column" }}>
+            <p className="section-label">今日签到</p>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <CheckInButton checkedIn={checkedIn} onCheckIn={handleCheckIn} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits section */}
+      <section style={{ marginBottom: "64px" }}>
+        <p className="section-label">身心改善</p>
+        <h2 className="heading-section" style={{ marginBottom: "24px" }}>
+          坚守带来的变化
+        </h2>
         <BenefitGrid streak={streak} />
+      </section>
 
-        <GlassCard className="p-5 flex flex-col">
-          <div className="text-[11px] font-medium mb-3.5 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-            今日签到
+      {/* Weekly chart + Quote */}
+      <section>
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+          <div>
+            <p className="section-label">本周数据</p>
+            <h2 className="heading-section" style={{ marginBottom: "24px" }}>
+              自律指数
+            </h2>
+            <div className="card" style={{ padding: "32px" }}>
+              <WeeklyChart data={weekData} />
+            </div>
           </div>
-          <CheckInButton checkedIn={checkedIn} onCheckIn={handleCheckIn} />
-        </GlassCard>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
-        <GlassCard className="p-5">
-          <div className="text-[11px] font-medium mb-4 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-            本周自律指数
+          <div>
+            <p className="section-label">每日一句</p>
+            <QuoteCard activeCount={activeCount} />
           </div>
-          <WeeklyChart data={weekData} />
-        </GlassCard>
-
-        <QuoteCard activeCount={activeCount} />
-      </div>
+        </div>
+      </section>
     </>
   );
 }

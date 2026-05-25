@@ -21,7 +21,7 @@ export function StreakRing({
   const dash = circ * pct;
 
   return (
-    <div className="relative w-[128px] h-[128px]">
+    <div style={{ position: "relative", width: "128px", height: "128px", flexShrink: 0 }}>
       <svg
         width="128"
         height="128"
@@ -33,7 +33,7 @@ export function StreakRing({
           r={r}
           fill="none"
           stroke="var(--color-chalk)"
-          strokeWidth="6"
+          strokeWidth="5"
         />
         <circle
           cx={cx}
@@ -41,16 +41,34 @@ export function StreakRing({
           r={r}
           fill="none"
           stroke="var(--color-obsidian)"
-          strokeWidth="6"
+          strokeWidth="5"
           strokeDasharray={`${dash} ${circ}`}
           strokeLinecap="round"
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[28px] leading-none" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.02em" }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "32px",
+            lineHeight: 1,
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontWeight: 300,
+            color: "var(--color-obsidian)",
+            letterSpacing: "-0.64px",
+          }}
+        >
           {days}
         </span>
-        <span className="text-[11px] mt-0.5" style={{ color: "var(--color-gravel)" }}>
+        <span style={{ fontSize: "12px", marginTop: "4px", color: "var(--color-gravel)" }}>
           {label}
         </span>
       </div>

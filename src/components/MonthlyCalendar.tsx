@@ -16,12 +16,11 @@ export function MonthlyCalendar({
   const offset = firstDay === 0 ? 6 : firstDay - 1;
 
   return (
-    <div className="grid grid-cols-7 gap-1.5">
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "6px" }}>
       {dayLabels.map((d) => (
         <div
           key={d}
-          className="text-center text-[10px] pb-1.5"
-          style={{ color: "var(--color-slate)" }}
+          style={{ textAlign: "center", fontSize: "11px", color: "var(--color-slate)", paddingBottom: "8px" }}
         >
           {d}
         </div>
@@ -37,24 +36,19 @@ export function MonthlyCalendar({
         return (
           <div
             key={d}
-            className="w-full aspect-square rounded-lg flex items-center justify-center text-[11px] transition-colors"
             style={{
-              background: isToday
-                ? "var(--color-obsidian)"
-                : checked
-                  ? "var(--color-powder)"
-                  : "transparent",
-              color: isToday
-                ? "var(--color-eggshell)"
-                : checked
-                  ? "var(--color-obsidian)"
-                  : "var(--color-slate)",
+              width: "100%",
+              aspectRatio: "1",
+              borderRadius: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "12px",
+              background: isToday ? "var(--color-obsidian)" : checked ? "var(--color-powder)" : "transparent",
+              color: isToday ? "var(--color-eggshell)" : checked ? "var(--color-obsidian)" : "var(--color-slate)",
               fontWeight: isToday ? 500 : 400,
-              border: isToday
-                ? "none"
-                : checked
-                  ? "1px solid var(--color-chalk)"
-                  : "1px solid transparent",
+              border: isToday ? "none" : checked ? "1px solid var(--color-chalk)" : "1px solid transparent",
+              transition: "all 0.15s",
             }}
           >
             {d}

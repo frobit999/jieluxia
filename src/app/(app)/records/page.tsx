@@ -45,8 +45,8 @@ export default function RecordsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
+      <div className="flex items-center justify-center" style={{ height: "400px" }}>
+        <div style={{ color: "var(--color-slate)", fontSize: "14px" }}>加载中...</div>
       </div>
     );
   }
@@ -60,40 +60,51 @@ export default function RecordsPage() {
 
   return (
     <>
-      <div className="mb-8">
-        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-          统计
-        </div>
-        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+      {/* Page header */}
+      <section style={{ marginBottom: "64px" }}>
+        <p className="section-label">统计</p>
+        <h1 className="heading-display" style={{ marginBottom: "12px" }}>
           数据统计
         </h1>
-      </div>
+        <p className="text-body" style={{ maxWidth: "480px" }}>
+          追踪你的打卡记录和身心变化数据。
+        </p>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <GlassCard className="p-5">
-          <div className="text-[11px] font-medium mb-3 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-            {year}年{month}月打卡日历
+      {/* Calendar + Metrics */}
+      <section>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <p className="section-label">{year}年{month}月</p>
+            <h2 className="heading-section" style={{ marginBottom: "24px" }}>
+              打卡日历
+            </h2>
+            <div className="card" style={{ padding: "24px" }}>
+              <MonthlyCalendar
+                checkinDates={checkinDates}
+                year={year}
+                month={month}
+              />
+            </div>
           </div>
-          <MonthlyCalendar
-            checkinDates={checkinDates}
-            year={year}
-            month={month}
-          />
-        </GlassCard>
 
-        <GlassCard className="p-5">
-          <div className="text-[11px] font-medium mb-3 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-            身心数据
+          <div>
+            <p className="section-label">身心数据</p>
+            <h2 className="heading-section" style={{ marginBottom: "24px" }}>
+              改善指标
+            </h2>
+            <div className="card" style={{ padding: "24px" }}>
+              {metrics.map((m) => (
+                <ProgressBar
+                  key={m.label}
+                  label={m.label}
+                  value={m.value}
+                />
+              ))}
+            </div>
           </div>
-          {metrics.map((m) => (
-            <ProgressBar
-              key={m.label}
-              label={m.label}
-              value={m.value}
-            />
-          ))}
-        </GlassCard>
-      </div>
+        </div>
+      </section>
     </>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { apiGet, apiPut, apiPost } from "@/lib/api";
 
@@ -58,120 +57,160 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
+      <div className="flex items-center justify-center" style={{ height: "400px" }}>
+        <div style={{ color: "var(--color-slate)", fontSize: "14px" }}>加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <div className="mb-8">
-        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-          个人
-        </div>
-        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+      {/* Page header */}
+      <section style={{ marginBottom: "64px" }}>
+        <p className="section-label">个人</p>
+        <h1 className="heading-display" style={{ marginBottom: "12px" }}>
           个人中心
         </h1>
-      </div>
+      </section>
 
-      <GlassCard className="p-6 mb-4 text-center">
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"
-          style={{ background: "var(--color-obsidian)" }}
-        >
-          <span style={{ color: "var(--color-eggshell)" }}>{avatarEmoji}</span>
-        </div>
-        <div className="text-lg font-medium" style={{ color: "var(--color-obsidian)" }}>{user?.nickname}</div>
-        <div className="text-[13px] mt-1" style={{ color: "var(--color-gravel)" }}>
-          Lv.{user?.level} · {user?.title}
-        </div>
-
-        <div className="flex justify-center gap-8 mt-5">
-          <div className="text-center">
-            <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>{stats.current}</div>
-            <div className="text-[11px] mt-0.5" style={{ color: "var(--color-slate)" }}>当前天数</div>
+      {/* Profile card */}
+      <section style={{ marginBottom: "48px" }}>
+        <div className="card" style={{ padding: "40px", textAlign: "center" }}>
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto"
+            style={{ background: "var(--color-obsidian)", marginBottom: "16px" }}
+          >
+            <span style={{ color: "var(--color-eggshell)" }}>{avatarEmoji}</span>
           </div>
-          <div className="text-center">
-            <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>{stats.longest}</div>
-            <div className="text-[11px] mt-0.5" style={{ color: "var(--color-slate)" }}>最长记录</div>
-          </div>
-          <div className="text-center">
-            <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>{stats.totalCheckins}</div>
-            <div className="text-[11px] mt-0.5" style={{ color: "var(--color-slate)" }}>总打卡数</div>
-          </div>
-        </div>
-      </GlassCard>
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 300,
+              fontSize: "28px",
+              letterSpacing: "-0.56px",
+              color: "var(--color-obsidian)",
+              margin: "0 0 4px",
+            }}
+          >
+            {user?.nickname}
+          </h2>
+          <p className="text-body" style={{ marginBottom: "32px" }}>
+            Lv.{user?.level} · {user?.title}
+          </p>
 
-      <GlassCard className="p-5 mb-4">
-        <div className="text-[11px] font-medium mb-4 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
-          编辑资料
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-[12px] mb-1.5" style={{ color: "var(--color-gravel)" }}>头像</label>
-          <div className="flex flex-wrap gap-2">
-            {emojiOptions.map((emoji) => (
-              <button
-                key={emoji}
-                onClick={() => setAvatarEmoji(emoji)}
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg cursor-pointer transition-all"
-                style={{
-                  background: avatarEmoji === emoji ? "var(--color-obsidian)" : "var(--color-powder)",
-                  border: "1px solid var(--color-chalk)",
-                }}
-              >
-                {emoji}
-              </button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "48px",
+              borderTop: "1px solid var(--color-chalk)",
+              paddingTop: "24px",
+            }}
+          >
+            {[
+              { value: stats.current, label: "当前天数" },
+              { value: stats.longest, label: "最长记录" },
+              { value: stats.totalCheckins, label: "总打卡数" },
+            ].map((s) => (
+              <div key={s.label} style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "28px", fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, letterSpacing: "-0.56px", color: "var(--color-obsidian)" }}>
+                  {s.value}
+                </div>
+                <div style={{ fontSize: "12px", color: "var(--color-slate)", marginTop: "4px" }}>
+                  {s.label}
+                </div>
+              </div>
             ))}
           </div>
         </div>
+      </section>
 
-        <div className="mb-4">
-          <label className="block text-[12px] mb-1.5" style={{ color: "var(--color-gravel)" }}>昵称</label>
-          <input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            className="w-full px-4 py-3 text-[14px] outline-none"
-            style={{
-              background: "#ffffff",
-              border: "1px solid var(--color-chalk)",
-              borderRadius: "4px",
-              color: "var(--color-obsidian)",
-            }}
-          />
-        </div>
-
-        <PrimaryButton onClick={handleSave} disabled={saving}>
-          {saving ? "保存中..." : saved ? "已保存" : "保存修改"}
-        </PrimaryButton>
-      </GlassCard>
-
-      <GlassCard className="p-2 mb-4">
-        {[
-          { icon: "🏆", label: "我的成就", hint: "即将推出" },
-          { icon: "📖", label: "日记记录", hint: "即将推出" },
-          { icon: "🔔", label: "通知设置", hint: "即将推出" },
-          { icon: "❓", label: "帮助与反馈", hint: "" },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-3.5 px-3 py-3 cursor-pointer"
-            style={{ borderBottom: i < 3 ? "1px solid var(--color-chalk)" : "none" }}
-          >
-            <span className="text-base">{item.icon}</span>
-            <span className="flex-1 text-[14px]" style={{ color: "var(--color-obsidian)" }}>{item.label}</span>
-            {item.hint && <span className="text-[11px]" style={{ color: "var(--color-slate)" }}>{item.hint}</span>}
-            <span className="text-base" style={{ color: "var(--color-fog)" }}>›</span>
+      {/* Edit profile */}
+      <section style={{ marginBottom: "48px" }}>
+        <p className="section-label">编辑资料</p>
+        <h2 className="heading-section" style={{ marginBottom: "24px" }}>
+          个人信息
+        </h2>
+        <div className="card" style={{ padding: "32px" }}>
+          <div style={{ marginBottom: "24px" }}>
+            <label style={{ display: "block", fontSize: "13px", color: "var(--color-gravel)", marginBottom: "8px", fontWeight: 500 }}>
+              头像
+            </label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {emojiOptions.map((emoji) => (
+                <button
+                  key={emoji}
+                  onClick={() => setAvatarEmoji(emoji)}
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "12px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                    background: avatarEmoji === emoji ? "var(--color-obsidian)" : "var(--color-powder)",
+                    border: "1px solid var(--color-chalk)",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {emoji}
+                </button>
+              ))}
+            </div>
           </div>
-        ))}
-      </GlassCard>
 
-      <SecondaryButton
-        onClick={handleLogout}
-        className="w-full"
-      >
+          <div style={{ marginBottom: "24px" }}>
+            <label style={{ display: "block", fontSize: "13px", color: "var(--color-gravel)", marginBottom: "8px", fontWeight: 500 }}>
+              昵称
+            </label>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              className="input-field"
+            />
+          </div>
+
+          <PrimaryButton onClick={handleSave} disabled={saving}>
+            {saving ? "保存中..." : saved ? "已保存" : "保存修改"}
+          </PrimaryButton>
+        </div>
+      </section>
+
+      {/* Menu items */}
+      <section style={{ marginBottom: "48px" }}>
+        <p className="section-label">更多</p>
+        <div className="card" style={{ overflow: "hidden" }}>
+          {[
+            { icon: "🏆", label: "我的成就", hint: "即将推出" },
+            { icon: "📖", label: "日记记录", hint: "即将推出" },
+            { icon: "🔔", label: "通知设置", hint: "即将推出" },
+            { icon: "❓", label: "帮助与反馈", hint: "" },
+          ].map((item, i, arr) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                padding: "16px 20px",
+                borderBottom: i < arr.length - 1 ? "1px solid var(--color-chalk)" : "none",
+                cursor: "pointer",
+              }}
+            >
+              <span style={{ fontSize: "16px" }}>{item.icon}</span>
+              <span style={{ flex: 1, fontSize: "14px", color: "var(--color-obsidian)" }}>{item.label}</span>
+              {item.hint && <span style={{ fontSize: "12px", color: "var(--color-slate)" }}>{item.hint}</span>}
+              <span style={{ color: "var(--color-fog)" }}>›</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Logout */}
+      <SecondaryButton onClick={handleLogout} className="w-full">
         退出登录
       </SecondaryButton>
     </>

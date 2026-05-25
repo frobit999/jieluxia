@@ -46,6 +46,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
 }
 
 /* Card — white surface with hairline shadow */
@@ -55,6 +56,94 @@ body {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 1.143px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px;
 }
 
+/* Section eyebrow label */
+.section-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-gravel);
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
+}
+
+/* Display heading — Waldenburg substitute */
+.heading-display {
+  font-family: 'Cormorant Garamond', Georgia, 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 1.08;
+  letter-spacing: -0.96px;
+  color: var(--color-obsidian);
+}
+
+/* Section heading */
+.heading-section {
+  font-family: 'Cormorant Garamond', Georgia, 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 1.17;
+  letter-spacing: -0.64px;
+  color: var(--color-obsidian);
+}
+
+/* Subsection heading */
+.heading-sub {
+  font-family: 'Cormorant Garamond', Georgia, 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.48px;
+  color: var(--color-obsidian);
+}
+
+/* Body text */
+.text-body {
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--color-gravel);
+  letter-spacing: 0.01em;
+}
+
+/* Text input — editorial style, 0 radius */
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--color-obsidian);
+  background: #ffffff;
+  border: 1px solid var(--color-chalk);
+  border-radius: 4px;
+  outline: none;
+  letter-spacing: 0.01em;
+  transition: border-color 0.15s;
+}
+
+.input-field:focus {
+  border-color: var(--color-obsidian);
+}
+
+.input-field::placeholder {
+  color: var(--color-slate);
+}
+
+/* Textarea — transparent with bottom border */
+.input-bare {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 14px;
+  color: var(--color-obsidian);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-obsidian);
+  border-radius: 0;
+  outline: none;
+  resize: none;
+  letter-spacing: 0.01em;
+}
+
+.input-bare::placeholder {
+  color: var(--color-slate);
+}
+
 /* Pill tag */
 .pill {
   background: var(--color-powder);
@@ -62,6 +151,7 @@ body {
   padding: 2px 10px;
   font-size: 11px;
   color: var(--color-gravel);
+  letter-spacing: 0.01em;
 }
 
 /* Scrollbar styling */
