@@ -2,13 +2,12 @@
 
 interface Props {
   points: number[];
-  color: string;
   height?: number;
   xLabels?: string[];
   showDots?: boolean;
 }
 
-export default function MiniTrendChart({ points, color, height = 60, xLabels, showDots = true }: Props) {
+export default function MiniTrendChart({ points, height = 50, xLabels, showDots = true }: Props) {
   if (points.length < 2) return null;
   const maxVal = Math.max(...points, 1);
   const xStep = 300 / (points.length - 1);
@@ -28,27 +27,15 @@ export default function MiniTrendChart({ points, color, height = 60, xLabels, sh
 
   return (
     <div style={{ position: "relative", height, width: "100%", marginTop: 8 }}>
-      <svg
-        style={{ display: "block", width: "100%", height: "100%" }}
-        preserveAspectRatio="none"
-        viewBox={`0 0 300 ${height}`}
-      >
-        <path d={pathD} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <svg style={{ display: "block", width: "100%", height: "100%" }} preserveAspectRatio="none" viewBox={`0 0 300 ${height}`}>
+        <path d={pathD} fill="none" stroke="var(--color-obsidian)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         {showDots &&
           pts.map((p, i) => (
-            <circle key={i} cx={p.x} cy={p.y} r={i === 0 || i === pts.length - 1 ? 3.5 : 2.5} fill={color} />
+            <circle key={i} cx={p.x} cy={p.y} r={i === 0 || i === pts.length - 1 ? 3 : 2} fill="var(--color-obsidian)" />
           ))}
       </svg>
       {xLabels && xLabels.length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: 10,
-            color: "var(--gravel)",
-            marginTop: 4,
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "var(--color-gravel)", marginTop: 4 }}>
           {xLabels.map((l, i) => (
             <span key={i}>{l}</span>
           ))}

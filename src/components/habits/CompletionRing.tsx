@@ -34,38 +34,26 @@ export default function CompletionRing({ habitValues, userGoals, sleepDone, slee
   const customDone = activeCustomGoals.filter((g) => (habitValues.get(customGoalHabitId(g.id)) ?? 0) >= g.daily_target).length;
   const done = nonTimeDone + timeDone + customDone;
   const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-  const radius = 56;
+  const radius = 52;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (pct / 100) * circumference;
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 24, justifyContent: "center", padding: "16px 0" }}>
-      <svg width="140" height="140" viewBox="0 0 140 140">
-        <defs>
-          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#000" />
-            <stop offset="100%" stopColor="#555" />
-          </linearGradient>
-        </defs>
-        <circle cx="70" cy="70" r={radius} fill="none" stroke="var(--chalk)" strokeWidth="8" />
+    <div style={{ display: "flex", alignItems: "center", gap: 20, justifyContent: "center" }}>
+      <svg width="128" height="128" viewBox="0 0 128 128">
+        <circle cx="64" cy="64" r={radius} fill="none" stroke="var(--color-chalk)" strokeWidth="6" />
         <circle
-          cx="70"
-          cy="70"
-          r={radius}
-          fill="none"
-          stroke={`url(#${gradientId})`}
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          transform="rotate(-90 70 70)"
+          cx="64" cy="64" r={radius}
+          fill="none" stroke="var(--color-obsidian)" strokeWidth="6" strokeLinecap="round"
+          strokeDasharray={circumference} strokeDashoffset={offset}
+          transform="rotate(-90 64 64)"
         />
       </svg>
       <div>
-        <div style={{ fontFamily: "var(--font-display)", fontSize: 40, fontWeight: 300, lineHeight: 1, color: "var(--obsidian)" }}>
+        <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 36, fontWeight: 300, lineHeight: 1, letterSpacing: "-0.72px", color: "var(--color-obsidian)" }}>
           {pct}%
         </div>
-        <div style={{ fontSize: 13, color: "var(--gravel)", marginTop: 4 }}>
+        <div style={{ fontSize: 13, color: "var(--color-gravel)", marginTop: 4 }}>
           {done === total ? "全部完成!" : `已完成 ${done}/${total} 项`}
         </div>
       </div>
