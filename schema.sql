@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS posts (
   id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
   content TEXT NOT NULL,
+  is_anonymous INTEGER NOT NULL DEFAULT 1,
   created_at TEXT DEFAULT (datetime('now'))
 );
 

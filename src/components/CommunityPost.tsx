@@ -6,6 +6,7 @@ export function CommunityPost({
   time,
   likeCount,
   onLike,
+  isAnonymous,
 }: {
   avatar: string;
   name: string;
@@ -14,6 +15,7 @@ export function CommunityPost({
   time: string;
   likeCount: number;
   onLike?: () => void;
+  isAnonymous?: boolean;
 }) {
   return (
     <div className="card" style={{ padding: "20px 24px" }}>
@@ -26,20 +28,20 @@ export function CommunityPost({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "var(--color-obsidian)",
+            background: isAnonymous ? "var(--color-chalk)" : "var(--color-obsidian)",
             flexShrink: 0,
             fontSize: "14px",
           }}
         >
-          <span style={{ color: "var(--color-eggshell)" }}>{avatar}</span>
+          <span style={{ color: isAnonymous ? "var(--color-gravel)" : "var(--color-eggshell)" }}>{isAnonymous ? "👤" : avatar}</span>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span style={{ fontSize: "14px", fontWeight: 500, color: "var(--color-obsidian)" }}>
-                {name}
+              <span style={{ fontSize: "14px", fontWeight: 500, color: isAnonymous ? "var(--color-gravel)" : "var(--color-obsidian)" }}>
+                {isAnonymous ? "匿名" : name}
               </span>
-              {days > 0 && <span className="pill">{days}天</span>}
+              {!isAnonymous && days > 0 && <span className="pill">{days}天</span>}
             </div>
             <span style={{ fontSize: "12px", color: "var(--color-slate)", flexShrink: 0 }}>
               {time}

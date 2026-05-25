@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
   const r = await db
     .prepare(
-      "SELECT p.id, p.content, p.created_at, u.nickname, u.avatar_emoji, (SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = p.id) as like_count FROM posts p LEFT JOIN users u ON p.user_id=u.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?"
+      "SELECT p.id, p.content, p.created_at, p.is_anonymous, u.nickname, u.avatar_emoji, (SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = p.id) as like_count FROM posts p LEFT JOIN users u ON p.user_id=u.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?"
     )
     .bind(limit, offset)
     .all();
@@ -26,8 +26,9 @@ export async function GET(request: NextRequest) {
     id: p.id,
     content: p.content,
     createdAt: p.created_at,
-    nickname: p.nickname || "匿名",
-    avatarEmoji: p.avatar_emoji || "🛡️",
+    isAnonymous: !!p.is_anonymous,
+    nickname: p.is_anonymous ? "匿名" : (p.nickname || "匿名"),
+    avatarEmoji: p.is_anonymous ? "👤" : (p.avatar_emoji || "🛡️"),
     likeCount: (p.like_count as number) || 0,
   }));
 
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "未登录" }, { status: 401 });
   }
 
-  const { content } = (await request.json()) as { content: string };
+  const { content, isAnonymous } = (await request.json()) as { content: string; isAnonymous?: boolean };
   if (!content?.trim()) {
     return NextResponse.json({ error: "内容不能为空" }, { status: 400 });
   }
@@ -53,10 +54,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "内容不能超过500字" }, { status: 400 });
   }
 
+  const anonymous = isAnonymous !== false ? 1 : 0;
   const id = genId();
   await db
-    .prepare("INSERT INTO posts(id,user_id,content) VALUES(?,?,?)")
-    .bind(id, user.id, content.trim())
+    .prepare("INSERT INTO posts(id,user_id,content,is_anonymous) VALUES(?,?,?,?)")
+    .bind(id, user.id, content.trim(), anonymous)
     .run();
 
   return NextResponse.json({
@@ -64,8 +66,9 @@ export async function POST(request: NextRequest) {
       id,
       content: content.trim(),
       createdAt: new Date().toISOString(),
-      nickname: user.nickname,
-      avatarEmoji: user.avatar_emoji,
+      isAnonymous: !!anonymous,
+      nickname: anonymous ? "匿名" : user.nickname,
+      avatarEmoji: anonymous ? "👤" : user.avatar_emoji,
     },
   });
 }

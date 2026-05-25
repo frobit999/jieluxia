@@ -10,6 +10,7 @@ interface Post {
   id: string;
   content: string;
   createdAt: string;
+  isAnonymous: boolean;
   nickname: string;
   avatarEmoji: string;
   likeCount: number;
@@ -30,6 +31,7 @@ export default function CommunityPage() {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [newPost, setNewPost] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(true);
   const [loading, setLoading] = useState(true);
   const [posting, setPosting] = useState(false);
 
@@ -60,7 +62,7 @@ export default function CommunityPage() {
     if (!newPost.trim() || posting) return;
     setPosting(true);
     try {
-      await apiPost("/api/community", { content: newPost });
+      await apiPost("/api/community", { content: newPost, isAnonymous });
       setNewPost("");
       await loadPosts();
     } finally {
@@ -120,7 +122,16 @@ export default function CommunityPage() {
             className="input-bare"
             style={{ height: "80px", marginBottom: "16px" }}
           />
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13, color: "var(--color-gravel)" }}>
+              <input
+                type="checkbox"
+                checked={isAnonymous}
+                onChange={(e) => setIsAnonymous(e.target.checked)}
+                style={{ width: 16, height: 16, accentColor: "var(--color-obsidian)", cursor: "pointer" }}
+              />
+              匿名发布
+            </label>
             <PrimaryButton
               onClick={handlePost}
               disabled={posting || !newPost.trim()}
@@ -150,6 +161,7 @@ export default function CommunityPage() {
                 time={timeAgo(post.createdAt)}
                 likeCount={post.likeCount}
                 onLike={() => handleLike(post.id)}
+                isAnonymous={post.isAnonymous}
               />
             ))}
           </div>
