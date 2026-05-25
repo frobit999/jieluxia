@@ -1,28 +1,24 @@
 import { getDailyQuote } from "@/lib/quotes";
-import { GlassCard } from "./ui/GlassCard";
 
 export function QuoteCard({ activeCount }: { activeCount: number }) {
   const quote = getDailyQuote();
 
   return (
-    <GlassCard strong className="p-5 flex flex-col justify-between">
-      <div className="text-xs text-[rgba(200,220,255,0.6)] mb-3 font-medium tracking-wider uppercase">
+    <div className="card p-5 flex flex-col justify-between">
+      <div className="text-[11px] font-medium mb-3 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
         今日格言
       </div>
       <div>
-        <div className="text-3xl mb-3">💡</div>
-        <blockquote className="m-0 text-sm leading-relaxed text-[rgba(200,220,255,0.8)] italic">
+        <blockquote className="m-0 text-[14px] leading-relaxed italic" style={{ color: "var(--color-gravel)" }}>
           &ldquo;{quote.text}&rdquo;
         </blockquote>
-        <div className="mt-3 text-xs text-[rgba(200,220,255,0.4)]">
+        <div className="mt-3 text-[11px]" style={{ color: "var(--color-slate)" }}>
           — {quote.author}
         </div>
       </div>
-      <div className="glass-pill px-3.5 py-2 inline-flex items-center gap-2 mt-4">
-        <span className="text-xs text-[#ff6eb4]">
-          🔥 社区今日 {activeCount.toLocaleString()} 人在坚守
-        </span>
+      <div className="mt-4 text-[12px]" style={{ color: "var(--color-gravel)" }}>
+        社区今日 {activeCount.toLocaleString()} 人在坚守
       </div>
-    </GlassCard>
+    </div>
   );
 }

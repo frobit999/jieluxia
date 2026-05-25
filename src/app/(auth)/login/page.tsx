@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { GlowOrb } from "@/components/ui/GlowOrb";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { PrimaryButton } from "@/components/ui/Button";
 import { apiPost } from "@/lib/api";
 
@@ -32,27 +30,31 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center relative overflow-hidden px-4"
-      style={{
-        background: "radial-gradient(ellipse 80% 60% at 10% 20%, #0d1225 0%, #090e1c 50%, #060a14 100%)",
-      }}
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ background: "var(--color-eggshell)" }}
     >
-      <GlowOrb x="-120px" y="-100px" color="#4dc9f6" size="500px" />
-      <GlowOrb x="60%" y="40%" color="#ff6eb4" size="400px" />
-      <GlowOrb x="30%" y="70%" color="#a78bfa" size="300px" />
-
-      <GlassCard strong className="w-full max-w-md p-8 relative z-10">
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-4">🛡️</div>
-          <h1 className="text-2xl font-bold text-[#e8f4ff] m-0">戒撸侠</h1>
-          <p className="text-sm text-[rgba(200,220,255,0.5)] mt-1">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-10">
+          <div
+            className="w-12 h-12 rounded-full flex items-center justify-center text-lg mx-auto mb-4"
+            style={{ background: "var(--color-obsidian)" }}
+          >
+            <span style={{ color: "var(--color-eggshell)" }}>戒</span>
+          </div>
+          <h1
+            className="text-[36px] m-0 leading-tight"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.72px" }}
+          >
+            戒撸侠
+          </h1>
+          <p className="text-[14px] mt-2" style={{ color: "var(--color-gravel)" }}>
             自律成就未来
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="block text-xs text-[rgba(200,220,255,0.6)] mb-1.5 font-medium">
+            <label className="block text-[12px] mb-1.5 font-medium" style={{ color: "var(--color-gravel)" }}>
               邮箱
             </label>
             <input
@@ -60,13 +62,19 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-[#e8f4ff] text-sm outline-none focus:border-[#4dc9f6] transition-colors placeholder:text-[rgba(200,220,255,0.3)]"
+              className="w-full px-4 py-3 text-[14px] outline-none"
+              style={{
+                background: "#ffffff",
+                border: "1px solid var(--color-chalk)",
+                borderRadius: "4px",
+                color: "var(--color-obsidian)",
+              }}
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs text-[rgba(200,220,255,0.6)] mb-1.5 font-medium">
+            <label className="block text-[12px] mb-1.5 font-medium" style={{ color: "var(--color-gravel)" }}>
               密码
             </label>
             <input
@@ -74,13 +82,19 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="输入密码"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-[#e8f4ff] text-sm outline-none focus:border-[#4dc9f6] transition-colors placeholder:text-[rgba(200,220,255,0.3)]"
+              className="w-full px-4 py-3 text-[14px] outline-none"
+              style={{
+                background: "#ffffff",
+                border: "1px solid var(--color-chalk)",
+                borderRadius: "4px",
+                color: "var(--color-obsidian)",
+              }}
               required
             />
           </div>
 
           {error && (
-            <div className="text-[#ff6eb4] text-sm text-center bg-[#ff6eb4]/10 py-2 rounded-lg border border-[#ff6eb4]/20">
+            <div className="text-[13px] text-center py-2 rounded-lg" style={{ color: "var(--color-ember)", background: "rgba(255, 71, 4, 0.06)", border: "1px solid rgba(255, 71, 4, 0.15)" }}>
               {error}
             </div>
           )}
@@ -90,16 +104,17 @@ export default function LoginPage() {
           </PrimaryButton>
         </form>
 
-        <div className="text-center mt-6 text-sm text-[rgba(200,220,255,0.5)]">
+        <div className="text-center mt-8 text-[14px]" style={{ color: "var(--color-gravel)" }}>
           还没有账号？{" "}
           <Link
             href="/register"
-            className="text-[#4dc9f6] no-underline hover:underline"
+            className="no-underline font-medium"
+            style={{ color: "var(--color-obsidian)" }}
           >
             注册
           </Link>
         </div>
-      </GlassCard>
+      </div>
     </div>
   );
 }

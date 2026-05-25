@@ -16,43 +16,43 @@ export function CommunityPost({
   onLike?: () => void;
 }) {
   return (
-    <div className="glass-card p-4 mb-2.5">
+    <div className="card p-4 mb-2.5">
       <div className="flex gap-3 items-start">
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-base flex-shrink-0"
           style={{
-            background: "linear-gradient(135deg, rgba(77,201,246,0.2), rgba(255,110,180,0.2))",
-            border: "1px solid rgba(77, 201, 246, 0.25)",
+            background: "var(--color-obsidian)",
           }}
         >
-          {avatar}
+          <span style={{ color: "var(--color-eggshell)" }}>{avatar}</span>
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex justify-between mb-1">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-[rgba(200,220,255,0.85)]">
+              <span className="text-[14px] font-medium" style={{ color: "var(--color-obsidian)" }}>
                 {name}
               </span>
-              <span className="glass-pill px-2 py-0.5 text-[11px] text-[#ff6eb4]">
-                🔥 {days}天
+              <span className="pill">
+                {days}天
               </span>
             </div>
-            <span className="text-[11px] text-[rgba(200,220,255,0.35)] flex-shrink-0 ml-2">
+            <span className="text-[11px] flex-shrink-0 ml-2" style={{ color: "var(--color-slate)" }}>
               {time}
             </span>
           </div>
-          <p className="m-0 text-[13px] text-[rgba(200,220,255,0.7)] leading-relaxed">
+          <p className="m-0 text-[13px] leading-relaxed" style={{ color: "var(--color-gravel)" }}>
             {content}
           </p>
           <div className="flex gap-4 mt-2">
             <button
               onClick={onLike}
-              className="text-xs text-[rgba(200,220,255,0.4)] cursor-pointer bg-transparent border-none hover:text-[#ff6eb4] transition-colors"
+              className="text-[12px] cursor-pointer bg-transparent border-none transition-colors"
+              style={{ color: "var(--color-slate)" }}
             >
-              👍 {likeCount > 0 ? likeCount : "点赞"}
+              {likeCount > 0 ? `${likeCount} 赞` : "赞"}
             </button>
-            <span className="text-xs text-[rgba(200,220,255,0.4)]">
-              💬 回复
+            <span className="text-[12px]" style={{ color: "var(--color-slate)" }}>
+              回复
             </span>
           </div>
         </div>

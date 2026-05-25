@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { PrimaryButton } from "@/components/ui/Button";
+import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { apiGet, apiPut, apiPost } from "@/lib/api";
 
 const emojiOptions = ["🛡️", "💪", "🔥", "⚡", "🌟", "🦁", "🦅", "🐺", "🎯", "👑", "🧘", "🏃"];
@@ -59,61 +59,66 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
+        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <h1 className="text-[22px] font-bold text-[#e8f4ff] mb-6">
-        个人中心 👤
-      </h1>
-
-      <GlassCard strong className="p-6 mb-4 text-center">
-        <div
-          className="w-[72px] h-[72px] rounded-full flex items-center justify-center text-3xl mx-auto mb-3"
-          style={{ background: "linear-gradient(135deg, #4dc9f6, #ff6eb4)" }}
-        >
-          {avatarEmoji}
+      <div className="mb-8">
+        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
+          个人
         </div>
-        <div className="text-lg font-bold text-[#e8f4ff]">{user?.nickname}</div>
-        <div className="text-[13px] text-[rgba(200,220,255,0.5)] mt-1">
+        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+          个人中心
+        </h1>
+      </div>
+
+      <GlassCard className="p-6 mb-4 text-center">
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"
+          style={{ background: "var(--color-obsidian)" }}
+        >
+          <span style={{ color: "var(--color-eggshell)" }}>{avatarEmoji}</span>
+        </div>
+        <div className="text-lg font-medium" style={{ color: "var(--color-obsidian)" }}>{user?.nickname}</div>
+        <div className="text-[13px] mt-1" style={{ color: "var(--color-gravel)" }}>
           Lv.{user?.level} · {user?.title}
         </div>
 
-        <div className="flex justify-center gap-6 mt-4">
+        <div className="flex justify-center gap-8 mt-5">
           <div className="text-center">
-            <div className="text-xl font-bold text-[#4dc9f6] neon-blue">{stats.current}</div>
-            <div className="text-[11px] text-[rgba(200,220,255,0.45)]">当前天数</div>
+            <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>{stats.current}</div>
+            <div className="text-[11px] mt-0.5" style={{ color: "var(--color-slate)" }}>当前天数</div>
           </div>
           <div className="text-center">
-            <div className="text-xl font-bold text-[#ff6eb4] neon-pink">{stats.longest}</div>
-            <div className="text-[11px] text-[rgba(200,220,255,0.45)]">最长记录</div>
+            <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>{stats.longest}</div>
+            <div className="text-[11px] mt-0.5" style={{ color: "var(--color-slate)" }}>最长记录</div>
           </div>
           <div className="text-center">
-            <div className="text-xl font-bold text-[#4dc9f6]">{stats.totalCheckins}</div>
-            <div className="text-[11px] text-[rgba(200,220,255,0.45)]">总打卡数</div>
+            <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>{stats.totalCheckins}</div>
+            <div className="text-[11px] mt-0.5" style={{ color: "var(--color-slate)" }}>总打卡数</div>
           </div>
         </div>
       </GlassCard>
 
       <GlassCard className="p-5 mb-4">
-        <div className="text-xs text-[rgba(200,220,255,0.55)] font-medium tracking-wider uppercase mb-4">
+        <div className="text-[11px] font-medium mb-4 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
           编辑资料
         </div>
 
         <div className="mb-4">
-          <label className="block text-xs text-[rgba(200,220,255,0.6)] mb-1.5">头像</label>
+          <label className="block text-[12px] mb-1.5" style={{ color: "var(--color-gravel)" }}>头像</label>
           <div className="flex flex-wrap gap-2">
             {emojiOptions.map((emoji) => (
               <button
                 key={emoji}
                 onClick={() => setAvatarEmoji(emoji)}
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-xl cursor-pointer transition-all"
+                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg cursor-pointer transition-all"
                 style={{
-                  background: avatarEmoji === emoji ? "rgba(77, 201, 246, 0.15)" : "rgba(255, 255, 255, 0.04)",
-                  border: avatarEmoji === emoji ? "1px solid rgba(77, 201, 246, 0.35)" : "1px solid rgba(255, 255, 255, 0.06)",
+                  background: avatarEmoji === emoji ? "var(--color-obsidian)" : "var(--color-powder)",
+                  border: "1px solid var(--color-chalk)",
                 }}
               >
                 {emoji}
@@ -123,17 +128,23 @@ export default function SettingsPage() {
         </div>
 
         <div className="mb-4">
-          <label className="block text-xs text-[rgba(200,220,255,0.6)] mb-1.5">昵称</label>
+          <label className="block text-[12px] mb-1.5" style={{ color: "var(--color-gravel)" }}>昵称</label>
           <input
             type="text"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-[#e8f4ff] text-sm outline-none focus:border-[#4dc9f6] transition-colors"
+            className="w-full px-4 py-3 text-[14px] outline-none"
+            style={{
+              background: "#ffffff",
+              border: "1px solid var(--color-chalk)",
+              borderRadius: "4px",
+              color: "var(--color-obsidian)",
+            }}
           />
         </div>
 
         <PrimaryButton onClick={handleSave} disabled={saving}>
-          {saving ? "保存中..." : saved ? "已保存 ✓" : "保存修改"}
+          {saving ? "保存中..." : saved ? "已保存" : "保存修改"}
         </PrimaryButton>
       </GlassCard>
 
@@ -146,24 +157,23 @@ export default function SettingsPage() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex items-center gap-3.5 px-2.5 py-3 cursor-pointer"
-            style={{ borderBottom: i < 3 ? "1px solid rgba(255, 255, 255, 0.05)" : "none" }}
+            className="flex items-center gap-3.5 px-3 py-3 cursor-pointer"
+            style={{ borderBottom: i < 3 ? "1px solid var(--color-chalk)" : "none" }}
           >
-            <span className="text-lg">{item.icon}</span>
-            <span className="flex-1 text-sm text-[rgba(200,220,255,0.8)]">{item.label}</span>
-            {item.hint && <span className="text-[11px] text-[rgba(200,220,255,0.3)]">{item.hint}</span>}
-            <span className="text-base text-[rgba(200,220,255,0.3)]">›</span>
+            <span className="text-base">{item.icon}</span>
+            <span className="flex-1 text-[14px]" style={{ color: "var(--color-obsidian)" }}>{item.label}</span>
+            {item.hint && <span className="text-[11px]" style={{ color: "var(--color-slate)" }}>{item.hint}</span>}
+            <span className="text-base" style={{ color: "var(--color-fog)" }}>›</span>
           </div>
         ))}
       </GlassCard>
 
-      <button
+      <SecondaryButton
         onClick={handleLogout}
-        className="w-full py-3.5 rounded-2xl cursor-pointer text-sm font-semibold text-[#ff6eb4] bg-transparent transition-all hover:bg-[#ff6eb4]/10"
-        style={{ border: "1px solid rgba(255, 110, 180, 0.2)" }}
+        className="w-full"
       >
         退出登录
-      </button>
+      </SecondaryButton>
     </>
   );
 }

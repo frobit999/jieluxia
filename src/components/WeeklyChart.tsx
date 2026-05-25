@@ -17,19 +17,11 @@ export function WeeklyChart({
               minHeight: 12,
               background:
                 i === new Date().getUTCDay()
-                  ? "linear-gradient(180deg, #4dc9f6, #ff6eb4)"
-                  : "rgba(77, 201, 246, 0.15)",
-              border:
-                i === new Date().getUTCDay()
-                  ? "none"
-                  : "1px solid rgba(77, 201, 246, 0.15)",
-              boxShadow:
-                i === new Date().getUTCDay()
-                  ? "0 0 12px rgba(77, 201, 246, 0.3)"
-                  : "none",
+                  ? "var(--color-obsidian)"
+                  : "var(--color-chalk)",
             }}
           />
-          <span className="text-[11px] text-[rgba(200, 220, 255, 0.45)]">
+          <span className="text-[11px]" style={{ color: "var(--color-slate)" }}>
             {w.day}
           </span>
         </div>

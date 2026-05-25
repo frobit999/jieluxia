@@ -32,31 +32,25 @@ export function StreakRing({
           cy={cy}
           r={r}
           fill="none"
-          stroke="rgba(255, 255, 255, 0.06)"
-          strokeWidth="8"
+          stroke="var(--color-chalk)"
+          strokeWidth="6"
         />
         <circle
           cx={cx}
           cy={cy}
           r={r}
           fill="none"
-          stroke={`url(#${gradId})`}
-          strokeWidth="8"
+          stroke="var(--color-obsidian)"
+          strokeWidth="6"
           strokeDasharray={`${dash} ${circ}`}
           strokeLinecap="round"
         />
-        <defs>
-          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4dc9f6" />
-            <stop offset="100%" stopColor="#ff6eb4" />
-          </linearGradient>
-        </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[28px] font-bold text-[#e8f4ff] tracking-tight leading-none neon-blue">
+        <span className="text-[28px] leading-none" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.02em" }}>
           {days}
         </span>
-        <span className="text-[11px] text-[rgba(200,220,255,0.7)] mt-0.5">
+        <span className="text-[11px] mt-0.5" style={{ color: "var(--color-gravel)" }}>
           {label}
         </span>
       </div>

@@ -73,46 +73,43 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
+        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <div className="mb-7">
-        <h1 className="text-[26px] font-bold text-[#e8f4ff] m-0 tracking-tight">
-          欢迎回来，{user?.nickname} 👋
+      <div className="mb-8">
+        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
+          仪表盘
+        </div>
+        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+          欢迎回来，{user?.nickname}
         </h1>
-        <p className="text-sm text-[rgba(200,220,255,0.55)] mt-1.5">
-          今天是你坚守的第 <span className="text-[#4dc9f6] neon-blue">{streak}</span> 天，继续保持！
+        <p className="text-[14px] mt-2" style={{ color: "var(--color-gravel)" }}>
+          今天是你坚守的第 <span className="font-medium" style={{ color: "var(--color-obsidian)" }}>{streak}</span> 天，继续保持。
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-        <GlassCard strong className="p-6 relative overflow-hidden">
-          <div
-            className="absolute -top-5 -right-5 w-[100px] h-[100px] rounded-full"
-            style={{
-              background: "radial-gradient(circle, rgba(77,201,246,0.12), transparent 70%)",
-            }}
-          />
-          <div className="text-xs text-[rgba(200,220,255,0.6)] mb-4 font-medium tracking-wider uppercase">
+        <GlassCard strong className="p-6">
+          <div className="text-[11px] font-medium mb-4 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
             当前坚守
           </div>
           <div className="flex items-center gap-5">
             <StreakRing days={streak} />
             <div>
-              <div className="text-[13px] text-[rgba(200,220,255,0.7)] mb-1">
+              <div className="text-[13px] mb-1" style={{ color: "var(--color-gravel)" }}>
                 连续打卡
               </div>
-              <div className="text-xl font-bold text-[#4dc9f6] neon-blue">
+              <div className="text-xl font-medium" style={{ color: "var(--color-obsidian)" }}>
                 第 {streak} 天
               </div>
-              <div className="text-xs text-[rgba(200,220,255,0.45)] mt-1.5">
+              <div className="text-[11px] mt-1.5" style={{ color: "var(--color-slate)" }}>
                 最长记录
               </div>
-              <div className="text-[15px] font-semibold text-[#ff6eb4] neon-pink mt-0.5">
+              <div className="text-[15px] font-medium mt-0.5" style={{ color: "var(--color-obsidian)" }}>
                 {longest} 天
               </div>
             </div>
@@ -125,7 +122,7 @@ export default function DashboardPage() {
         <BenefitGrid streak={streak} />
 
         <GlassCard className="p-5 flex flex-col">
-          <div className="text-xs text-[rgba(200,220,255,0.6)] mb-3.5 font-medium tracking-wider uppercase">
+          <div className="text-[11px] font-medium mb-3.5 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
             今日签到
           </div>
           <CheckInButton checkedIn={checkedIn} onCheckIn={handleCheckIn} />
@@ -134,7 +131,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
         <GlassCard className="p-5">
-          <div className="text-xs text-[rgba(200,220,255,0.6)] mb-4 font-medium tracking-wider uppercase">
+          <div className="text-[11px] font-medium mb-4 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
             本周自律指数
           </div>
           <WeeklyChart data={weekData} />

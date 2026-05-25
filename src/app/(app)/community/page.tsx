@@ -92,29 +92,34 @@ export default function CommunityPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
+        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
       </div>
     );
   }
 
   return (
     <>
-      <h1 className="text-[22px] font-bold text-[#e8f4ff] mb-6">
-        战友社区 👥
-      </h1>
+      <div className="mb-8">
+        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
+          社区
+        </div>
+        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+          战友社区
+        </h1>
+      </div>
 
       <GlassCard className="p-4 mb-4">
         <textarea
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
           placeholder="分享你的感悟..."
-          className="w-full bg-transparent border-none outline-none text-sm text-[rgba(200,220,255,0.8)] resize-none h-20 placeholder:text-[rgba(200,220,255,0.3)]"
+          className="w-full bg-transparent border-none outline-none text-[14px] resize-none h-20"
+          style={{ color: "var(--color-obsidian)" }}
         />
         <div className="flex justify-end mt-2">
           <PrimaryButton
             onClick={handlePost}
             disabled={posting || !newPost.trim()}
-            className="!px-6 !py-2 !text-sm"
           >
             {posting ? "发送中..." : "发布"}
           </PrimaryButton>
@@ -123,8 +128,7 @@ export default function CommunityPage() {
 
       {posts.length === 0 ? (
         <GlassCard className="p-8 text-center">
-          <div className="text-4xl mb-3">💬</div>
-          <div className="text-sm text-[rgba(200,220,255,0.5)]">
+          <div className="text-[14px]" style={{ color: "var(--color-gravel)" }}>
             还没有帖子，成为第一个分享的人吧！
           </div>
         </GlassCard>

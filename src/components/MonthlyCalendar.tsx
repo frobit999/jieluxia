@@ -20,7 +20,8 @@ export function MonthlyCalendar({
       {dayLabels.map((d) => (
         <div
           key={d}
-          className="text-center text-[10px] text-[rgba(200,220,255,0.4)] pb-1.5"
+          className="text-center text-[10px] pb-1.5"
+          style={{ color: "var(--color-slate)" }}
         >
           {d}
         </div>
@@ -39,22 +40,21 @@ export function MonthlyCalendar({
             className="w-full aspect-square rounded-lg flex items-center justify-center text-[11px] transition-colors"
             style={{
               background: isToday
-                ? "linear-gradient(135deg, #4dc9f6, #ff6eb4)"
+                ? "var(--color-obsidian)"
                 : checked
-                  ? "rgba(77, 201, 246, 0.15)"
-                  : "rgba(255, 255, 255, 0.03)",
+                  ? "var(--color-powder)"
+                  : "transparent",
               color: isToday
-                ? "#fff"
+                ? "var(--color-eggshell)"
                 : checked
-                  ? "#4dc9f6"
-                  : "rgba(200, 220, 255, 0.4)",
-              fontWeight: isToday ? 700 : 400,
+                  ? "var(--color-obsidian)"
+                  : "var(--color-slate)",
+              fontWeight: isToday ? 500 : 400,
               border: isToday
                 ? "none"
                 : checked
-                  ? "1px solid rgba(77, 201, 246, 0.25)"
-                  : "1px solid rgba(255, 255, 255, 0.04)",
-              boxShadow: isToday ? "0 0 12px rgba(77, 201, 246, 0.3)" : "none",
+                  ? "1px solid var(--color-chalk)"
+                  : "1px solid transparent",
             }}
           >
             {d}

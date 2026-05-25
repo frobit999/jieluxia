@@ -9,10 +9,11 @@ export function PrimaryButton({
 }: { children: ReactNode; className?: string } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      className={`px-8 py-3 rounded-[14px] border-none cursor-pointer font-bold text-[15px] tracking-[0.3px] text-white transition-transform hover:scale-[1.02] active:scale-[0.98] ${className}`}
+      className={`inline-flex items-center justify-center px-4 h-9 rounded-full border-none cursor-pointer font-medium text-sm text-[#fdfcfc] transition-all hover:opacity-90 active:scale-[0.98] ${className}`}
       style={{
-        background: "linear-gradient(135deg, #4dc9f6, #ff6eb4)",
-        boxShadow: "0 4px 24px rgba(77, 201, 246, 0.25), 0 2px 12px rgba(255, 110, 180, 0.2)",
+        background: "var(--color-obsidian)",
+        boxShadow: "var(--shadow-subtle-2)",
+        letterSpacing: "0.01em",
       }}
       {...props}
     >
@@ -28,10 +29,13 @@ export function SecondaryButton({
 }: { children: ReactNode; className?: string } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      className={`px-6 py-3.5 rounded-2xl cursor-pointer font-semibold text-sm text-[#4dc9f6] transition-all hover:bg-white/5 ${className}`}
+      className={`inline-flex items-center justify-center px-3 h-9 rounded-full cursor-pointer font-medium text-sm transition-all hover:bg-[var(--color-powder)] ${className}`}
       style={{
-        border: "1px solid rgba(77, 201, 246, 0.25)",
-        background: "rgba(77, 201, 246, 0.08)",
+        background: "#ffffff",
+        color: "var(--color-obsidian)",
+        border: "1px solid var(--color-chalk)",
+        boxShadow: "var(--shadow-subtle-2)",
+        letterSpacing: "0.01em",
       }}
       {...props}
     >

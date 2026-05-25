@@ -46,27 +46,32 @@ export default function RecordsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-[rgba(200,220,255,0.5)]">加载中...</div>
+        <div style={{ color: "var(--color-slate)" }}>加载中...</div>
       </div>
     );
   }
 
   const metrics = [
-    { label: "精力", value: Math.min(85 + streak, 99), color: "#4dc9f6" },
-    { label: "专注力", value: Math.min(72 + streak, 99), color: "#a78bfa" },
-    { label: "情绪稳定", value: Math.min(90 + Math.floor(streak / 2), 99), color: "#ff6eb4" },
-    { label: "睡眠质量", value: Math.min(68 + streak, 99), color: "#4dc9f6" },
+    { label: "精力", value: Math.min(85 + streak, 99) },
+    { label: "专注力", value: Math.min(72 + streak, 99) },
+    { label: "情绪稳定", value: Math.min(90 + Math.floor(streak / 2), 99) },
+    { label: "睡眠质量", value: Math.min(68 + streak, 99) },
   ];
 
   return (
     <>
-      <h1 className="text-[22px] font-bold text-[#e8f4ff] mb-6">
-        数据统计 📊
-      </h1>
+      <div className="mb-8">
+        <div className="text-[11px] font-medium mb-2 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
+          统计
+        </div>
+        <h1 className="text-[32px] m-0 leading-tight" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, color: "var(--color-obsidian)", letterSpacing: "-0.64px" }}>
+          数据统计
+        </h1>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <GlassCard className="p-5">
-          <div className="text-xs text-[rgba(200,220,255,0.55)] font-medium tracking-wider uppercase mb-3">
+          <div className="text-[11px] font-medium mb-3 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
             {year}年{month}月打卡日历
           </div>
           <MonthlyCalendar
@@ -77,7 +82,7 @@ export default function RecordsPage() {
         </GlassCard>
 
         <GlassCard className="p-5">
-          <div className="text-xs text-[rgba(200,220,255,0.55)] font-medium tracking-wider uppercase mb-3">
+          <div className="text-[11px] font-medium mb-3 uppercase" style={{ color: "var(--color-slate)", letterSpacing: "0.05em" }}>
             身心数据
           </div>
           {metrics.map((m) => (
@@ -85,7 +90,6 @@ export default function RecordsPage() {
               key={m.label}
               label={m.label}
               value={m.value}
-              color={m.color}
             />
           ))}
         </GlassCard>

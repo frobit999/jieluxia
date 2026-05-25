@@ -10,7 +10,7 @@ export function GlassCard({
   className?: string;
 }) {
   return (
-    <div className={`${strong ? "glass-strong" : "glass-card"} ${className}`}>
+    <div className={`card ${className}`}>
       {children}
     </div>
   );

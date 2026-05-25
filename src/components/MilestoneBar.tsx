@@ -13,20 +13,20 @@ export function MilestoneBar({
         return (
           <div key={i} className="flex-1 text-center">
             <div
-              className="h-1.5 rounded-full mb-1.5 transition-colors duration-500"
+              className="h-1 rounded-full mb-1.5 transition-colors duration-500"
               style={{
                 background: done
-                  ? "linear-gradient(90deg, #4dc9f6, #ff6eb4)"
+                  ? "var(--color-obsidian)"
                   : active
-                    ? "rgba(77, 201, 246, 0.3)"
-                    : "rgba(255, 255, 255, 0.06)",
-                boxShadow: done ? "0 0 6px rgba(77, 201, 246, 0.3)" : "none",
+                    ? "var(--color-fog)"
+                    : "var(--color-chalk)",
               }}
             />
             <div
               className="text-[10px]"
               style={{
-                color: done ? "#4dc9f6" : "rgba(200, 220, 255, 0.4)",
+                color: done ? "var(--color-obsidian)" : "var(--color-slate)",
+                fontWeight: done ? 500 : 400,
               }}
             >
               {m.label}
