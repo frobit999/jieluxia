@@ -6,6 +6,7 @@ import { useUser } from "@/hooks/useUser";
 
 const navItems = [
   { label: "仪表盘", href: "/dashboard" },
+  { label: "打卡", href: "/habits" },
   { label: "打卡记录", href: "/records" },
   { label: "社区交流", href: "/community" },
 ];

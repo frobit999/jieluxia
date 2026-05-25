@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const tabs = [
   { label: "主页", href: "/dashboard" },
+  { label: "打卡", href: "/habits" },
   { label: "数据", href: "/records" },
   { label: "社区", href: "/community" },
   { label: "我的", href: "/settings" },

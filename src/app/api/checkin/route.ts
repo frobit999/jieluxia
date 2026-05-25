@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
   const now = new Date();
   const today = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}-${String(now.getUTCDate()).padStart(2, "0")}`;
   const exist = await db
-    .prepare("SELECT id FROM checkins WHERE user_id=? AND checked_at=?")
+    .prepare("SELECT id FROM checkins WHERE user_id=? AND date=? AND habit_id='default'")
     .bind(user.id, today)
     .first();
   if (exist) {
@@ -25,16 +25,16 @@ export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => ({}))) as { note?: string };
   await db
     .prepare(
-      "INSERT INTO checkins(id,user_id,checked_at,note) VALUES(?,?,?,?)"
+      "INSERT INTO checkins(id, user_id, habit_id, date, value, note) VALUES(?,?,'default',?,?,?)"
     )
-    .bind(id, user.id, today, body.note || null)
+    .bind(id, user.id, today, 1, body.note || null)
     .run();
 
   const all = await db
-    .prepare("SELECT checked_at FROM checkins WHERE user_id=?")
+    .prepare("SELECT DISTINCT date FROM checkins WHERE user_id=?")
     .bind(user.id)
     .all();
-  const dates = all.results.map((r: Record<string, unknown>) => r.checked_at as string);
+  const dates = all.results.map((r: Record<string, unknown>) => r.date as string);
   const { longest } = calcStreak(dates);
   const { level, title } = getLevel(longest);
   await db
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     .run();
 
   return NextResponse.json({
-    checkin: { id, checkedAt: today },
+    checkin: { id, date: today },
     streak: calcStreak([...dates, today]).current,
   });
 }
@@ -60,13 +60,13 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = request.nextUrl;
   const month = searchParams.get("month");
-  let q = "SELECT * FROM checkins WHERE user_id=?";
+  let q = "SELECT * FROM checkins WHERE user_id=? AND habit_id='default'";
   const params: unknown[] = [user.id];
   if (month) {
-    q += " AND checked_at LIKE ?";
+    q += " AND date LIKE ?";
     params.push(`${month}%`);
   }
-  q += " ORDER BY checked_at DESC";
+  q += " ORDER BY date DESC";
 
   const r = await db
     .prepare(q)

@@ -12,10 +12,10 @@ export async function GET(request: NextRequest) {
   }
 
   const all = await db
-    .prepare("SELECT checked_at FROM checkins WHERE user_id=?")
+    .prepare("SELECT DISTINCT date FROM checkins WHERE user_id=?")
     .bind(user.id)
     .all();
   return NextResponse.json(
-    calcStreak(all.results.map((r: Record<string, unknown>) => r.checked_at as string))
+    calcStreak(all.results.map((r: Record<string, unknown>) => r.date as string))
   );
 }

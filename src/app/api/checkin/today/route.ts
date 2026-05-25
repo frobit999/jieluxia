@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const now = new Date();
   const today = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}-${String(now.getUTCDate()).padStart(2, "0")}`;
   const e = await db
-    .prepare("SELECT id FROM checkins WHERE user_id=? AND checked_at=?")
+    .prepare("SELECT id FROM checkins WHERE user_id=? AND date=? AND habit_id='default'")
     .bind(user.id, today)
     .first();
   return NextResponse.json({ checkedIn: !!e });

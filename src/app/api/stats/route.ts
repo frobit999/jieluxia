@@ -28,10 +28,10 @@ export async function GET(request: NextRequest) {
     }
     const placeholders = weekDates.map(() => "?").join(",");
     const rows = await db
-      .prepare(`SELECT checked_at FROM checkins WHERE user_id=? AND checked_at IN (${placeholders})`)
+      .prepare(`SELECT DISTINCT date FROM checkins WHERE user_id=? AND date IN (${placeholders})`)
       .bind(user.id, ...weekDates)
       .all();
-    const checked = new Set(rows.results.map((r: Record<string, unknown>) => r.checked_at));
+    const checked = new Set(rows.results.map((r: Record<string, unknown>) => r.date));
     const week = weekDates.map((ds, i) => ({
       day: labels[i],
       value: checked.has(ds) ? 85 : 15,
@@ -43,18 +43,18 @@ export async function GET(request: NextRequest) {
     searchParams.get("month") || todayStr.slice(0, 7);
   const r = await db
     .prepare(
-      "SELECT checked_at FROM checkins WHERE user_id=? AND checked_at LIKE ?"
+      "SELECT DISTINCT date FROM checkins WHERE user_id=? AND date LIKE ?"
     )
     .bind(user.id, `${month}%`)
     .all();
   const active = await db
     .prepare(
-      "SELECT COUNT(DISTINCT user_id) as c FROM checkins WHERE checked_at=?"
+      "SELECT COUNT(DISTINCT user_id) as c FROM checkins WHERE date=?"
     )
     .bind(todayStr)
     .first();
   return NextResponse.json({
-    checkins: r.results.map((x: Record<string, unknown>) => x.checked_at),
+    checkins: r.results.map((x: Record<string, unknown>) => x.date),
     activeCount: (active?.c as number) || 0,
   });
 }

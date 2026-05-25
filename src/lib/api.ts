@@ -39,3 +39,15 @@ export async function apiPut<T>(path: string, body?: unknown): Promise<T> {
   }
   return res.json();
 }
+
+export async function apiDelete<T>(path: string, body?: unknown): Promise<T> {
+  const res = await apiFetch(path, {
+    method: "DELETE",
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({ error: "请求失败" }))) as { error?: string };
+    throw new Error(err.error || "请求失败");
+  }
+  return res.json();
+}
