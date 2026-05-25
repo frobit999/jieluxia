@@ -4,10 +4,11 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CommunityPost } from "@/components/CommunityPost";
 import { PrimaryButton } from "@/components/ui/Button";
-import { apiGet, apiPost, apiFetch } from "@/lib/api";
+import { apiGet, apiPost, apiFetch, apiDelete } from "@/lib/api";
 
 interface Post {
   id: string;
+  userId: string;
   content: string;
   createdAt: string;
   isAnonymous: boolean;
@@ -30,6 +31,7 @@ function timeAgo(dateStr: string): string {
 export default function CommunityPage() {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string>("");
   const [newPost, setNewPost] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -43,11 +45,12 @@ export default function CommunityPage() {
   useEffect(() => {
     async function init() {
       try {
-        const userData = await apiGet<{ user: { nickname: string } }>("/api/auth/me");
+        const userData = await apiGet<{ user: { id: string; nickname: string } }>("/api/auth/me");
         if (!userData.user) {
           router.push("/login");
           return;
         }
+        setCurrentUserId(userData.user.id);
         await loadPosts();
       } catch {
         router.push("/login");
@@ -68,6 +71,11 @@ export default function CommunityPage() {
     } finally {
       setPosting(false);
     }
+  };
+
+  const handleDelete = async (postId: string) => {
+    await apiDelete(`/api/community/${postId}`);
+    setPosts((prev) => prev.filter((p) => p.id !== postId));
   };
 
   const handleLike = async (postId: string) => {
@@ -162,6 +170,8 @@ export default function CommunityPage() {
                 likeCount={post.likeCount}
                 onLike={() => handleLike(post.id)}
                 isAnonymous={post.isAnonymous}
+                isOwn={post.userId === currentUserId}
+                onDelete={() => handleDelete(post.id)}
               />
             ))}
           </div>

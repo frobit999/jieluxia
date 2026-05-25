@@ -17,13 +17,14 @@ export async function GET(request: NextRequest) {
 
   const r = await db
     .prepare(
-      "SELECT p.id, p.content, p.created_at, p.is_anonymous, u.nickname, u.avatar_emoji, (SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = p.id) as like_count FROM posts p LEFT JOIN users u ON p.user_id=u.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?"
+      "SELECT p.id, p.user_id, p.content, p.created_at, p.is_anonymous, u.nickname, u.avatar_emoji, (SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = p.id) as like_count FROM posts p LEFT JOIN users u ON p.user_id=u.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?"
     )
     .bind(limit, offset)
     .all();
 
   const posts = r.results.map((p: Record<string, unknown>) => ({
     id: p.id,
+    userId: p.user_id,
     content: p.content,
     createdAt: p.created_at,
     isAnonymous: !!p.is_anonymous,
