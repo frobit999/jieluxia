@@ -53,7 +53,7 @@ export default function LoginPage() {
               lineHeight: 1.1,
             }}
           >
-            戒撸侠
+            岁月清风
           </h1>
           <p className="text-body">自律成就未来</p>
         </div>

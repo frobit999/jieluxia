@@ -44,7 +44,7 @@ export function Navbar() {
               color: "var(--color-obsidian)",
             }}
           >
-            戒撸侠
+            岁月清风
           </span>
         </Link>
 

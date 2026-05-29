@@ -54,7 +54,7 @@ export default function RegisterPage() {
               lineHeight: 1.1,
             }}
           >
-            加入戒撸侠
+            加入岁月清风
           </h1>
           <p className="text-body">开始你的自律之旅</p>
         </div>

@@ -15,7 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "戒撸侠 - 自律成就未来",
+  title: "岁月清风 - 自律成就未来",
   description: "记录你的自律之旅，每天打卡，成为更好的自己",
 };
 

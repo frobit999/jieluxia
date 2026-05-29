@@ -65,7 +65,7 @@ export default function DashboardPage() {
     <>
       {/* Hero: Sobriety Streak */}
       <section style={{ marginBottom: 40 }}>
-        <p className="section-label">戒撸侠</p>
+        <p className="section-label">岁月清风</p>
         <h1 className="heading-display" style={{ marginBottom: 4 }}>
           {user?.nickname ? `${user.nickname}，继续加油` : "每一次克制都是胜利"}
         </h1>
