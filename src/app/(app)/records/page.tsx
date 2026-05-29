@@ -84,9 +84,9 @@ export default function RecordsPage() {
   ];
 
   return (
-    <>
+    <div className="records-shell">
       {/* Page header */}
-      <section style={{ marginBottom: "64px" }}>
+      <section className="records-hero theme-panel" style={{ marginBottom: "64px" }}>
         <p className="section-label">统计</p>
         <h1 className="heading-display" style={{ marginBottom: "12px" }}>
           数据统计
@@ -97,7 +97,7 @@ export default function RecordsPage() {
       </section>
 
       {/* Calendar + Metrics */}
-      <section>
+      <section className="records-metrics theme-panel">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
             <p className="section-label">{year}年{month}月</p>
@@ -131,7 +131,7 @@ export default function RecordsPage() {
         </div>
       </section>
 
-      <section style={{ marginTop: "48px" }}>
+      <section className="records-review theme-panel" style={{ marginTop: "48px" }}>
         <p className="section-label">复盘</p>
         <h2 className="heading-section" style={{ marginBottom: "24px" }}>
           破戒模式
@@ -179,6 +179,6 @@ export default function RecordsPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

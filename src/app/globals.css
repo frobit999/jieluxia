@@ -218,3 +218,347 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-fog);
 }
+
+.app-shell,
+.app-navbar,
+.card,
+.theme-panel,
+.nav-inner,
+.theme-switcher,
+.theme-select-mobile {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    border-radius 0.2s ease,
+    color 0.2s ease;
+}
+
+.dashboard-shell,
+.habits-shell,
+.records-shell {
+  display: block;
+}
+
+.theme-panel {
+  position: relative;
+}
+
+[data-theme="function"] .app-main {
+  max-width: 1320px !important;
+  padding-top: 28px !important;
+}
+
+[data-theme="function"] .app-navbar {
+  height: 72px !important;
+  background: color-mix(in srgb, var(--color-eggshell) 86%, transparent) !important;
+  border-bottom: 0 !important;
+  backdrop-filter: blur(18px);
+}
+
+[data-theme="function"] .nav-inner {
+  height: 52px !important;
+  margin-top: 10px;
+  border: 1px solid var(--color-chalk);
+  border-radius: 9999px;
+  background: var(--color-card);
+  box-shadow: var(--shadow-subtle-2);
+}
+
+[data-theme="function"] .brand-mark,
+[data-theme="function"] .profile-link > div {
+  border-radius: 14px !important;
+  background: var(--color-accent) !important;
+}
+
+[data-theme="function"] .brand-name,
+[data-theme="function"] .heading-display,
+[data-theme="function"] .heading-section,
+[data-theme="function"] .heading-sub {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+[data-theme="function"] .dashboard-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+  grid-template-areas:
+    "hero checkin"
+    "benefits checkin"
+    "chart quote";
+  gap: 20px;
+  align-items: start;
+}
+
+[data-theme="function"] .dashboard-hero {
+  grid-area: hero;
+  padding: 28px;
+  margin-bottom: 0 !important;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--color-card) 92%, var(--color-accent)), var(--color-card)),
+    var(--color-card);
+  border: 1px solid var(--color-chalk);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme="function"] .dashboard-checkin {
+  grid-area: checkin;
+  min-height: 360px;
+  margin-bottom: 0 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 28px;
+}
+
+[data-theme="function"] .dashboard-benefits {
+  grid-area: benefits;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="function"] .dashboard-chart {
+  grid-area: chart;
+  margin-bottom: 0 !important;
+  border-radius: 28px;
+}
+
+[data-theme="function"] .dashboard-quote {
+  grid-area: quote;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="function"] .card {
+  border: 1px solid color-mix(in srgb, var(--color-chalk) 72%, transparent);
+}
+
+[data-theme="function"] .PrimaryButton,
+[data-theme="function"] button {
+  letter-spacing: 0 !important;
+}
+
+[data-theme="function"] .habits-shell,
+[data-theme="function"] .records-shell {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: 22px;
+  align-items: start;
+}
+
+[data-theme="function"] .habits-hero,
+[data-theme="function"] .records-hero {
+  position: sticky;
+  top: 96px;
+  padding: 26px;
+  margin-bottom: 0 !important;
+  border-radius: 28px;
+  background: var(--color-card);
+  border: 1px solid var(--color-chalk);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme="function"] .habits-stats,
+[data-theme="function"] .records-metrics {
+  margin-bottom: 0 !important;
+}
+
+[data-theme="function"] .habits-radar,
+[data-theme="function"] .habits-calendar,
+[data-theme="function"] .records-review {
+  grid-column: 2;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="slash"] .app-shell {
+  background:
+    linear-gradient(90deg, rgba(204, 145, 102, 0.08) 0 1px, transparent 1px 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 100%),
+    var(--color-eggshell) !important;
+  background-size: 72px 72px, 72px 72px, auto;
+}
+
+[data-theme="slash"] .app-main {
+  max-width: none !important;
+  padding: 18px 18px 40px !important;
+}
+
+[data-theme="slash"] .app-navbar {
+  height: 64px !important;
+  background: rgba(0, 0, 0, 0.88) !important;
+  border-bottom: 1px solid var(--color-accent) !important;
+  backdrop-filter: blur(16px);
+}
+
+[data-theme="slash"] .nav-inner {
+  max-width: none !important;
+  padding: 0 18px !important;
+}
+
+[data-theme="slash"] .brand-lockup {
+  gap: 12px !important;
+}
+
+[data-theme="slash"] .brand-mark,
+[data-theme="slash"] .profile-link > div {
+  border-radius: 2px !important;
+  background: var(--color-accent) !important;
+}
+
+[data-theme="slash"] .brand-name,
+[data-theme="slash"] .section-label,
+[data-theme="slash"] .nav-link,
+[data-theme="slash"] .theme-switcher button,
+[data-theme="slash"] .theme-select-mobile select {
+  font-family: var(--font-geist-mono), ui-monospace, monospace !important;
+  text-transform: uppercase;
+  letter-spacing: 0 !important;
+}
+
+[data-theme="slash"] .heading-display,
+[data-theme="slash"] .heading-section,
+[data-theme="slash"] .heading-sub {
+  font-family: var(--font-geist-mono), ui-monospace, monospace !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+[data-theme="slash"] .heading-display {
+  font-size: 38px;
+}
+
+[data-theme="slash"] .section-label {
+  color: var(--color-accent);
+  font-size: 11px;
+}
+
+[data-theme="slash"] .card {
+  border: 1px solid var(--color-chalk);
+  border-left: 3px solid var(--color-accent);
+}
+
+[data-theme="slash"] .dashboard-shell {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+[data-theme="slash"] .dashboard-hero {
+  grid-column: span 7;
+  margin-bottom: 0 !important;
+  padding: 22px;
+  background: var(--color-card);
+  border: 1px solid var(--color-chalk);
+  border-left: 3px solid var(--color-accent);
+}
+
+[data-theme="slash"] .dashboard-checkin {
+  grid-column: span 5;
+  margin-bottom: 0 !important;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="slash"] .dashboard-benefits {
+  grid-column: span 12;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="slash"] .dashboard-chart {
+  grid-column: span 8;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="slash"] .dashboard-quote {
+  grid-column: span 4;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="slash"] .dashboard-benefits > div {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+[data-theme="slash"] .habits-shell,
+[data-theme="slash"] .records-shell {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+}
+
+[data-theme="slash"] .habits-hero,
+[data-theme="slash"] .records-hero {
+  grid-column: span 3;
+  margin-bottom: 0 !important;
+  padding: 18px;
+  background: var(--color-card);
+  border: 1px solid var(--color-chalk);
+  border-left: 3px solid var(--color-accent);
+}
+
+[data-theme="slash"] .habits-stats,
+[data-theme="slash"] .records-metrics {
+  grid-column: span 9;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="slash"] .habits-radar {
+  grid-column: span 6;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="slash"] .habits-calendar,
+[data-theme="slash"] .records-review {
+  grid-column: span 6;
+  margin: 0 !important;
+}
+
+[data-theme="slash"] .records-review {
+  grid-column: 4 / span 9;
+}
+
+[data-theme="slash"] .theme-switcher,
+[data-theme="slash"] .theme-select-mobile {
+  border-radius: 2px !important;
+}
+
+@media (max-width: 900px) {
+  [data-theme="function"] .dashboard-shell,
+  [data-theme="function"] .habits-shell,
+  [data-theme="function"] .records-shell,
+  [data-theme="slash"] .dashboard-shell,
+  [data-theme="slash"] .habits-shell,
+  [data-theme="slash"] .records-shell {
+    display: block;
+  }
+
+  [data-theme="function"] .habits-hero,
+  [data-theme="function"] .records-hero {
+    position: relative;
+    top: auto;
+    margin-bottom: 24px !important;
+  }
+
+  [data-theme="slash"] .dashboard-hero,
+  [data-theme="slash"] .dashboard-checkin,
+  [data-theme="slash"] .dashboard-benefits,
+  [data-theme="slash"] .dashboard-chart,
+  [data-theme="slash"] .dashboard-quote,
+  [data-theme="slash"] .habits-hero,
+  [data-theme="slash"] .habits-stats,
+  [data-theme="slash"] .habits-radar,
+  [data-theme="slash"] .habits-calendar,
+  [data-theme="slash"] .records-hero,
+  [data-theme="slash"] .records-metrics,
+  [data-theme="slash"] .records-review {
+    margin-bottom: 24px !important;
+  }
+
+  [data-theme="slash"] .dashboard-benefits > div {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  }
+}

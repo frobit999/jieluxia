@@ -26,7 +26,7 @@ export function ThemeSwitcher() {
   return (
     <>
       <label
-        className="sm:hidden flex items-center gap-1 rounded-full px-2"
+        className="theme-select-mobile sm:hidden flex items-center gap-1 rounded-full px-2"
         style={{
           height: 34,
           background: "var(--color-powder)",
@@ -58,7 +58,7 @@ export function ThemeSwitcher() {
       </label>
 
     <div
-      className="hidden sm:flex items-center gap-1 rounded-full p-1"
+      className="theme-switcher hidden sm:flex items-center gap-1 rounded-full p-1"
       style={{
         background: "var(--color-powder)",
         border: "1px solid var(--color-chalk)",

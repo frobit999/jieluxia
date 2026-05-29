@@ -18,7 +18,7 @@ export function Navbar() {
 
   return (
     <nav
-      className="sticky top-0 z-50"
+      className="app-navbar sticky top-0 z-50"
       style={{
         background: "var(--color-eggshell)",
         borderBottom: "1px solid var(--color-chalk)",
@@ -26,13 +26,13 @@ export function Navbar() {
       }}
     >
       <div
-        className="mx-auto flex items-center justify-between h-full"
+        className="nav-inner mx-auto flex items-center justify-between h-full"
         style={{ maxWidth: "1200px", padding: "0 24px" }}
       >
         {/* Logo */}
-        <Link href="/dashboard" className="no-underline flex items-center gap-2.5">
+        <Link href="/dashboard" className="brand-lockup no-underline flex items-center gap-2.5">
           <div
-            className="w-7 h-7 rounded-full flex items-center justify-center"
+            className="brand-mark w-7 h-7 rounded-full flex items-center justify-center"
             style={{ background: "var(--color-obsidian)" }}
           >
             <span style={{ color: "var(--color-eggshell)", display: "flex" }}>
@@ -40,6 +40,7 @@ export function Navbar() {
             </span>
           </div>
           <span
+            className="brand-name"
             style={{
               fontFamily: "'Cormorant Garamond', Georgia, serif",
               fontWeight: 300,
@@ -53,14 +54,14 @@ export function Navbar() {
         </Link>
 
         {/* Center nav links */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="nav-links hidden md:flex items-center gap-1">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className="no-underline px-3.5 py-1.5 rounded-full text-[13px] transition-colors inline-flex items-center gap-1.5"
+                className="nav-link no-underline px-3.5 py-1.5 rounded-full text-[13px] transition-colors inline-flex items-center gap-1.5"
                 style={{
                   color: active ? "var(--color-obsidian)" : "var(--color-gravel)",
                   background: active ? "var(--color-powder)" : "transparent",
@@ -76,11 +77,11 @@ export function Navbar() {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className="nav-actions flex items-center gap-3">
           <ThemeSwitcher />
           <Link
             href="/settings"
-            className="no-underline flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors"
+            className="profile-link no-underline flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors"
             style={{
               background: pathname === "/settings" ? "var(--color-powder)" : "transparent",
             }}

@@ -130,9 +130,9 @@ export default function HabitsPage() {
   }
 
   return (
-    <>
+    <div className="habits-shell">
       {/* Hero */}
-      <section style={{ marginBottom: 40 }}>
+      <section className="habits-hero theme-panel" style={{ marginBottom: 40 }}>
         <p className="section-label">打卡统计</p>
         <h1 className="heading-display" style={{ marginBottom: 8 }}>
           数据总览
@@ -140,8 +140,8 @@ export default function HabitsPage() {
       </section>
 
       {/* Stats header + completion ring */}
-      <section style={{ marginBottom: 40 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>
+      <section className="habits-stats theme-panel" style={{ marginBottom: 40 }}>
+        <div className="habits-stats-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>
           <StatsHeaderCard
             history={history}
             streak={streak}
@@ -162,7 +162,7 @@ export default function HabitsPage() {
       </section>
 
       {/* Radar chart */}
-      <section style={{ marginBottom: 40 }}>
+      <section className="habits-radar theme-panel" style={{ marginBottom: 40 }}>
         <p className="section-label">习惯雷达</p>
         <div className="card" style={{ padding: "12px 0" }}>
           <RadarChart data={radarData} onAxisClick={(id) => setOpenHabitId(id)} />
@@ -170,7 +170,7 @@ export default function HabitsPage() {
       </section>
 
       {/* Calendar */}
-      <section style={{ marginBottom: 40 }}>
+      <section className="habits-calendar theme-panel" style={{ marginBottom: 40 }}>
         <p className="section-label">打卡日历</p>
         <div className="card" style={{ padding: 20 }}>
           <CalendarWidget history={history} onDayClick={handleDayClick} selectedDate={selectedDate} />
@@ -179,6 +179,6 @@ export default function HabitsPage() {
 
       {/* Day detail */}
       {selectedDate && <DayDetailPanel dateStr={selectedDate} onClose={() => setSelectedDate(null)} />}
-    </>
+    </div>
   );
 }

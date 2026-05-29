@@ -68,9 +68,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <>
+    <div className="dashboard-shell">
       {/* Hero: Sobriety Streak */}
-      <section style={{ marginBottom: 40 }}>
+      <section className="dashboard-hero theme-panel" style={{ marginBottom: 40 }}>
         <p className="section-label">岁月清风</p>
         <h1 className="heading-display" style={{ marginBottom: 4 }}>
           {user?.nickname ? `${user.nickname}，继续加油` : "每一次克制都是胜利"}
@@ -78,7 +78,7 @@ export default function DashboardPage() {
         <p style={{ fontSize: 14, color: "var(--color-gravel)", marginBottom: 24 }}>
           级别: {user?.title ?? "新人"} · Lv.{user?.level ?? 1}
         </p>
-        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+        <div className="streak-layout" style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <StreakRing days={sobrietyStreak} label="天" goalDays={90} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 13, color: "var(--color-gravel)", marginBottom: 12 }}>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
       </section>
 
       {/* Daily Check-In */}
-      <section className="card" style={{ padding: 24, marginBottom: 40 }}>
+      <section className="dashboard-checkin card theme-panel" style={{ padding: 24, marginBottom: 40 }}>
         <CheckInButton checkedIn={todayData?.checkedIn ?? false} onCheckIn={handleCheckIn} />
         <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
           <RelapseResetButton onRecorded={handleRelapseRecorded} />
@@ -98,24 +98,24 @@ export default function DashboardPage() {
       </section>
 
       {/* Benefits */}
-      <section style={{ marginBottom: 40 }}>
+      <section className="dashboard-benefits theme-panel" style={{ marginBottom: 40 }}>
         <p className="section-label">身心改善</p>
         <h2 className="heading-section" style={{ marginBottom: 20 }}>戒除带来的好处</h2>
         <BenefitGrid streak={sobrietyStreak} />
       </section>
 
       {/* Weekly Discipline Chart */}
-      <section className="card" style={{ padding: 24, marginBottom: 40 }}>
+      <section className="dashboard-chart card theme-panel" style={{ padding: 24, marginBottom: 40 }}>
         <p className="section-label">自律指数</p>
         <h2 className="heading-section" style={{ marginBottom: 20, marginTop: 8 }}>本周打卡</h2>
         <WeeklyChart data={weekData?.weekly ?? []} />
       </section>
 
       {/* Daily Quote */}
-      <section style={{ marginBottom: 48 }}>
+      <section className="dashboard-quote theme-panel" style={{ marginBottom: 48 }}>
         <p className="section-label">每日一句</p>
         <QuoteCard activeCount={monthData?.activeCount ?? 0} />
       </section>
-    </>
+    </div>
   );
 }
