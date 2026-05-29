@@ -11,6 +11,7 @@ import { CheckInButton } from "@/components/CheckInButton";
 import { BenefitGrid } from "@/components/BenefitGrid";
 import { WeeklyChart } from "@/components/WeeklyChart";
 import { QuoteCard } from "@/components/QuoteCard";
+import { RelapseResetButton } from "@/components/RelapseResetButton";
 
 const milestones = [
   { days: 7, label: "7天" },
@@ -25,7 +26,7 @@ export default function DashboardPage() {
   const { user, isLoading: userLoading } = useUser();
   const isAuthed = !!user;
 
-  const { data: streakData } = useSWR<{ current: number; longest: number }>(
+  const { data: streakData, mutate: mutateStreak } = useSWR<{ current: number; longest: number }>(
     isAuthed ? "/api/streak" : null,
     apiGet
   );
@@ -51,6 +52,11 @@ export default function DashboardPage() {
   const handleCheckIn = async () => {
     await apiPost("/api/checkin");
     mutateToday({ checkedIn: true });
+    mutateStreak();
+  };
+
+  const handleRelapseRecorded = (streak: { current: number; longest: number }) => {
+    mutateStreak(streak, false);
   };
 
   if (userLoading) {
@@ -86,6 +92,9 @@ export default function DashboardPage() {
       {/* Daily Check-In */}
       <section className="card" style={{ padding: 24, marginBottom: 40 }}>
         <CheckInButton checkedIn={todayData?.checkedIn ?? false} onCheckIn={handleCheckIn} />
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
+          <RelapseResetButton onRecorded={handleRelapseRecorded} />
+        </div>
       </section>
 
       {/* Benefits */}

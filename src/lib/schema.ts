@@ -31,6 +31,16 @@ export const userGoals = sqliteTable("user_goals", {
   userHabit: primaryKey({ columns: [t.userId, t.habitId] }),
 }));
 
+export const relapses = sqliteTable("relapses", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  date: text("date").notNull(),
+  trigger: text("trigger").notNull().default(""),
+  mood: text("mood").notNull().default(""),
+  note: text("note"),
+  createdAt: text("created_at").default("datetime('now')"),
+});
+
 export const customGoals = sqliteTable("custom_goals", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   userId: text("user_id").notNull().references(() => users.id),
@@ -72,6 +82,7 @@ export const postLikes = sqliteTable("post_likes", {
 export type User = typeof users.$inferSelect;
 export type Checkin = typeof checkins.$inferSelect;
 export type UserGoal = typeof userGoals.$inferSelect;
+export type Relapse = typeof relapses.$inferSelect;
 export type CustomGoal = typeof customGoals.$inferSelect;
 export type SleepCycle = typeof sleepCycles.$inferSelect;
 export type Post = typeof posts.$inferSelect;

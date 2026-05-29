@@ -43,6 +43,18 @@ CREATE TABLE IF NOT EXISTS checkins (
 CREATE INDEX IF NOT EXISTS idx_checkins_user_date ON checkins(user_id, date);
 CREATE INDEX IF NOT EXISTS idx_checkins_user_habit ON checkins(user_id, habit_id, date);
 
+CREATE TABLE IF NOT EXISTS relapses (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  date TEXT NOT NULL,
+  trigger TEXT NOT NULL DEFAULT '',
+  mood TEXT NOT NULL DEFAULT '',
+  note TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_relapses_user_date ON relapses(user_id, date DESC);
+
 CREATE TABLE IF NOT EXISTS user_goals (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id TEXT NOT NULL,
