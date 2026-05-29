@@ -37,7 +37,7 @@ export default function RadarChart({ data, onAxisClick }: Props) {
           else if (angleDeg > 200 && angleDeg < 340) anchor = "end";
           return (
             <g key={d.habitId}>
-              <circle cx={outer.x} cy={outer.y} r={13} fill="#fff" stroke="var(--color-chalk)" strokeWidth={1} style={{ cursor: onAxisClick ? "pointer" : "default" }} onClick={() => onAxisClick?.(d.habitId)} />
+              <circle cx={outer.x} cy={outer.y} r={13} fill="var(--color-card-strong)" stroke="var(--color-chalk)" strokeWidth={1} style={{ cursor: onAxisClick ? "pointer" : "default" }} onClick={() => onAxisClick?.(d.habitId)} />
               <text x={outer.x} y={outer.y} textAnchor="middle" dominantBaseline="central" fontSize={10} fontWeight={500} fill="var(--color-obsidian)" style={{ pointerEvents: "none" }}>{d.todayPct}</text>
               <text x={labelPos.x} y={labelPos.y} textAnchor={anchor} dominantBaseline="central" fontSize={11} fill="var(--color-gravel)" style={{ pointerEvents: "none" }}>{d.name}</text>
             </g>

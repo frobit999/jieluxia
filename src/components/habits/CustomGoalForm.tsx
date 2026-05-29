@@ -75,7 +75,7 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
           <div style={{ display: "flex", gap: 8 }}>
             {(["continuous", "instant"] as const).map((t) => (
               <button key={t} onClick={() => setGoalType(t)}
-                style={{ flex: 1, padding: "10px 14px", borderRadius: 9999, border: goalType === t ? "1px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: goalType === t ? "var(--color-obsidian)" : "#fff", color: goalType === t ? "#fff" : "var(--color-obsidian)", fontSize: 13, cursor: "pointer", textAlign: "center" as const }}>
+                style={{ flex: 1, padding: "10px 14px", borderRadius: 9999, border: goalType === t ? "1px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: goalType === t ? "var(--color-obsidian)" : "var(--color-card-strong)", color: goalType === t ? "var(--color-on-primary)" : "var(--color-obsidian)", fontSize: 13, cursor: "pointer", textAlign: "center" as const }}>
                 {t === "continuous" ? "持续项目" : "瞬时项目"}
                 <div style={{ fontSize: 11, opacity: 0.7, marginTop: 2 }}>{t === "continuous" ? "累积数值" : "打卡即完成"}</div>
               </button>
@@ -88,10 +88,10 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {GOAL_CATEGORIES.map((c) => (
               <button key={c} onClick={() => { setCategory(c); setShowCustomInput(false); }}
-                style={{ padding: "6px 14px", borderRadius: 9999, border: category === c && !showCustomInput ? "1px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: category === c && !showCustomInput ? "var(--color-obsidian)" : "#fff", color: category === c && !showCustomInput ? "#fff" : "var(--color-obsidian)", fontSize: 13, cursor: "pointer" }}>{c}</button>
+                style={{ padding: "6px 14px", borderRadius: 9999, border: category === c && !showCustomInput ? "1px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: category === c && !showCustomInput ? "var(--color-obsidian)" : "var(--color-card-strong)", color: category === c && !showCustomInput ? "var(--color-on-primary)" : "var(--color-obsidian)", fontSize: 13, cursor: "pointer" }}>{c}</button>
             ))}
             <button onClick={() => setShowCustomInput(true)}
-              style={{ padding: "6px 14px", borderRadius: 9999, border: showCustomInput ? "1px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: showCustomInput ? "var(--color-obsidian)" : "#fff", color: showCustomInput ? "#fff" : "var(--color-obsidian)", fontSize: 13, cursor: "pointer" }}>自定义</button>
+              style={{ padding: "6px 14px", borderRadius: 9999, border: showCustomInput ? "1px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: showCustomInput ? "var(--color-obsidian)" : "var(--color-card-strong)", color: showCustomInput ? "var(--color-on-primary)" : "var(--color-obsidian)", fontSize: 13, cursor: "pointer" }}>自定义</button>
           </div>
           {showCustomInput && <input type="text" value={customCategory} onChange={(e) => setCustomCategory(e.target.value)} placeholder="输入自定义分类" maxLength={10} style={{ ...inputStyle, marginTop: 8 }} />}
         </div>
@@ -101,7 +101,7 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {GOAL_EMOJIS.map((e) => (
               <button key={e} onClick={() => setIcon(e)}
-                style={{ width: 40, height: 40, borderRadius: 12, border: icon === e ? "1.5px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: icon === e ? "var(--color-powder)" : "#fff", color: "var(--color-obsidian)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                style={{ width: 40, height: 40, borderRadius: 12, border: icon === e ? "1.5px solid var(--color-obsidian)" : "1px solid var(--color-chalk)", background: icon === e ? "var(--color-powder)" : "var(--color-card-strong)", color: "var(--color-obsidian)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <AppIcon name={e} size={19} />
               </button>
             ))}
@@ -112,10 +112,10 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
           <label style={labelStyle}>每日目标</label>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button onClick={() => setDailyTarget(Math.max(1, dailyTarget - 1))}
-              style={{ width: 36, height: 36, borderRadius: 12, border: "1px solid var(--color-chalk)", background: "#fff", cursor: "pointer", color: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}><Minus size={16} strokeWidth={1.8} /></button>
+              style={{ width: 36, height: 36, borderRadius: 12, border: "1px solid var(--color-chalk)", background: "var(--color-card-strong)", cursor: "pointer", color: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}><Minus size={16} strokeWidth={1.8} /></button>
             <input type="number" value={dailyTarget} onChange={(e) => setDailyTarget(Math.max(1, Number(e.target.value) || 1))} style={{ ...inputStyle, width: 80, textAlign: "center" as const }} />
             <button onClick={() => setDailyTarget(dailyTarget + 1)}
-              style={{ width: 36, height: 36, borderRadius: 12, border: "1px solid var(--color-chalk)", background: "#fff", cursor: "pointer", color: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}><Plus size={16} strokeWidth={1.8} /></button>
+              style={{ width: 36, height: 36, borderRadius: 12, border: "1px solid var(--color-chalk)", background: "var(--color-card-strong)", cursor: "pointer", color: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}><Plus size={16} strokeWidth={1.8} /></button>
           </div>
         </div>
 
@@ -142,7 +142,7 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
         </div>
 
         <button onClick={handleSave} disabled={saving}
-          style={{ width: "100%", padding: "14px 0", borderRadius: 9999, border: "none", background: "var(--color-obsidian)", color: "#fff", fontSize: 15, fontWeight: 500, cursor: saving ? "default" : "pointer", opacity: saving ? 0.7 : 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+          style={{ width: "100%", padding: "14px 0", borderRadius: 9999, border: "none", background: "var(--color-obsidian)", color: "var(--color-on-primary)", fontSize: 15, fontWeight: 500, cursor: saving ? "default" : "pointer", opacity: saving ? 0.7 : 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
           {!saving && (isEdit ? <Save size={16} strokeWidth={1.8} /> : <Check size={16} strokeWidth={1.8} />)}
           {saving ? "保存中..." : isEdit ? "保存修改" : "创建目标"}
         </button>
@@ -151,7 +151,7 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {!showDeleteConfirm ? (
               <button onClick={() => setShowDeleteConfirm(true)}
-                style={{ width: "100%", padding: "12px 0", borderRadius: 9999, border: "1px solid var(--color-chalk)", background: "#fff", color: "#ef4444", fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                style={{ width: "100%", padding: "12px 0", borderRadius: 9999, border: "1px solid var(--color-chalk)", background: "var(--color-card-strong)", color: "#ef4444", fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
                 <Trash2 size={15} strokeWidth={1.8} />
                 删除目标
               </button>
@@ -159,7 +159,7 @@ export default function CustomGoalFormPage({ goal, onBack, onSave, onDelete, sho
               <div className="card" style={{ padding: 16, textAlign: "center" }}>
                 <p style={{ fontSize: 14, color: "var(--color-obsidian)", marginBottom: 12 }}>确定要删除这个目标吗?</p>
                 <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
-                  <button onClick={() => setShowDeleteConfirm(false)} style={{ padding: "8px 16px", borderRadius: 9999, border: "1px solid var(--color-chalk)", background: "#fff", cursor: "pointer", fontSize: 13 }}>取消</button>
+                  <button onClick={() => setShowDeleteConfirm(false)} style={{ padding: "8px 16px", borderRadius: 9999, border: "1px solid var(--color-chalk)", background: "var(--color-card-strong)", color: "var(--color-obsidian)", cursor: "pointer", fontSize: 13 }}>取消</button>
                   <button onClick={handleDelete} style={{ padding: "8px 16px", borderRadius: 9999, border: "none", background: "#ef4444", color: "#fff", cursor: "pointer", fontSize: 13 }}>确认删除</button>
                 </div>
               </div>

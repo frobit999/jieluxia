@@ -22,9 +22,11 @@ export function BottomSheet({
       onClick={onClose}
     >
       <div
-        className="w-full rounded-t-[24px] px-6 pt-7 pb-10"
+        className="w-full px-6 pt-7 pb-10"
         style={{
-          background: "#ffffff",
+          background: "var(--color-card)",
+          borderTopLeftRadius: "var(--radius-sheet)",
+          borderTopRightRadius: "var(--radius-sheet)",
           boxShadow: "0 -1px 4px rgba(0, 0, 0, 0.1)",
         }}
         onClick={(e) => e.stopPropagation()}

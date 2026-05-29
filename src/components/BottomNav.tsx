@@ -18,7 +18,7 @@ export function BottomNav() {
     <div
       className="md:hidden fixed bottom-0 left-0 right-0 z-50"
       style={{
-        background: "#ffffff",
+        background: "var(--color-card)",
         borderTop: "1px solid var(--color-chalk)",
       }}
     >

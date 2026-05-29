@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-:root {
-  /* Colors — ElevenLabs */
+:root,
+[data-theme="elevenlabs"] {
   --color-eggshell: #fdfcfc;
   --color-powder: #f5f3f1;
   --color-chalk: #e5e5e5;
@@ -12,12 +12,68 @@
   --color-obsidian: #000000;
   --color-signal-blue: #0447ff;
   --color-ember: #ff4704;
-
-  /* Shadows */
+  --color-card: #ffffff;
+  --color-card-strong: #ffffff;
+  --color-on-primary: #fdfcfc;
+  --color-accent: #0447ff;
+  --radius-card: 16px;
+  --radius-input: 4px;
+  --radius-sheet: 24px;
   --shadow-subtle: rgba(0, 0, 0, 0.075) 0px 0px 0px 0.5px inset;
   --shadow-subtle-2: rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 2px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
   --shadow-subtle-4: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 4px 0px;
   --shadow-subtle-7: rgba(0, 0, 0, 0.4) 0px 0px 1px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px 0px;
+  --shadow-card: rgba(0, 0, 0, 0.4) 0px 0px 1.143px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px;
+}
+
+[data-theme="function"] {
+  --color-eggshell: #fef9ef;
+  --color-powder: #f5eee1;
+  --color-chalk: #d1c9bf;
+  --color-fog: #b8afa3;
+  --color-gravel: #6d675f;
+  --color-slate: #808988;
+  --color-cinder: #333333;
+  --color-obsidian: #2a2b2f;
+  --color-signal-blue: #b05a36;
+  --color-ember: #b05a36;
+  --color-card: #fffdf8;
+  --color-card-strong: #ffffff;
+  --color-on-primary: #fef9ef;
+  --color-accent: #b05a36;
+  --radius-card: 12px;
+  --radius-input: 9999px;
+  --radius-sheet: 18px;
+  --shadow-subtle: rgba(176, 90, 54, 0.14) 0px 0px 0px 1px inset;
+  --shadow-subtle-2: rgba(42, 43, 47, 0.08) 0px 1px 2px, rgba(176, 90, 54, 0.08) 0px 0px 0px 1px;
+  --shadow-subtle-4: rgba(42, 43, 47, 0.1) 0px 6px 18px;
+  --shadow-subtle-7: rgba(42, 43, 47, 0.08) 0px 3px 10px;
+  --shadow-card: rgba(42, 43, 47, 0.08) 0px 1px 2px, rgba(176, 90, 54, 0.08) 0px 0px 0px 1px;
+}
+
+[data-theme="slash"] {
+  --color-eggshell: #000000;
+  --color-powder: #121317;
+  --color-chalk: #1c1d22;
+  --color-fog: #5e616e;
+  --color-gravel: #acafb9;
+  --color-slate: #777a88;
+  --color-cinder: #cdcdcd;
+  --color-obsidian: #ffffff;
+  --color-signal-blue: #cc9166;
+  --color-ember: #cc9166;
+  --color-card: #08080a;
+  --color-card-strong: #121317;
+  --color-on-primary: #000000;
+  --color-accent: #cc9166;
+  --radius-card: 10px;
+  --radius-input: 9999px;
+  --radius-sheet: 16px;
+  --shadow-subtle: rgba(255, 255, 255, 0.08) 0px 0px 0px 1px inset;
+  --shadow-subtle-2: rgba(255, 255, 255, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.35) 0px 10px 24px;
+  --shadow-subtle-4: rgba(204, 145, 102, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.45) 0px 16px 36px;
+  --shadow-subtle-7: rgba(255, 255, 255, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.35) 0px 8px 20px;
+  --shadow-card: rgba(255, 255, 255, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.35) 0px 10px 24px;
 }
 
 @theme inline {
@@ -47,16 +103,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.01em;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Card — white surface with hairline shadow */
 .card {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 1.143px 0px, rgba(0, 0, 0, 0.04) 0px 2px 4px;
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
 }
 
-/* Section eyebrow label */
 .section-label {
   font-size: 14px;
   font-weight: 400;
@@ -65,7 +120,6 @@ body {
   margin-bottom: 8px;
 }
 
-/* Display heading — Waldenburg substitute */
 .heading-display {
   font-family: 'Cormorant Garamond', Georgia, 'Noto Serif SC', serif;
   font-weight: 300;
@@ -75,7 +129,6 @@ body {
   color: var(--color-obsidian);
 }
 
-/* Section heading */
 .heading-section {
   font-family: 'Cormorant Garamond', Georgia, 'Noto Serif SC', serif;
   font-weight: 300;
@@ -85,7 +138,6 @@ body {
   color: var(--color-obsidian);
 }
 
-/* Subsection heading */
 .heading-sub {
   font-family: 'Cormorant Garamond', Georgia, 'Noto Serif SC', serif;
   font-weight: 300;
@@ -95,7 +147,6 @@ body {
   color: var(--color-obsidian);
 }
 
-/* Body text */
 .text-body {
   font-size: 14px;
   line-height: 1.43;
@@ -103,18 +154,17 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* Text input — editorial style, 0 radius */
 .input-field {
   width: 100%;
   padding: 12px 16px;
   font-size: 14px;
   color: var(--color-obsidian);
-  background: #ffffff;
+  background: var(--color-card-strong);
   border: 1px solid var(--color-chalk);
-  border-radius: 4px;
+  border-radius: var(--radius-input);
   outline: none;
   letter-spacing: 0.01em;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background-color 0.2s ease, color 0.2s ease;
 }
 
 .input-field:focus {
@@ -125,7 +175,6 @@ body {
   color: var(--color-slate);
 }
 
-/* Textarea — transparent with bottom border */
 .input-bare {
   width: 100%;
   padding: 12px 0;
@@ -144,7 +193,6 @@ body {
   color: var(--color-slate);
 }
 
-/* Pill tag */
 .pill {
   background: var(--color-powder);
   border-radius: 9999px;
@@ -154,7 +202,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
 }

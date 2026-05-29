@@ -64,7 +64,7 @@ export default function TrendCard({ habit, value, target: customTarget, onOpen, 
       {/* Done indicator */}
       {isDone && (isTap || isSleepCycle) && (
         <div style={{ position: "absolute", top: 12, right: 12, width: 20, height: 20, borderRadius: "50%", background: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Check size={12} strokeWidth={3} color="#fff" />
+          <Check size={12} strokeWidth={3} color="var(--color-on-primary)" />
         </div>
       )}
 
@@ -72,7 +72,7 @@ export default function TrendCard({ habit, value, target: customTarget, onOpen, 
       {isTap && !isSleepCycle && (
         <button
           onClick={(e) => { e.stopPropagation(); onTap?.(); }}
-          style={{ position: "absolute", bottom: 12, right: 12, width: 28, height: 28, borderRadius: "50%", background: "var(--color-obsidian)", color: "#fff", border: "none", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2 }}
+          style={{ position: "absolute", bottom: 12, right: 12, width: 28, height: 28, borderRadius: "50%", background: "var(--color-obsidian)", color: "var(--color-on-primary)", border: "none", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2 }}
         ><Plus size={16} strokeWidth={2} /></button>
       )}
 

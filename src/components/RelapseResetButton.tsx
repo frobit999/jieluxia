@@ -113,8 +113,8 @@ export function RelapseResetButton({
                   className="pill"
                   style={{
                     border: "1px solid var(--color-chalk)",
-                    background: mood === item ? "var(--color-obsidian)" : "#fff",
-                    color: mood === item ? "var(--color-eggshell)" : "var(--color-gravel)",
+                    background: mood === item ? "var(--color-obsidian)" : "var(--color-card-strong)",
+                    color: mood === item ? "var(--color-on-primary)" : "var(--color-gravel)",
                     cursor: "pointer",
                   }}
                 >

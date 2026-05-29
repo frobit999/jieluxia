@@ -113,7 +113,7 @@ export default function HabitDetailPage({ habit, target: customTarget, accumulat
                       <textarea value={editingEntryNote} onChange={(e) => setEditingEntryNote(e.target.value)} placeholder="记录一下..."
                         style={{ flex: 1, minHeight: 48, padding: 8, borderRadius: 0, border: "none", borderBottom: "1px solid var(--color-chalk)", background: "transparent", fontSize: 12, fontFamily: "inherit", color: "var(--color-obsidian)", resize: "vertical", outline: "none" }} autoFocus />
                       <button onClick={() => handleSaveEntryNote(entry.id)}
-                        style={{ alignSelf: "flex-end", padding: "6px 16px", borderRadius: 9999, background: "var(--color-obsidian)", color: "#fff", border: "none", fontSize: 12, cursor: "pointer" }}>保存</button>
+                        style={{ alignSelf: "flex-end", padding: "6px 16px", borderRadius: 9999, background: "var(--color-obsidian)", color: "var(--color-on-primary)", border: "none", fontSize: 12, cursor: "pointer" }}>保存</button>
                     </div>
                   )}
                 </div>
@@ -126,7 +126,7 @@ export default function HabitDetailPage({ habit, target: customTarget, accumulat
       {/* Confirm */}
       <div style={{ position: "sticky", bottom: 0, padding: "16px 20px", background: "var(--color-eggshell)", borderTop: "1px solid var(--color-chalk)" }}>
         <button onClick={handleConfirm} disabled={saved || (!isSleepCycle && count === 0)}
-          style={{ width: "100%", padding: "14px 0", borderRadius: 9999, border: "none", background: saved ? "var(--color-powder)" : "var(--color-obsidian)", color: saved ? "var(--color-gravel)" : "#fff", fontSize: 15, fontWeight: 500, cursor: saved ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+          style={{ width: "100%", padding: "14px 0", borderRadius: 9999, border: "none", background: saved ? "var(--color-powder)" : "var(--color-obsidian)", color: saved ? "var(--color-gravel)" : "var(--color-on-primary)", fontSize: 15, fontWeight: 500, cursor: saved ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
           {saved ? <><Check size={18} strokeWidth={2} />已保存</> : <><Save size={16} strokeWidth={1.8} />保存记录</>}
         </button>
       </div>

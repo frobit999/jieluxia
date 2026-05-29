@@ -55,7 +55,7 @@ export default function HabitCard({ habit, value, target: customTarget, onOpen, 
 
       {isDone && (isTap || isSleepCycle) && (
         <div style={{ position: "absolute", top: 8, right: 8, width: 20, height: 20, borderRadius: "50%", background: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Check size={12} strokeWidth={3} color="#fff" />
+          <Check size={12} strokeWidth={3} color="var(--color-on-primary)" />
         </div>
       )}
     </div>

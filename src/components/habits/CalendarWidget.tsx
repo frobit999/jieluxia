@@ -36,8 +36,8 @@ export default function CalendarWidget({ history, onDayClick, selectedDate }: Pr
 
     let bg = "transparent";
     let color: string = "var(--color-obsidian)";
-    if (isToday && !isSelected) { bg = "var(--color-obsidian)"; color = "#fff"; }
-    else if (isSelected) { bg = "var(--color-obsidian)"; color = "#fff"; }
+    if (isToday && !isSelected) { bg = "var(--color-obsidian)"; color = "var(--color-on-primary)"; }
+    else if (isSelected) { bg = "var(--color-obsidian)"; color = "var(--color-on-primary)"; }
     else if (count > 0) { bg = "var(--color-powder)"; }
     else if (isPast) { color = "var(--color-fog)"; }
 

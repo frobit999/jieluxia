@@ -27,7 +27,7 @@ export default function CustomGoalCard({ goal, todayValue, onOpen, onTap }: Prop
           <div style={{ fontSize: 11, color: "var(--color-gravel)", marginTop: 2 }}>{goal.name}</div>
         </div>
         <div style={{ position: "absolute", top: 8, right: 8, width: 20, height: 20, borderRadius: "50%", background: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Check size={12} strokeWidth={3} color="#fff" />
+          <Check size={12} strokeWidth={3} color="var(--color-on-primary)" />
         </div>
       </div>
     );
@@ -50,7 +50,7 @@ export default function CustomGoalCard({ goal, todayValue, onOpen, onTap }: Prop
       </div>
       {isDone && (
         <div style={{ position: "absolute", top: 8, right: 8, width: 20, height: 20, borderRadius: "50%", background: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Check size={12} strokeWidth={3} color="#fff" />
+          <Check size={12} strokeWidth={3} color="var(--color-on-primary)" />
         </div>
       )}
     </div>
