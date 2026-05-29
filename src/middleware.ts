@@ -1,25 +1,43 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { verifyToken } from "@/lib/auth";
+import { isMutatingMethod, isSameOriginRequest } from "@/lib/security";
 
-export function middleware(request: NextRequest) {
+async function hasValidToken(token: string | undefined): Promise<boolean> {
+  if (!token) return false;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) return true;
+
+  return (await verifyToken(token, secret)) !== null;
+}
+
+export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
   const { pathname } = request.nextUrl;
 
   const publicPaths = ["/login", "/register"];
   const isPublic = publicPaths.some((p) => pathname.startsWith(p));
   const isApi = pathname.startsWith("/api");
+  const isAuthed = await hasValidToken(token);
 
-  // API routes handle auth internally
-  if (isApi) return NextResponse.next();
+  if (isApi) {
+    if (
+      isMutatingMethod(request.method) &&
+      !isSameOriginRequest(
+        request.url,
+        request.headers.get("origin"),
+        request.headers.get("referer")
+      )
+    ) {
+      return NextResponse.json({ error: "跨站请求已拒绝" }, { status: 403 });
+    }
+    return NextResponse.next();
+  }
 
-  // Logged in user on public page → redirect to dashboard
-  if (isPublic && token) {
+  if (isPublic && isAuthed) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Protected page without token → redirect to login
-  // Note: JWT signature validation happens in API routes (getUser()).
-  // Middleware only checks cookie presence — cannot access Cloudflare bindings.
-  if (!isPublic && !token) {
+  if (!isPublic && !isAuthed) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
