@@ -1,8 +1,10 @@
+import { AppIcon } from "@/components/AppIcon";
+
 const benefits = [
-  { icon: "⚡", label: "精力提升", base: 10, perDay: 0.4 },
-  { icon: "🧠", label: "专注力", base: 8, perDay: 0.35 },
-  { icon: "💪", label: "自信心", base: 12, perDay: 0.5 },
-  { icon: "😴", label: "睡眠质量", base: 6, perDay: 0.28 },
+  { icon: "zap", label: "精力提升", base: 10, perDay: 0.4 },
+  { icon: "brain", label: "专注力", base: 8, perDay: 0.35 },
+  { icon: "dumbbell", label: "自信心", base: 12, perDay: 0.5 },
+  { icon: "moon", label: "睡眠质量", base: 6, perDay: 0.28 },
 ];
 
 export function BenefitGrid({ streak }: { streak: number }) {
@@ -16,7 +18,9 @@ export function BenefitGrid({ streak }: { streak: number }) {
             className="card"
             style={{ padding: "24px" }}
           >
-            <div style={{ fontSize: "20px", marginBottom: "12px" }}>{b.icon}</div>
+            <div style={{ color: "var(--color-obsidian)", marginBottom: "12px" }}>
+              <AppIcon name={b.icon} size={22} />
+            </div>
             <div style={{ fontSize: "14px", fontWeight: 500, color: "var(--color-obsidian)", marginBottom: "4px" }}>
               {b.label}
             </div>

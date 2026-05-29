@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CalendarCheck, CheckCircle2 } from "lucide-react";
 import { PrimaryButton, SecondaryButton } from "./ui/Button";
 import { BottomSheet } from "./ui/BottomSheet";
 
@@ -24,7 +25,9 @@ export function CheckInButton({
   if (checkedIn) {
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", flex: 1 }}>
-        <div style={{ fontSize: "32px" }}>✅</div>
+        <div style={{ color: "var(--color-obsidian)" }}>
+          <CheckCircle2 size={34} strokeWidth={1.6} />
+        </div>
         <div style={{ fontSize: "15px", fontWeight: 500, color: "var(--color-obsidian)" }}>
           今日已签到
         </div>
@@ -42,6 +45,7 @@ export function CheckInButton({
           记录今天的坚守
         </div>
         <PrimaryButton onClick={() => setShowModal(true)}>
+          <CalendarCheck size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />
           今日打卡
         </PrimaryButton>
       </div>
@@ -76,6 +80,7 @@ export function CheckInButton({
             onClick={handleConfirm}
             disabled={loading}
           >
+            {!loading && <CheckCircle2 size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />}
             {loading ? "打卡中..." : "确认打卡"}
           </PrimaryButton>
         </div>

@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     createdAt: p.created_at,
     isAnonymous: !!p.is_anonymous,
     nickname: p.is_anonymous ? "匿名" : (p.nickname || "匿名"),
-    avatarEmoji: p.is_anonymous ? "👤" : (p.avatar_emoji || "🛡️"),
+    avatarEmoji: p.is_anonymous ? "user" : (p.avatar_emoji || "shield"),
     likeCount: (p.like_count as number) || 0,
   }));
 
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
       createdAt: new Date().toISOString(),
       isAnonymous: !!anonymous,
       nickname: anonymous ? "匿名" : user.nickname,
-      avatarEmoji: anonymous ? "👤" : user.avatar_emoji,
+      avatarEmoji: anonymous ? "user" : user.avatar_emoji,
     },
   });
 }

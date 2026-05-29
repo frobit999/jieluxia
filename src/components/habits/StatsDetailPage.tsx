@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, useMemo } from "react";
+import { ChevronLeft } from "lucide-react";
 import CalendarWidget from "./CalendarWidget";
 import DayDetailPanel from "./DayDetailPanel";
 import RadarChart from "./RadarChart";
@@ -45,7 +46,7 @@ export default function StatsDetailPage({ history, streak, totalCheckins, totalD
     <div style={{ position: "fixed", inset: 0, zIndex: 50, background: "var(--color-eggshell)", transform: exiting ? "translateX(100%)" : "translateX(0)", transition: "transform 0.3s ease", overflowY: "auto" }}>
       <header style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", background: "var(--color-eggshell)", borderBottom: "1px solid var(--color-chalk)" }}>
         <button onClick={goBack} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: "var(--color-obsidian)" }}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
+          <ChevronLeft size={20} strokeWidth={2} />
         </button>
         <span style={{ fontSize: 15, fontWeight: 500, color: "var(--color-obsidian)" }}>统计详情</span>
         <div style={{ width: 36 }} />

@@ -1,4 +1,5 @@
 "use client";
+import { Check } from "lucide-react";
 import type { HabitDef } from "@/lib/habits";
 import { minutesToTime } from "@/lib/habits";
 import HabitIcon from "./HabitIcon";
@@ -54,7 +55,7 @@ export default function HabitCard({ habit, value, target: customTarget, onOpen, 
 
       {isDone && (isTap || isSleepCycle) && (
         <div style={{ position: "absolute", top: 8, right: 8, width: 20, height: 20, borderRadius: "50%", background: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+          <Check size={12} strokeWidth={3} color="#fff" />
         </div>
       )}
     </div>

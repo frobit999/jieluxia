@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Calendar, CheckCircle2, NotebookPen, RotateCcw, Siren, Tag } from "lucide-react";
 import { apiPost } from "@/lib/api";
 import { PrimaryButton, SecondaryButton } from "./ui/Button";
 import { BottomSheet } from "./ui/BottomSheet";
@@ -53,11 +54,17 @@ export function RelapseResetButton({
 
   return (
     <>
-      <SecondaryButton onClick={() => setOpen(true)}>记录破戒 / 重新开始</SecondaryButton>
+      <SecondaryButton onClick={() => setOpen(true)}>
+        <RotateCcw size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />
+        记录破戒 / 重新开始
+      </SecondaryButton>
       <BottomSheet open={open} onClose={() => setOpen(false)}>
         <div style={{ display: "grid", gap: 18 }}>
           <div>
-            <p className="section-label" style={{ marginBottom: 8 }}>重新开始</p>
+            <p className="section-label" style={{ marginBottom: 8, display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <Siren size={14} strokeWidth={1.8} />
+              重新开始
+            </p>
             <h3 className="heading-sub" style={{ margin: 0 }}>记录这次破戒</h3>
             <p className="text-body" style={{ marginTop: 8 }}>
               这不是失败档案，是下一次避坑的地图。
@@ -65,7 +72,10 @@ export function RelapseResetButton({
           </div>
 
           <label style={{ display: "grid", gap: 6, fontSize: 13, color: "var(--color-gravel)" }}>
-            日期
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <Calendar size={14} strokeWidth={1.8} />
+              日期
+            </span>
             <input
               className="input-field"
               type="date"
@@ -75,7 +85,10 @@ export function RelapseResetButton({
           </label>
 
           <label style={{ display: "grid", gap: 6, fontSize: 13, color: "var(--color-gravel)" }}>
-            主要诱因
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <Tag size={14} strokeWidth={1.8} />
+              主要诱因
+            </span>
             <select
               className="input-field"
               value={trigger}
@@ -111,19 +124,26 @@ export function RelapseResetButton({
             </div>
           </div>
 
-          <textarea
-            className="input-field"
-            value={note}
-            onChange={(event) => setNote(event.target.value)}
-            placeholder="一句话复盘：当时发生了什么？下次怎么切断？"
-            style={{ minHeight: 96, resize: "vertical" }}
-          />
+          <label style={{ display: "grid", gap: 6, fontSize: 13, color: "var(--color-gravel)" }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <NotebookPen size={14} strokeWidth={1.8} />
+              复盘
+            </span>
+            <textarea
+              className="input-field"
+              value={note}
+              onChange={(event) => setNote(event.target.value)}
+              placeholder="一句话复盘：当时发生了什么？下次怎么切断？"
+              style={{ minHeight: 96, resize: "vertical" }}
+            />
+          </label>
 
           {error ? <p style={{ color: "#b42318", fontSize: 13, margin: 0 }}>{error}</p> : null}
 
           <div style={{ display: "flex", gap: 12 }}>
             <SecondaryButton className="flex-1" onClick={() => setOpen(false)}>取消</SecondaryButton>
             <PrimaryButton className="flex-[2]" onClick={submit} disabled={loading}>
+              {!loading && <CheckCircle2 size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />}
               {loading ? "记录中..." : "保存并重新开始"}
             </PrimaryButton>
           </div>

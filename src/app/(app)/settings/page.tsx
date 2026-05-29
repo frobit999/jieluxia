@@ -2,10 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Bell, BookOpen, Check, ChevronRight, CircleHelp, LogOut, Save, Trophy } from "lucide-react";
+import { AppIcon } from "@/components/AppIcon";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { apiGet, apiPut, apiPost } from "@/lib/api";
 
-const emojiOptions = ["🛡️", "💪", "🔥", "⚡", "🌟", "🦁", "🦅", "🐺", "🎯", "👑", "🧘", "🏃"];
+const avatarOptions = [
+  "shield",
+  "dumbbell",
+  "flame",
+  "zap",
+  "sparkles",
+  "target",
+  "trophy",
+  "medal",
+  "wind",
+  "heart",
+  "gauge",
+  "user",
+];
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -17,7 +32,7 @@ export default function SettingsPage() {
   } | null>(null);
   const [stats, setStats] = useState({ current: 0, longest: 0, totalCheckins: 0 });
   const [nickname, setNickname] = useState("");
-  const [avatarEmoji, setAvatarEmoji] = useState("🛡️");
+  const [avatarIcon, setAvatarIcon] = useState("shield");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -29,7 +44,7 @@ export default function SettingsPage() {
         setUser(data.user);
         setStats(data.stats);
         setNickname(data.user.nickname);
-        setAvatarEmoji(data.user.avatarEmoji || "🛡️");
+        setAvatarIcon(data.user.avatarEmoji || "shield");
       } catch {
         router.push("/login");
       } finally {
@@ -42,7 +57,7 @@ export default function SettingsPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await apiPut("/api/profile", { nickname, avatarEmoji });
+      await apiPut("/api/profile", { nickname, avatarEmoji: avatarIcon });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } finally {
@@ -80,7 +95,9 @@ export default function SettingsPage() {
             className="w-16 h-16 rounded-full flex items-center justify-center text-2xl mx-auto"
             style={{ background: "var(--color-obsidian)", marginBottom: "16px" }}
           >
-            <span style={{ color: "var(--color-eggshell)" }}>{avatarEmoji}</span>
+            <span style={{ color: "var(--color-eggshell)", display: "flex" }}>
+              <AppIcon name={avatarIcon} size={28} />
+            </span>
           </div>
           <h2
             style={{
@@ -134,13 +151,13 @@ export default function SettingsPage() {
         <div className="card" style={{ padding: "32px" }}>
           <div style={{ marginBottom: "24px" }}>
             <label style={{ display: "block", fontSize: "13px", color: "var(--color-gravel)", marginBottom: "8px", fontWeight: 500 }}>
-              头像
+              图标
             </label>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-              {emojiOptions.map((emoji) => (
+              {avatarOptions.map((iconName) => (
                 <button
-                  key={emoji}
-                  onClick={() => setAvatarEmoji(emoji)}
+                  key={iconName}
+                  onClick={() => setAvatarIcon(iconName)}
                   style={{
                     width: "44px",
                     height: "44px",
@@ -148,14 +165,14 @@ export default function SettingsPage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "18px",
                     cursor: "pointer",
-                    background: avatarEmoji === emoji ? "var(--color-obsidian)" : "var(--color-powder)",
+                    background: avatarIcon === iconName ? "var(--color-obsidian)" : "var(--color-powder)",
+                    color: avatarIcon === iconName ? "var(--color-eggshell)" : "var(--color-gravel)",
                     border: "1px solid var(--color-chalk)",
                     transition: "all 0.15s",
                   }}
                 >
-                  {emoji}
+                  <AppIcon name={iconName} size={19} />
                 </button>
               ))}
             </div>
@@ -174,6 +191,8 @@ export default function SettingsPage() {
           </div>
 
           <PrimaryButton onClick={handleSave} disabled={saving}>
+            {!saving && !saved && <Save size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />}
+            {saved && <Check size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />}
             {saving ? "保存中..." : saved ? "已保存" : "保存修改"}
           </PrimaryButton>
         </div>
@@ -184,10 +203,10 @@ export default function SettingsPage() {
         <p className="section-label">更多</p>
         <div className="card" style={{ overflow: "hidden" }}>
           {[
-            { icon: "🏆", label: "我的成就", hint: "即将推出" },
-            { icon: "📖", label: "日记记录", hint: "即将推出" },
-            { icon: "🔔", label: "通知设置", hint: "即将推出" },
-            { icon: "❓", label: "帮助与反馈", hint: "" },
+            { icon: Trophy, label: "我的成就", hint: "即将推出" },
+            { icon: BookOpen, label: "日记记录", hint: "即将推出" },
+            { icon: Bell, label: "通知设置", hint: "即将推出" },
+            { icon: CircleHelp, label: "帮助与反馈", hint: "" },
           ].map((item, i, arr) => (
             <div
               key={i}
@@ -200,10 +219,10 @@ export default function SettingsPage() {
                 cursor: "pointer",
               }}
             >
-              <span style={{ fontSize: "16px" }}>{item.icon}</span>
+              <item.icon size={17} strokeWidth={1.8} style={{ color: "var(--color-gravel)" }} />
               <span style={{ flex: 1, fontSize: "14px", color: "var(--color-obsidian)" }}>{item.label}</span>
               {item.hint && <span style={{ fontSize: "12px", color: "var(--color-slate)" }}>{item.hint}</span>}
-              <span style={{ color: "var(--color-fog)" }}>›</span>
+              <ChevronRight size={16} strokeWidth={1.8} style={{ color: "var(--color-fog)" }} />
             </div>
           ))}
         </div>
@@ -211,6 +230,7 @@ export default function SettingsPage() {
 
       {/* Logout */}
       <SecondaryButton onClick={handleLogout} className="w-full">
+        <LogOut size={16} strokeWidth={1.8} style={{ marginRight: 6 }} />
         退出登录
       </SecondaryButton>
     </>

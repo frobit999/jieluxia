@@ -1,3 +1,6 @@
+import { Heart, MessageCircle, Trash2 } from "lucide-react";
+import { AppIcon } from "@/components/AppIcon";
+
 export function CommunityPost({
   avatar,
   name,
@@ -34,10 +37,11 @@ export function CommunityPost({
             justifyContent: "center",
             background: isAnonymous ? "var(--color-chalk)" : "var(--color-obsidian)",
             flexShrink: 0,
-            fontSize: "14px",
           }}
         >
-          <span style={{ color: isAnonymous ? "var(--color-gravel)" : "var(--color-eggshell)" }}>{isAnonymous ? "👤" : avatar}</span>
+          <span style={{ color: isAnonymous ? "var(--color-gravel)" : "var(--color-eggshell)", display: "flex" }}>
+            <AppIcon name={isAnonymous ? "user" : avatar} size={16} />
+          </span>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
@@ -65,7 +69,7 @@ export function CommunityPost({
                   }}
                   title="删除"
                 >
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                  <Trash2 size={14} strokeWidth={1.8} />
                 </button>
               )}
             </div>
@@ -84,11 +88,16 @@ export function CommunityPost({
                 color: "var(--color-slate)",
                 padding: 0,
                 letterSpacing: "0.01em",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
               }}
             >
+              <Heart size={14} strokeWidth={1.8} />
               {likeCount > 0 ? `${likeCount} 赞` : "赞"}
             </button>
-            <span style={{ fontSize: "12px", color: "var(--color-slate)" }}>
+            <span style={{ fontSize: "12px", color: "var(--color-slate)", display: "inline-flex", alignItems: "center", gap: 5 }}>
+              <MessageCircle size={14} strokeWidth={1.8} />
               回复
             </span>
           </div>

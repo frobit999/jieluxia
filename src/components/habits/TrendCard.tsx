@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Check, ChevronDown, ChevronRight, Plus } from "lucide-react";
 import type { HabitDef } from "@/lib/habits";
 import { minutesToTime } from "@/lib/habits";
 import HabitIcon from "./HabitIcon";
@@ -63,7 +64,7 @@ export default function TrendCard({ habit, value, target: customTarget, onOpen, 
       {/* Done indicator */}
       {isDone && (isTap || isSleepCycle) && (
         <div style={{ position: "absolute", top: 12, right: 12, width: 20, height: 20, borderRadius: "50%", background: "var(--color-obsidian)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+          <Check size={12} strokeWidth={3} color="#fff" />
         </div>
       )}
 
@@ -72,7 +73,7 @@ export default function TrendCard({ habit, value, target: customTarget, onOpen, 
         <button
           onClick={(e) => { e.stopPropagation(); onTap?.(); }}
           style={{ position: "absolute", bottom: 12, right: 12, width: 28, height: 28, borderRadius: "50%", background: "var(--color-obsidian)", color: "#fff", border: "none", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2 }}
-        >+</button>
+        ><Plus size={16} strokeWidth={2} /></button>
       )}
 
       {/* Detail arrow */}
@@ -80,12 +81,12 @@ export default function TrendCard({ habit, value, target: customTarget, onOpen, 
         onClick={(e) => { e.stopPropagation(); onOpen(); }}
         style={{ position: "absolute", bottom: 12, right: isTap && !isSleepCycle ? 48 : 12, width: 28, height: 28, borderRadius: 12, background: "transparent", border: "1px solid var(--color-chalk)", fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-gravel)", zIndex: 2 }}
       >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+        <ChevronRight size={14} strokeWidth={1.8} />
       </button>
 
       {/* Chevron */}
       <div style={{ display: "flex", justifyContent: "center", marginTop: 8, transition: "transform 0.2s", transform: expanded ? "rotate(180deg)" : "rotate(0)" }}>
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--color-slate)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+        <ChevronDown size={14} strokeWidth={1.8} color="var(--color-slate)" />
       </div>
 
       {/* Expanded chart */}

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import { Check, ChevronLeft, PencilLine, Save, X } from "lucide-react";
 import type { HabitDef } from "@/lib/habits";
 import type { CheckinEntry } from "@/hooks/useHabits";
 import DialPicker from "./DialPicker";
@@ -41,7 +42,7 @@ export default function HabitDetailPage({ habit, target: customTarget, accumulat
       {/* Header */}
       <header style={{ position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", background: "var(--color-eggshell)", borderBottom: "1px solid var(--color-chalk)" }}>
         <button onClick={goBack} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: "var(--color-obsidian)" }}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
+          <ChevronLeft size={20} strokeWidth={2} />
         </button>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <HabitIcon icon={habit.icon} size={20} />
@@ -97,11 +98,11 @@ export default function HabitDetailPage({ habit, target: customTarget, accumulat
                     <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                       <button onClick={() => { setEditingEntryId(editingEntryId === entry.id ? null : entry.id); setEditingEntryNote(entry.note || ""); }}
                         style={{ background: "none", border: "none", padding: 4, cursor: "pointer", color: entry.note ? "var(--color-obsidian)" : "var(--color-chalk)" }}>
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                        <PencilLine size={14} strokeWidth={1.8} />
                       </button>
                       {onDeleteEntry && (
                         <button onClick={() => onDeleteEntry(entry.id)} style={{ background: "none", border: "none", padding: 4, cursor: "pointer", color: "var(--color-chalk)" }}>
-                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                          <X size={14} strokeWidth={1.8} />
                         </button>
                       )}
                     </div>
@@ -126,7 +127,7 @@ export default function HabitDetailPage({ habit, target: customTarget, accumulat
       <div style={{ position: "sticky", bottom: 0, padding: "16px 20px", background: "var(--color-eggshell)", borderTop: "1px solid var(--color-chalk)" }}>
         <button onClick={handleConfirm} disabled={saved || (!isSleepCycle && count === 0)}
           style={{ width: "100%", padding: "14px 0", borderRadius: 9999, border: "none", background: saved ? "var(--color-powder)" : "var(--color-obsidian)", color: saved ? "var(--color-gravel)" : "#fff", fontSize: 15, fontWeight: 500, cursor: saved ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-          {saved ? <><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="4 12 9 17 20 6" /></svg>已保存</> : "保存记录"}
+          {saved ? <><Check size={18} strokeWidth={2} />已保存</> : <><Save size={16} strokeWidth={1.8} />保存记录</>}
         </button>
       </div>
     </div>

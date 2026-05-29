@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getDaysInMonth, getFirstDayOfMonth, formatDate } from "@/lib/habits";
 
 interface Props {
@@ -53,9 +54,9 @@ export default function CalendarWidget({ history, onDayClick, selectedDate }: Pr
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <button onClick={prevMonth} style={{ background: "none", border: "none", fontSize: 18, cursor: "pointer", color: "var(--color-gravel)", padding: "4px 8px" }}>‹</button>
+        <button onClick={prevMonth} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-gravel)", padding: "4px 8px", display: "flex" }}><ChevronLeft size={18} strokeWidth={1.8} /></button>
         <span style={{ fontSize: 15, fontWeight: 500, color: "var(--color-obsidian)" }}>{year} 年 {month + 1} 月</span>
-        <button onClick={nextMonth} style={{ background: "none", border: "none", fontSize: 18, cursor: "pointer", color: "var(--color-gravel)", padding: "4px 8px" }}>›</button>
+        <button onClick={nextMonth} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-gravel)", padding: "4px 8px", display: "flex" }}><ChevronRight size={18} strokeWidth={1.8} /></button>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", marginBottom: 8 }}>
         {WEEKDAYS.map((w) => <span key={w} style={{ fontSize: 11, color: "var(--color-gravel)", textAlign: "center", padding: "4px 0" }}>{w}</span>)}

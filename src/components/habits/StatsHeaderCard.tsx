@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { CheckCircle2, Clock3, Flame } from "lucide-react";
 import { formatDate } from "@/lib/habits";
 
 interface Props { history: Map<string, number>; streak: number; totalCheckins: number; totalDays: number; onClick: () => void; }
@@ -34,11 +35,11 @@ export default function StatsHeaderCard({ history, streak, totalCheckins, totalD
         </div>
         <div style={{ width: 1, height: 48, background: "var(--color-chalk)" }} />
         <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
-          {[{ icon: "M12 2s4 4 4 9a4 4 0 0 1-8 0c0-2 1-3 1-3s-3 2-3 6a6 6 0 0 0 12 0c0-7-6-12-6-12z", text: `连续 ${streak} 天` },
-            { icon: "M20 6L9 17l-5-5", text: `累计 ${totalCheckins} 次` },
-            { icon: "M12 7v5l3 2", text: `活跃 ${totalDays} 天` }].map((item, i) => (
+          {[{ Icon: Flame, text: `连续 ${streak} 天` },
+            { Icon: CheckCircle2, text: `累计 ${totalCheckins} 次` },
+            { Icon: Clock3, text: `活跃 ${totalDays} 天` }].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--color-obsidian)" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={item.icon} /></svg>
+              <item.Icon size={16} strokeWidth={1.8} />
               {item.text}
             </div>
           ))}

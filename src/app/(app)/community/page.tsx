@@ -162,7 +162,7 @@ export default function CommunityPage() {
             {posts.map((post) => (
               <CommunityPost
                 key={post.id}
-                avatar={post.avatarEmoji || "🛡️"}
+                avatar={post.avatarEmoji || "shield"}
                 name={post.nickname}
                 days={0}
                 content={post.content}

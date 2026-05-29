@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       id,
       email,
       nickname: nickname || "新人战士",
-      avatarEmoji: "🛡️",
+      avatarEmoji: "shield",
       level: 1,
       title: "新人",
     },

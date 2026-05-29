@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
   const result = await db
     .prepare("INSERT INTO custom_goals(user_id, name, icon, color, daily_target, unit, deadline, category, goal_type) VALUES(?,?,?,?,?,?,?,?,?)")
-    .bind(user.id, body.name, body.icon || "🎯", body.color || "#9cd6ee", body.daily_target, body.unit || "", body.deadline, body.category || "", body.goal_type || "continuous")
+    .bind(user.id, body.name, body.icon || "target", body.color || "#9cd6ee", body.daily_target, body.unit || "", body.deadline, body.category || "", body.goal_type || "continuous")
     .run();
   return NextResponse.json({ id: result.meta?.last_row_id, ok: true });
 }

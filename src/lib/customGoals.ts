@@ -33,9 +33,9 @@ export function formatDaysRemaining(days: number): string {
 }
 
 export const GOAL_EMOJIS = [
-  "\u{1F3AF}", "\u{1F4D6}", "✏️", "\u{1F4DD}", "\u{1F4DA}", "\u{1F393}", "\u{1F4A1}", "\u{1F9E0}",
-  "\u{1F3C3}", "\u{1F4AA}", "\u{1F9D8}", "\u{1F3B5}", "\u{1F3A8}", "\u{1F4BB}", "\u{1F4F1}", "✍️",
-  "\u{1F52C}", "\u{1F4CA}", "\u{1F3C6}", "⭐", "\u{1F525}", "\u{1F4B0}", "\u{1F5E3}️", "\u{1F30D}", "✈️",
+  "target", "book", "pencil", "notebook", "library", "medal", "sparkles", "brain",
+  "zap", "dumbbell", "wind", "music", "palette", "laptop", "phone", "pen",
+  "flask", "chart", "trophy", "star", "flame", "wallet", "message", "globe", "plane",
 ];
 
 export const GOAL_COLORS = [

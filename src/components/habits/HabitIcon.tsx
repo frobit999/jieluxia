@@ -1,4 +1,5 @@
 "use client";
+import { AppIcon } from "@/components/AppIcon";
 
 export default function HabitIcon({ icon, size = 32 }: { icon: string; size?: number }) {
   if (icon.trimStart().startsWith("<svg")) {
@@ -15,5 +16,5 @@ export default function HabitIcon({ icon, size = 32 }: { icon: string; size?: nu
       />
     );
   }
-  return <span style={{ fontSize: size * 0.75 }}>{icon}</span>;
+  return <AppIcon name={icon} size={size} />;
 }

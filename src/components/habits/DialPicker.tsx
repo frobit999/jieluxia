@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useCallback, useEffect, useState } from "react";
+import { PencilLine } from "lucide-react";
 
 interface Props { value: number; max: number; unit: string; onChange: (v: number) => void; hasNote?: boolean; onNoteClick?: () => void; }
 
@@ -54,9 +55,7 @@ export default function DialPicker({ value, max, unit, onChange, hasNote, onNote
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
         {onNoteClick && (
           <button onClick={(e) => { e.stopPropagation(); onNoteClick(); }} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke={hasNote ? "var(--color-obsidian)" : "var(--color-chalk)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
+            <PencilLine size={20} strokeWidth={1.8} color={hasNote ? "var(--color-obsidian)" : "var(--color-chalk)"} />
           </button>
         )}
         <div style={{ textAlign: "center" }}>

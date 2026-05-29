@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { X } from "lucide-react";
 import { apiGet } from "@/lib/api";
 import { HABITS } from "@/lib/habits";
 import HabitIcon from "./HabitIcon";
@@ -33,7 +34,7 @@ export default function DayDetailPanel({ dateStr, onClose }: Props) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
         <span style={{ fontSize: 15, fontWeight: 500, color: "var(--color-obsidian)" }}>{formatted}</span>
         <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-gravel)", padding: 4 }}>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          <X size={16} strokeWidth={2} />
         </button>
       </div>
       {loading ? <div style={{ textAlign: "center", color: "var(--color-gravel)", padding: 20, fontSize: 14 }}>加载中...</div>

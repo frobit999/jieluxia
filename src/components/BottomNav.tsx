@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AppIcon } from "@/components/AppIcon";
 
 const tabs = [
-  { label: "主页", href: "/dashboard" },
-  { label: "数据", href: "/records" },
-  { label: "社区", href: "/community" },
-  { label: "我的", href: "/settings" },
+  { label: "主页", href: "/dashboard", icon: "home" },
+  { label: "数据", href: "/records", icon: "calendar" },
+  { label: "社区", href: "/community", icon: "community" },
+  { label: "我的", href: "/settings", icon: "user" },
 ];
 
 export function BottomNav() {
@@ -28,12 +29,13 @@ export function BottomNav() {
             <Link
               key={t.href}
               href={t.href}
-              className="no-underline px-3 py-1 text-[12px] transition-colors"
+              className="no-underline px-3 py-1 text-[12px] transition-colors inline-flex flex-col items-center gap-1"
               style={{
                 color: active ? "var(--color-obsidian)" : "var(--color-slate)",
                 fontWeight: active ? 500 : 400,
               }}
             >
+              <AppIcon name={t.icon} size={17} strokeWidth={active ? 2 : 1.7} />
               {t.label}
             </Link>
           );
